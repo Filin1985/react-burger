@@ -78,7 +78,7 @@ const BurgerConstructor = () => {
               type='bottom'
               isLocked={true}
               text='Краторная булка N-200i (низ)'
-              price={200}
+              price={20}
               thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
             />
           </li>
