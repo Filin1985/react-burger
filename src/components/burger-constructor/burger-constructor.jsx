@@ -18,7 +18,7 @@ const BurgerConstructor = () => {
                 type='top'
                 isLocked={true}
                 text='Краторная булка N-200i (верх)'
-                price={200}
+                price={20}
                 thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
               />
             </div>
@@ -26,26 +26,26 @@ const BurgerConstructor = () => {
           <li className={styles.contructor__item}>
             <DragIcon type='primary' />
             <ConstructorElement
-              text='Краторная булка N-200i (верх)'
-              price={50}
-              thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+              text='Соус традиционный галактический'
+              price={30}
+              thumbnail={'https://code.s3.yandex.net/react/code/sauce-03.png'}
             />
           </li>
           <li className={styles.contructor__item}>
             <DragIcon type='primary' />
             <ConstructorElement
-              text='Краторная булка N-200i (верх)'
-              price={50}
-              thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+              text='Мясо бессмертных моллюсков Protostomia'
+              price={300}
+              thumbnail={'https://code.s3.yandex.net/react/code/meat-02.png'}
             />
           </li>
           <li className={styles.contructor__item}>
             <DragIcon type='primary' />
             <div className={styles.contructor__element}>
               <ConstructorElement
-                text='Краторная булка N-200i (верх)'
-                price={50}
-                thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                text='Плоды Фалленианского дерева'
+                price={80}
+                thumbnail={'https://code.s3.yandex.net/react/code/sp_1.png'}
               />
             </div>
           </li>
@@ -53,9 +53,11 @@ const BurgerConstructor = () => {
             <DragIcon type='primary' />
             <div className={styles.contructor__element}>
               <ConstructorElement
-                text='Краторная булка N-200i (верх)'
+                text='Хрустящие минеральные кольца'
                 price={50}
-                thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                thumbnail={
+                  'https://code.s3.yandex.net/react/code/mineral_rings.png'
+                }
               />
             </div>
           </li>
@@ -63,9 +65,11 @@ const BurgerConstructor = () => {
             <DragIcon type='primary' />
             <div className={styles.contructor__element}>
               <ConstructorElement
-                text='Краторная булка N-200i (верх)'
+                text='Хрустящие минеральные кольца'
                 price={50}
-                thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+                thumbnail={
+                  'https://code.s3.yandex.net/react/code/mineral_rings.png'
+                }
               />
             </div>
           </li>
