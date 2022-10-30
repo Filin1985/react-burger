@@ -1,0 +1,54 @@
+.contructor {
+  composes: mt-25 pl-4 from global;
+  display: flex;
+}
+
+.contructor__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contructor__item {
+  display: flex;
+  gap: 8px;
+  justify-content: right;
+  align-items: center;
+  min-width: 568px;
+}
+
+.contructor__final {
+  composes: mt-10 from global;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.contructor__final > svg {
+  padding: 0 40px 0 16px;
+  transform: scale(1.5);
+}
+
+.contructor__number {
+  font-family: 'Iceland';
+  margin: 0;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 36px;
+}
+
+.scroll {
+  margin: 96px 0 0 8px;
+  width: 8px;
+  height: 464px;
+  background-color: #3a3a55;
+}
+
+.scroll__inner {
+  height: 292px;
+  background-color: #8585ad;
+  z-index: 1;
+}
