@@ -18,17 +18,12 @@ const BurgerIngredients = () => {
     if (element) element.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const [current, setCurrent] = React.useState('Булки')
+  const [current, setCurrent] = React.useState('bun')
   return (
     <section className={styles.ingredients}>
       <h1 className={styles.ingredients__header}>Соберите бургер</h1>
       <div className={styles.tab}>
-        <Tab
-          extraClass={'tab_type_current'}
-          value='bun'
-          active={current === 'bun'}
-          onClick={setTab}
-        >
+        <Tab value='bun' active={current === 'bun'} onClick={setTab}>
           Булки
         </Tab>
         <Tab value='sauce' active={current === 'sauce'} onClick={setTab}>
@@ -47,7 +42,9 @@ const BurgerIngredients = () => {
             <ul className={styles.ingredients__items}>
               {bun.map((item) => (
                 <a href='#' key={item._id} className={styles.ingredients__item}>
-                  <Counter count={item.count} size='default' />
+                  {item.count > 0 && (
+                    <Counter count={item.count} size='default' />
+                  )}
                   <img src={item.image} alt={item.name} />
                   <div className={styles.ingredients__curency}>
                     <span className={styles.ingredients__number}>
@@ -67,7 +64,9 @@ const BurgerIngredients = () => {
             <ul className={styles.ingredients__items}>
               {sauce.map((item) => (
                 <a href='#' key={item._id} className={styles.ingredients__item}>
-                  <Counter count={item.count} size='default' />
+                  {item.count > 0 && (
+                    <Counter count={item.count} size='default' />
+                  )}
                   <img src={item.image} alt={item.name} />
                   <div className={styles.ingredients__curency}>
                     <span className={styles.ingredients__number}>
@@ -87,7 +86,9 @@ const BurgerIngredients = () => {
             <ul className={styles.ingredients__items}>
               {main.map((item) => (
                 <a href='#' key={item._id} className={styles.ingredients__item}>
-                  <Counter count={item.count} size='default' />
+                  {item.count > 0 && (
+                    <Counter count={item.count} size='default' />
+                  )}
                   <img src={item.image} alt={item.name} />
                   <div className={styles.ingredients__curency}>
                     <span className={styles.ingredients__number}>

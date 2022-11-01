@@ -49,10 +49,6 @@
   display: flex;
 }
 
-.ingredients__tab_type_active {
-  composes: tab_type_current from global;
-}
-
 .ingredients__item {
   display: flex;
   flex-direction: column;
