@@ -5,121 +5,107 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
+import { data as ingredients } from '../../utils/data.js'
 
-const BurgerIngredients = () => {
-  const [current, setCurrent] = React.useState('Булки')
+const BurgerIngredients = ({ ingredientsData }) => {
+  const bun = ingredientsData.filter((ingredient) => ingredient.type === 'bun')
+  const sauce = ingredientsData.filter(
+    (ingredient) => ingredient.type === 'sauce'
+  )
+  const main = ingredientsData.filter(
+    (ingredient) => ingredient.type === 'main'
+  )
+
+  const setTab = (tab) => {
+    setCurrent(tab)
+    const element = document.getElementById(tab)
+    if (element) element.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const [current, setCurrent] = React.useState('bun')
   return (
     <section className={styles.ingredients}>
       <h1 className={styles.ingredients__header}>Соберите бургер</h1>
       <div className={styles.tab}>
-        <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent}>
+        <Tab value='bun' active={current === 'bun'} onClick={setTab}>
           Булки
         </Tab>
-        <Tab value='Соусы' active={current === 'Соусы'} onClick={setCurrent}>
+        <Tab value='sauce' active={current === 'sauce'} onClick={setTab}>
           Соусы
         </Tab>
-        <Tab
-          value='Начинки'
-          active={current === 'Начинки'}
-          onClick={setCurrent}
-        >
+        <Tab value='main' active={current === 'main'} onClick={setTab}>
           Начинки
         </Tab>
       </div>
       <div className={styles.ingredients__container}>
         <ul className={styles.ingredients__list}>
           <li className={styles.ingredients__bun}>
-            <h2 className={styles.ingredients__subheader}>Булки</h2>
+            <h2 className={styles.ingredients__subheader} id='bun'>
+              Булки
+            </h2>
             <ul className={styles.ingredients__items}>
-              <li className={styles.ingredients__item}>
-                <Counter count={1} size='default' />
-                <img
-                  src='https://code.s3.yandex.net/react/code/bun-02.png'
-                  alt='Краторная булка'
-                />
-                <div className={styles.ingredients__curency}>
-                  <span className={styles.ingredients__number}>20</span>
-                  <CurrencyIcon type='primary' />
-                </div>
-                <p className={styles.ingredients__name}>
-                  Краторная булка N-200i
-                </p>
-              </li>
-              <li className={styles.ingredients__item}>
-                <img
-                  src='https://code.s3.yandex.net/react/code/bun-01.png'
-                  alt='Флюоресцентная булка'
-                />
-                <div className={styles.ingredients__curency}>
-                  <span className={styles.ingredients__number}>20</span>
-                  <CurrencyIcon type='primary' />
-                </div>
-                <p className={styles.ingredients__name}>
-                  Флюоресцентная булка R2-D3
-                </p>
-              </li>
+              {bun.map((item) => (
+                <a href='#' key={item._id} className={styles.ingredients__item}>
+                  {item.count > 0 && (
+                    <Counter count={item.count} size='default' />
+                  )}
+                  <img src={item.image} alt={item.name} />
+                  <div className={styles.ingredients__curency}>
+                    <span className={styles.ingredients__number}>
+                      {item.price}
+                    </span>
+                    <CurrencyIcon type='primary' />
+                  </div>
+                  <p className={styles.ingredients__name}>{item.name}</p>
+                </a>
+              ))}
             </ul>
           </li>
           <li className={styles.ingredients__bun}>
-            <h2 className={styles.ingredients__subheader}>Соусы</h2>
+            <h2 className={styles.ingredients__subheader} id='sauce'>
+              Соусы
+            </h2>
             <ul className={styles.ingredients__items}>
-              <li className={styles.ingredients__item}>
-                <img
-                  src='https://code.s3.yandex.net/react/code/sauce-02.png'
-                  alt='Соус Spicy-X'
-                />
-                <div className={styles.ingredients__curency}>
-                  <span className={styles.ingredients__number}>30</span>
-                  <CurrencyIcon type='primary' />
-                </div>
-                <p className={styles.ingredients__name}>Соус Spicy-X</p>
-              </li>
-              <li className={styles.ingredients__item}>
-                <img
-                  src='https://code.s3.yandex.net/react/code/sauce-04.png'
-                  alt='Соус фирменный Space Sauce'
-                />
-                <div className={styles.ingredients__curency}>
-                  <span className={styles.ingredients__number}>30</span>
-                  <CurrencyIcon type='primary' />
-                </div>
-                <p className={styles.ingredients__name}>
-                  Соус фирменный Space Sauce
-                </p>
-              </li>
-              <li className={styles.ingredients__item}>
-                <Counter count={1} size='default' />
-                <img
-                  src='https://code.s3.yandex.net/react/code/sauce-03.png'
-                  alt='Соус традиционный галактический'
-                />
-                <div className={styles.ingredients__curency}>
-                  <span className={styles.ingredients__number}>30</span>
-                  <CurrencyIcon type='primary' />
-                </div>
-                <p className={styles.ingredients__name}>
-                  Соус традиционный галактический
-                </p>
-              </li>
-              <li className={styles.ingredients__item}>
-                <img
-                  src='https://code.s3.yandex.net/react/code/sauce-01.png'
-                  alt='Соус с шипами Антарианского плоскоходца'
-                />
-                <div className={styles.ingredients__curency}>
-                  <span className={styles.ingredients__number}>30</span>
-                  <CurrencyIcon type='primary' />
-                </div>
-                <p className={styles.ingredients__name}>
-                  Соус с шипами Антарианского плоскоходца
-                </p>
-              </li>
+              {sauce.map((item) => (
+                <a href='#' key={item._id} className={styles.ingredients__item}>
+                  {item.count > 0 && (
+                    <Counter count={item.count} size='default' />
+                  )}
+                  <img src={item.image} alt={item.name} />
+                  <div className={styles.ingredients__curency}>
+                    <span className={styles.ingredients__number}>
+                      {item.price}
+                    </span>
+                    <CurrencyIcon type='primary' />
+                  </div>
+                  <p className={styles.ingredients__name}>{item.name}</p>
+                </a>
+              ))}
+            </ul>
+          </li>
+          <li className={styles.ingredients__bun}>
+            <h2 className={styles.ingredients__subheader} id='main'>
+              Начинки
+            </h2>
+            <ul className={styles.ingredients__items}>
+              {main.map((item) => (
+                <a href='#' key={item._id} className={styles.ingredients__item}>
+                  {item.count > 0 && (
+                    <Counter count={item.count} size='default' />
+                  )}
+                  <img src={item.image} alt={item.name} />
+                  <div className={styles.ingredients__curency}>
+                    <span className={styles.ingredients__number}>
+                      {item.price}
+                    </span>
+                    <CurrencyIcon type='primary' />
+                  </div>
+                  <p className={styles.ingredients__name}>{item.name}</p>
+                </a>
+              ))}
             </ul>
           </li>
         </ul>
-        <div className={styles.scroll}>
-          <div className={styles.scroll__inner}></div>
-        </div>
       </div>
     </section>
   )

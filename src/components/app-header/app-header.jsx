@@ -8,26 +8,28 @@ import {
 import styles from './app-header.module.css'
 
 const Header = () => {
-  // const [current, setCurrent] = React.useState('one')
   return (
-    <ul className={styles.header} style={{ display: 'flex' }}>
+    <ul className={styles.header}>
       <li className={styles.header__container}>
-        <div className={styles.header__item}>
+        <a
+          className={`${styles.header__item} ${styles.header__item_type_active}`}
+          href='#'
+        >
           <BurgerIcon type='primary' />
           <p className={styles.header__name}>Конструктор</p>
-        </div>
-        <div className={styles.header__item}>
+        </a>
+        <a className={styles.header__item} href='#'>
           <ListIcon />
           <p className={styles.header__name}>Лента заказов</p>
-        </div>
+        </a>
       </li>
       <li className={styles.header__item}>
         <Logo />
       </li>
-      <li className={styles.header__item}>
+      <a className={styles.header__item} href='#'>
         <ProfileIcon />
         <p className={styles.header__name}>Личный кабинет</p>
-      </li>
+      </a>
     </ul>
   )
 }

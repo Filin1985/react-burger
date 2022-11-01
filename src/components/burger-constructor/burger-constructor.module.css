@@ -1,9 +1,9 @@
 .contructor {
-  composes: mt-25 pl-4 from global;
-  display: flex;
+  composes: mt-25 ml-10 pl-4 from global;
 }
 
 .contructor__items {
+  composes: pl-4 from global;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -15,13 +15,16 @@
 .contructor__item {
   display: flex;
   gap: 8px;
-  justify-content: right;
   align-items: center;
   min-width: 568px;
 }
 
+.contructor__items_pos_left {
+  composes: pl-8 from global;
+}
+
 .contructor__final {
-  composes: mt-10 from global;
+  composes: mt-10 pr-8 from global;
   display: flex;
   justify-content: right;
   align-items: center;
@@ -40,15 +43,20 @@
   line-height: 36px;
 }
 
-.scroll {
-  margin: 96px 0 0 8px;
+.contructor__scroll::-webkit-scrollbar {
   width: 8px;
-  height: 464px;
-  background-color: #3a3a55;
+}
+.contructor__scroll::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.contructor__scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
 }
 
-.scroll__inner {
-  height: 292px;
-  background-color: #8585ad;
-  z-index: 1;
+.contructor__scroll {
+  composes: contructor__items;
+  max-height: 470px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8585ad #2f2f37;
 }
