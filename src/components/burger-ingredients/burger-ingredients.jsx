@@ -7,10 +7,14 @@ import {
 import styles from './burger-ingredients.module.css'
 import { data as ingredients } from '../../utils/data.js'
 
-const BurgerIngredients = () => {
-  const bun = ingredients.filter((ingredient) => ingredient.type === 'bun')
-  const sauce = ingredients.filter((ingredient) => ingredient.type === 'sauce')
-  const main = ingredients.filter((ingredient) => ingredient.type === 'main')
+const BurgerIngredients = ({ ingredientsData }) => {
+  const bun = ingredientsData.filter((ingredient) => ingredient.type === 'bun')
+  const sauce = ingredientsData.filter(
+    (ingredient) => ingredient.type === 'sauce'
+  )
+  const main = ingredientsData.filter(
+    (ingredient) => ingredient.type === 'main'
+  )
 
   const setTab = (tab) => {
     setCurrent(tab)

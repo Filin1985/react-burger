@@ -8,9 +8,9 @@ import {
 import styles from './burger-constructor.module.css'
 import { data as ingredients } from '../../utils/data.js'
 
-const BurgerConstructor = () => {
-  const bun = ingredients.find((ingredient) => ingredient.type === 'bun')
-  const otherIngredients = ingredients.filter(
+const BurgerConstructor = ({ ingredientsData }) => {
+  const bun = ingredientsData.find((ingredient) => ingredient.type === 'bun')
+  const otherIngredients = ingredientsData.filter(
     (ingredient) => ingredient.type !== 'bun'
   )
 
