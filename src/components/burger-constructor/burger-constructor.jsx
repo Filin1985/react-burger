@@ -6,93 +6,65 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
+import { data as ingredients } from '../../utils/data.js'
 
 const BurgerConstructor = () => {
+  const bun = ingredients.find((ingredient) => ingredient.type === 'bun')
+  const otherIngredients = ingredients.filter(
+    (ingredient) => ingredient.type !== 'bun'
+  )
+
   return (
     <section className={styles.contructor}>
-      <div className={styles.contructor__container}>
-        <ul className={styles.contructor__items}>
-          <li className={styles.contructor__item}>
-            <div className={styles.contructor__element}>
-              <ConstructorElement
-                type='top'
-                isLocked={true}
-                text='Краторная булка N-200i (верх)'
-                price={20}
-                thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-              />
-            </div>
-          </li>
-          <li className={styles.contructor__item}>
-            <DragIcon type='primary' />
+      <ul className={styles.contructor__items}>
+        {bun ? (
+          <li
+            className={`${styles.contructor__item} ${styles.contructor__items_pos_left}`}
+          >
             <ConstructorElement
-              text='Соус традиционный галактический'
-              price={30}
-              thumbnail={'https://code.s3.yandex.net/react/code/sauce-03.png'}
+              type='top'
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
             />
           </li>
-          <li className={styles.contructor__item}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text='Мясо бессмертных моллюсков Protostomia'
-              price={300}
-              thumbnail={'https://code.s3.yandex.net/react/code/meat-02.png'}
-            />
-          </li>
-          <li className={styles.contructor__item}>
-            <DragIcon type='primary' />
-            <div className={styles.contructor__element}>
-              <ConstructorElement
-                text='Плоды Фалленианского дерева'
-                price={80}
-                thumbnail={'https://code.s3.yandex.net/react/code/sp_1.png'}
-              />
-            </div>
-          </li>
-          <li className={styles.contructor__item}>
-            <DragIcon type='primary' />
-            <div className={styles.contructor__element}>
-              <ConstructorElement
-                text='Хрустящие минеральные кольца'
-                price={50}
-                thumbnail={
-                  'https://code.s3.yandex.net/react/code/mineral_rings.png'
-                }
-              />
-            </div>
-          </li>
-          <li className={styles.contructor__item}>
-            <DragIcon type='primary' />
-            <div className={styles.contructor__element}>
-              <ConstructorElement
-                text='Хрустящие минеральные кольца'
-                price={50}
-                thumbnail={
-                  'https://code.s3.yandex.net/react/code/mineral_rings.png'
-                }
-              />
-            </div>
-          </li>
-          <li className={styles.contructor__item}>
+        ) : null}
+        <div className={styles.contructor__scroll}>
+          {otherIngredients.map((ingredient) => {
+            return ingredient.type === 'main' || ingredient.type === 'sauce' ? (
+              <li key={ingredient._id} className={styles.contructor__item}>
+                <DragIcon type='primary' />
+                <ConstructorElement
+                  text={ingredient.name}
+                  price={ingredient.price}
+                  thumbnail={ingredient.image}
+                />
+              </li>
+            ) : null
+          })}
+        </div>
+
+        {bun ? (
+          <li
+            className={`${styles.contructor__item} ${styles.contructor__items_pos_left}`}
+          >
             <ConstructorElement
               type='bottom'
               isLocked={true}
-              text='Краторная булка N-200i (низ)'
-              price={20}
-              thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
             />
           </li>
-        </ul>
-        <div className={styles.contructor__final}>
-          <p className={styles.contructor__number}>610</p>
-          <CurrencyIcon type='primary' size='large' />
-          <Button type='primary' size='large'>
-            Оформить заказ
-          </Button>
-        </div>
-      </div>
-      <div className={styles.scroll}>
-        <div className={styles.scroll__inner}></div>
+        ) : null}
+      </ul>
+      <div className={styles.contructor__final}>
+        <p className={styles.contructor__number}>610</p>
+        <CurrencyIcon type='primary' size='large' />
+        <Button htmlType='submit' type='primary' size='large'>
+          Оформить заказ
+        </Button>
       </div>
     </section>
   )

@@ -15,6 +15,20 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  max-height: 470px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.ingredients__list::-webkit-scrollbar {
+  width: 8px;
+}
+.ingredients__list::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.ingredients__list::-webkit-scrollbar-thumb {
+  background: #8585ad;
 }
 
 .ingredients__items {
@@ -28,10 +42,15 @@
 }
 
 .ingredients__bun {
+  composes: pr-8 from global;
 }
 
 .tab {
   display: flex;
+}
+
+.ingredients__tab_type_active {
+  composes: tab_type_current from global;
 }
 
 .ingredients__item {
@@ -41,6 +60,8 @@
   list-style: none;
   position: relative;
   min-width: 272px;
+  text-decoration: none;
+  color: white;
 }
 
 .ingredients__number {
