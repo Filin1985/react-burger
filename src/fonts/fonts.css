@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'JetBrains';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./JetBrains/JetBrainsMono-Medium.woff2') format('woff');
+}
+
+@font-face {
+  font-family: 'JetBrains';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./JetBrains/JetBrainsMono-Regular.woff2') format('woff');
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./JetBrains/Iceland-Regular.woff2') format('woff2');
+}

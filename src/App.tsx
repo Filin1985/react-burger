@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import Header from './components/app-header/app-header.jsx'
+import BurgerConstructor from './components/burger-constructor/burger-constructor.jsx'
+import BurgerIngredients from './components/burger-ingredients/burger-ingredients.jsx'
+import { API_URL } from './utils/config.js'
+import { getDataApi } from './utils/api.js'
+import './App.css'
 
 function App() {
+  const [ingredients, setIngredients] = useState([])
+
+  useEffect(() => {
+    getDataApi(API_URL, setIngredients)
+  }, [API_URL, getDataApi])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Header />
+      <div className='container'>
+        <BurgerIngredients ingredientsData={ingredients} />
+        <BurgerConstructor ingredientsData={ingredients} />
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
