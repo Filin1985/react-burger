@@ -21,7 +21,12 @@ const Modal = ({ isOpen, children, onClose, type }) => {
     if (modalOverlayRef.current) {
       modalOverlayRef.current.addEventListener('click', onClose)
     }
-    return () => window.removeEventListener('keydown', closeByEsc)
+    return () => {
+      if (modalOverlayRef.current) {
+        modalOverlayRef.current.removeEventListener('click', onClose)
+      }
+      window.removeEventListener('keydown', closeByEsc)
+    }
   })
 
   return ReactDOM.createPortal(
