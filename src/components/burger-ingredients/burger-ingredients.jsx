@@ -1,13 +1,19 @@
-import React from 'react'
-import {
-  Tab,
-  CurrencyIcon,
-  Counter,
-} from '@ya.praktikum/react-developer-burger-ui-components'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
-import { data as ingredients } from '../../utils/data.js'
+import Modal from '../modal/modal.jsx'
+import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
+import IngredientType from './ingredient-type.jsx'
 
 const BurgerIngredients = ({ ingredientsData }) => {
+  const [current, setCurrent] = useState('bun')
+  const [openModal, setOpenModal] = useState({
+    isOpen: false,
+    data: null,
+    type: null,
+  })
+
   const bun = ingredientsData.filter((ingredient) => ingredient.type === 'bun')
   const sauce = ingredientsData.filter(
     (ingredient) => ingredient.type === 'sauce'
@@ -22,9 +28,24 @@ const BurgerIngredients = ({ ingredientsData }) => {
     if (element) element.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const [current, setCurrent] = React.useState('bun')
+  const handleCloseModal = () => {
+    setOpenModal({
+      isOpen: false,
+      data: null,
+      type: null,
+    })
+  }
+
   return (
     <section className={styles.ingredients}>
+      <Modal
+        type={openModal.type}
+        isOpen={openModal.isOpen}
+        onClose={handleCloseModal}
+        setOpenModal={setOpenModal}
+      >
+        <IngredientDetails card={openModal.data} />
+      </Modal>
       <h1 className={styles.ingredients__header}>Соберите бургер</h1>
       <div className={styles.tab}>
         <Tab value='bun' active={current === 'bun'} onClick={setTab}>
@@ -39,76 +60,47 @@ const BurgerIngredients = ({ ingredientsData }) => {
       </div>
       <div className={styles.ingredients__container}>
         <ul className={styles.ingredients__list}>
-          <li className={styles.ingredients__bun}>
-            <h2 className={styles.ingredients__subheader} id='bun'>
-              Булки
-            </h2>
-            <ul className={styles.ingredients__items}>
-              {bun.map((item) => (
-                <a href='#' key={item._id} className={styles.ingredients__item}>
-                  {item.count > 0 && (
-                    <Counter count={item.count} size='default' />
-                  )}
-                  <img src={item.image} alt={item.name} />
-                  <div className={styles.ingredients__curency}>
-                    <span className={styles.ingredients__number}>
-                      {item.price}
-                    </span>
-                    <CurrencyIcon type='primary' />
-                  </div>
-                  <p className={styles.ingredients__name}>{item.name}</p>
-                </a>
-              ))}
-            </ul>
-          </li>
-          <li className={styles.ingredients__bun}>
-            <h2 className={styles.ingredients__subheader} id='sauce'>
-              Соусы
-            </h2>
-            <ul className={styles.ingredients__items}>
-              {sauce.map((item) => (
-                <a href='#' key={item._id} className={styles.ingredients__item}>
-                  {item.count > 0 && (
-                    <Counter count={item.count} size='default' />
-                  )}
-                  <img src={item.image} alt={item.name} />
-                  <div className={styles.ingredients__curency}>
-                    <span className={styles.ingredients__number}>
-                      {item.price}
-                    </span>
-                    <CurrencyIcon type='primary' />
-                  </div>
-                  <p className={styles.ingredients__name}>{item.name}</p>
-                </a>
-              ))}
-            </ul>
-          </li>
-          <li className={styles.ingredients__bun}>
-            <h2 className={styles.ingredients__subheader} id='main'>
-              Начинки
-            </h2>
-            <ul className={styles.ingredients__items}>
-              {main.map((item) => (
-                <a href='#' key={item._id} className={styles.ingredients__item}>
-                  {item.count > 0 && (
-                    <Counter count={item.count} size='default' />
-                  )}
-                  <img src={item.image} alt={item.name} />
-                  <div className={styles.ingredients__curency}>
-                    <span className={styles.ingredients__number}>
-                      {item.price}
-                    </span>
-                    <CurrencyIcon type='primary' />
-                  </div>
-                  <p className={styles.ingredients__name}>{item.name}</p>
-                </a>
-              ))}
-            </ul>
-          </li>
+          <IngredientType
+            data={bun}
+            id={'bun'}
+            name={'Булки'}
+            setOpenModel={setOpenModal}
+          />
+          <IngredientType
+            data={sauce}
+            id={'sauce'}
+            name={'Соусы'}
+            setOpenModel={setOpenModal}
+          />
+          <IngredientType
+            data={main}
+            id={'main'}
+            name={'Начинки'}
+            setOpenModel={setOpenModal}
+          />
         </ul>
       </div>
     </section>
   )
+}
+
+BurgerIngredients.propTypes = {
+  ingredientsData: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      proteins: PropTypes.number.isRequired,
+      fat: PropTypes.number.isRequired,
+      carbohydrates: PropTypes.number.isRequired,
+      calories: PropTypes.number.isRequired,
+      price: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+      image_mobile: PropTypes.string.isRequired,
+      image_large: PropTypes.string.isRequired,
+      __v: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 }
 
 export default BurgerIngredients

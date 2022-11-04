@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import {
   ConstructorElement,
   DragIcon,
@@ -6,16 +7,39 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
-import { data as ingredients } from '../../utils/data.js'
+import Modal from '../modal/modal.jsx'
+import OrderCheckout from './order-checkout.jsx'
+import OrderDetails from '../order-details/order-details.jsx'
 
 const BurgerConstructor = ({ ingredientsData }) => {
+  const [openModal, setOpenModal] = useState({
+    isOpen: false,
+    data: null,
+    type: null,
+  })
+
   const bun = ingredientsData.find((ingredient) => ingredient.type === 'bun')
   const otherIngredients = ingredientsData.filter(
     (ingredient) => ingredient.type !== 'bun'
   )
 
+  const handleCloseModal = () => {
+    setOpenModal({
+      isOpen: false,
+      data: null,
+      type: null,
+    })
+  }
+
   return (
     <section className={styles.contructor}>
+      <Modal
+        type={openModal.type}
+        isOpen={openModal.isOpen}
+        onClose={handleCloseModal}
+      >
+        <OrderDetails card={openModal} />
+      </Modal>
       <ul className={styles.contructor__items}>
         {bun ? (
           <li
@@ -32,7 +56,7 @@ const BurgerConstructor = ({ ingredientsData }) => {
         ) : null}
         <div className={styles.contructor__scroll}>
           {otherIngredients.map((ingredient) => {
-            return ingredient.type === 'main' || ingredient.type === 'sauce' ? (
+            return (
               <li key={ingredient._id} className={styles.contructor__item}>
                 <DragIcon type='primary' />
                 <ConstructorElement
@@ -41,7 +65,7 @@ const BurgerConstructor = ({ ingredientsData }) => {
                   thumbnail={ingredient.image}
                 />
               </li>
-            ) : null
+            )
           })}
         </div>
 
@@ -59,15 +83,28 @@ const BurgerConstructor = ({ ingredientsData }) => {
           </li>
         ) : null}
       </ul>
-      <div className={styles.contructor__final}>
-        <p className={styles.contructor__number}>610</p>
-        <CurrencyIcon type='primary' size='large' />
-        <Button htmlType='submit' type='primary' size='large'>
-          Оформить заказ
-        </Button>
-      </div>
+      <OrderCheckout setOpenModel={setOpenModal} />
     </section>
   )
+}
+
+BurgerConstructor.propTypes = {
+  ingredientsData: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      proteins: PropTypes.number.isRequired,
+      fat: PropTypes.number.isRequired,
+      carbohydrates: PropTypes.number.isRequired,
+      calories: PropTypes.number.isRequired,
+      price: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+      image_mobile: PropTypes.string.isRequired,
+      image_large: PropTypes.string.isRequired,
+      __v: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 }
 
 export default BurgerConstructor
