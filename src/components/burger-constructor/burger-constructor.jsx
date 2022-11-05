@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   ConstructorElement,
@@ -7,39 +7,37 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
-import Modal from '../modal/modal.jsx'
-import OrderCheckout from './order-checkout.jsx'
 import OrderDetails from '../order-details/order-details.jsx'
+import Modal from '../modal/modal.jsx'
+import { cardPropTypes } from '../../prop-types.js'
 
 const BurgerConstructor = ({ ingredientsData }) => {
-  const [openModal, setOpenModal] = useState({
-    isOpen: false,
-    data: null,
-    type: null,
-  })
+  const [openModal, setOpenModal] = useState(false)
 
-  const bun = ingredientsData.find((ingredient) => ingredient.type === 'bun')
-  const otherIngredients = ingredientsData.filter(
-    (ingredient) => ingredient.type !== 'bun'
-  )
+  const bun = useMemo(() => {
+    return ingredientsData.find((ingredient) => ingredient.type === 'bun')
+  }, [ingredientsData])
+
+  const otherIngredients = useMemo(() => {
+    return ingredientsData.filter((ingredient) => ingredient.type !== 'bun')
+  }, [ingredientsData])
 
   const handleCloseModal = () => {
-    setOpenModal({
-      isOpen: false,
-      data: null,
-      type: null,
-    })
+    setOpenModal(false)
+  }
+
+  const handleClick = () => {
+    setOpenModal(true)
   }
 
   return (
     <section className={styles.contructor}>
-      <Modal
-        type={openModal.type}
-        isOpen={openModal.isOpen}
-        onClose={handleCloseModal}
-      >
-        <OrderDetails card={openModal} />
-      </Modal>
+      {openModal && (
+        <Modal closeModal={handleCloseModal}>
+          <OrderDetails />
+        </Modal>
+      )}
+
       <ul className={styles.contructor__items}>
         {bun ? (
           <li
@@ -83,28 +81,24 @@ const BurgerConstructor = ({ ingredientsData }) => {
           </li>
         ) : null}
       </ul>
-      <OrderCheckout setOpenModel={setOpenModal} />
+      <div className={styles.contructor__final}>
+        <p className={styles.contructor__number}>610</p>
+        <CurrencyIcon type='primary' size='large' />
+        <Button
+          htmlType='button'
+          type='primary'
+          size='large'
+          onClick={handleClick}
+        >
+          Оформить заказ
+        </Button>
+      </div>
     </section>
   )
 }
 
 BurgerConstructor.propTypes = {
-  ingredientsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  ingredientsData: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
 }
 
 export default BurgerConstructor

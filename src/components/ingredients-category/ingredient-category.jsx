@@ -4,15 +4,12 @@ import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './burger-ingredients.module.css'
+import styles from './ingredients-category.module.css'
+import { cardPropTypes } from '../../prop-types.js'
 
-const IngredientType = ({ name, data, id, setOpenModel }) => {
+const IngredientCategory = ({ name, data, id, setIngredient }) => {
   const handleClick = (item) => {
-    setOpenModel({
-      isOpen: true,
-      data: item,
-      type: 'ingredients',
-    })
+    setIngredient(item)
   }
 
   return (
@@ -22,7 +19,7 @@ const IngredientType = ({ name, data, id, setOpenModel }) => {
       </h2>
       <ul className={styles.ingredients__items}>
         {data.map((item) => (
-          <a
+          <li
             onClick={() => handleClick(item)}
             key={item._id}
             className={styles.ingredients__item}
@@ -34,33 +31,18 @@ const IngredientType = ({ name, data, id, setOpenModel }) => {
               <CurrencyIcon type='primary' />
             </div>
             <p className={styles.ingredients__name}>{item.name}</p>
-          </a>
+          </li>
         ))}
       </ul>
     </li>
   )
 }
 
-IngredientType.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+IngredientCategory.propTypes = {
+  data: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  setOpenModel: PropTypes.func.isRequired,
+  setIngredient: PropTypes.func.isRequired,
 }
 
-export default IngredientType
+export default IngredientCategory

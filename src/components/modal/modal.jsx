@@ -1,57 +1,55 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import styles from './modal.module.css'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import ModalOverlay from '../modal-overlay/modal-overlay.jsx'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const Modal = ({ isOpen, children, onClose, type }) => {
-  const closeByEsc = (evt) => {
-    if (evt.keyCode === 27) {
-      onClose()
-    }
+const ECK_KEYCODE = 27
+const modalSelector = document.querySelector('#react-modals')
+
+const Modal = ({ children, closeModal, selectIngredient }) => {
+  const onClose = () => {
+    closeModal()
   }
 
-  const modalOverlayRef = useRef()
-
   useEffect(() => {
-    window.addEventListener('keydown', (evt) => {
-      closeByEsc(evt)
-    })
-    if (modalOverlayRef.current) {
-      modalOverlayRef.current.addEventListener('click', onClose)
+    const closeByEsc = (evt) => {
+      if (evt.keyCode === ECK_KEYCODE) {
+        onClose()
+      }
     }
-    return () => window.removeEventListener('keydown', closeByEsc)
+
+    window.addEventListener('keydown', closeByEsc)
+    return () => {
+      window.removeEventListener('keydown', closeByEsc)
+    }
   })
 
   return ReactDOM.createPortal(
     <>
-      {isOpen ? (
-        <ModalOverlay ref={modalOverlayRef}>
-          <div
-            className={
-              type === 'order'
-                ? styles.order__container
-                : styles.ingredient_container
-            }
-          >
-            <span className={styles.modal__close} onClick={onClose}>
-              <CloseIcon type='primary' />
-            </span>
-            {children}
-          </div>
-        </ModalOverlay>
-      ) : null}
+      <div
+        className={
+          !selectIngredient
+            ? styles.order__container
+            : styles.ingredient_container
+        }
+      >
+        <span className={styles.modal__close} onClick={onClose}>
+          <CloseIcon type='primary' />
+        </span>
+        {children}
+      </div>
+      <ModalOverlay onClick={onClose} />
     </>,
-    document.querySelector('#react-modals')
+    modalSelector
   )
 }
 
 Modal.propTypes = {
   children: PropTypes.element,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  type: PropTypes.string,
+  selectIngredient: PropTypes.object,
+  closeModal: PropTypes.func.isRequired,
 }
 
 export default Modal

@@ -1,26 +1,27 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
-import Modal from '../modal/modal.jsx'
 import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
-import IngredientType from './ingredient-type.jsx'
+import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
+import { cardPropTypes } from '../../prop-types.js'
+import Modal from '../modal/modal.jsx'
 
 const BurgerIngredients = ({ ingredientsData }) => {
   const [current, setCurrent] = useState('bun')
-  const [openModal, setOpenModal] = useState({
-    isOpen: false,
-    data: null,
-    type: null,
-  })
+  const [selectIngredient, setSelectIngredient] = useState(null)
 
-  const bun = ingredientsData.filter((ingredient) => ingredient.type === 'bun')
-  const sauce = ingredientsData.filter(
-    (ingredient) => ingredient.type === 'sauce'
-  )
-  const main = ingredientsData.filter(
-    (ingredient) => ingredient.type === 'main'
-  )
+  const bun = useMemo(() => {
+    return ingredientsData.filter((ingredient) => ingredient.type === 'bun')
+  }, [ingredientsData])
+
+  const sauce = useMemo(() => {
+    return ingredientsData.filter((ingredient) => ingredient.type === 'sauce')
+  }, [ingredientsData])
+
+  const main = useMemo(() => {
+    return ingredientsData.filter((ingredient) => ingredient.type === 'main')
+  }, [ingredientsData])
 
   const setTab = (tab) => {
     setCurrent(tab)
@@ -29,23 +30,26 @@ const BurgerIngredients = ({ ingredientsData }) => {
   }
 
   const handleCloseModal = () => {
-    setOpenModal({
-      isOpen: false,
-      data: null,
-      type: null,
-    })
+    setSelectIngredient(null)
   }
 
   return (
     <section className={styles.ingredients}>
-      <Modal
-        type={openModal.type}
-        isOpen={openModal.isOpen}
-        onClose={handleCloseModal}
-        setOpenModal={setOpenModal}
-      >
-        <IngredientDetails card={openModal.data} />
-      </Modal>
+      {selectIngredient && (
+        <Modal
+          selectIngredient={selectIngredient}
+          closeModal={handleCloseModal}
+        >
+          <IngredientDetails
+            image={selectIngredient.image}
+            name={selectIngredient.name}
+            calories={selectIngredient.calories}
+            carbohydrates={selectIngredient.carbohydrates}
+            fat={selectIngredient.fat}
+            proteins={selectIngredient.proteins}
+          />
+        </Modal>
+      )}
       <h1 className={styles.ingredients__header}>Соберите бургер</h1>
       <div className={styles.tab}>
         <Tab value='bun' active={current === 'bun'} onClick={setTab}>
@@ -60,23 +64,23 @@ const BurgerIngredients = ({ ingredientsData }) => {
       </div>
       <div className={styles.ingredients__container}>
         <ul className={styles.ingredients__list}>
-          <IngredientType
+          <IngredientCategory
             data={bun}
             id={'bun'}
             name={'Булки'}
-            setOpenModel={setOpenModal}
+            setIngredient={setSelectIngredient}
           />
-          <IngredientType
+          <IngredientCategory
             data={sauce}
             id={'sauce'}
             name={'Соусы'}
-            setOpenModel={setOpenModal}
+            setIngredient={setSelectIngredient}
           />
-          <IngredientType
+          <IngredientCategory
             data={main}
             id={'main'}
             name={'Начинки'}
-            setOpenModel={setOpenModal}
+            setIngredient={setSelectIngredient}
           />
         </ul>
       </div>
@@ -85,22 +89,7 @@ const BurgerIngredients = ({ ingredientsData }) => {
 }
 
 BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      proteins: PropTypes.number.isRequired,
-      fat: PropTypes.number.isRequired,
-      carbohydrates: PropTypes.number.isRequired,
-      calories: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      image_mobile: PropTypes.string.isRequired,
-      image_large: PropTypes.string.isRequired,
-      __v: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  ingredientsData: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
 }
 
 export default BurgerIngredients

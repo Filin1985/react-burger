@@ -2,21 +2,40 @@ import React, { useEffect, useState } from 'react'
 import Header from '../app-header/app-header.jsx'
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
-import { getDataApi } from '../../utils/api.js'
 import './App.css'
+import { API_URL } from '../../utils/config.js'
 
 function App() {
-  const [ingredients, setIngredients] = useState(null)
+  const [ingredients, setIngredients] = useState([])
+
+  const checkResponse = (res: Response) => {
+    return res.ok
+      ? res.json()
+      : res.json().then(() => Promise.reject(res.status))
+  }
+
+  const getApi = () => {
+    fetch(`${API_URL}/ingredients`)
+      .then((res) => {
+        return checkResponse(res)
+      })
+      .then((data) => {
+        setIngredients(data.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   useEffect(() => {
-    getDataApi(setIngredients)
+    getApi()
   }, [])
 
   return (
     <>
       <Header />
       <main className='container'>
-        {(ingredients && (
+        {(ingredients.length > 0 && (
           <>
             <BurgerIngredients ingredientsData={ingredients} />
             <BurgerConstructor ingredientsData={ingredients} />
