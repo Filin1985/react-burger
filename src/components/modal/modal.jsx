@@ -15,16 +15,14 @@ const Modal = ({ isOpen, children, onClose, type }) => {
   const modalOverlayRef = useRef()
 
   useEffect(() => {
-    window.addEventListener('keydown', (evt) => {
-      closeByEsc(evt)
-    })
-    if (modalOverlayRef.current) {
-      modalOverlayRef.current.addEventListener('click', onClose)
-    }
-    return () => {
-      if (modalOverlayRef.current) {
-        modalOverlayRef.current.removeEventListener('click', onClose)
+    const closeByEsc = (evt) => {
+      if (evt.keyCode === ECK_KEYCODE) {
+        onClose()
       }
+    }
+
+    window.addEventListener('keydown', closeByEsc)
+    return () => {
       window.removeEventListener('keydown', closeByEsc)
     }
   })
