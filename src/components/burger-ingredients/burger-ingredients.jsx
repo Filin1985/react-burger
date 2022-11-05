@@ -36,10 +36,7 @@ const BurgerIngredients = ({ ingredientsData }) => {
   return (
     <section className={styles.ingredients}>
       {selectIngredient && (
-        <Modal
-          selectIngredient={selectIngredient}
-          closeModal={handleCloseModal}
-        >
+        <Modal closeModal={handleCloseModal}>
           <IngredientDetails
             image={selectIngredient.image}
             name={selectIngredient.name}

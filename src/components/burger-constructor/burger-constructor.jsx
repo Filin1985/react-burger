@@ -33,7 +33,7 @@ const BurgerConstructor = ({ ingredientsData }) => {
   return (
     <section className={styles.contructor}>
       {openModal && (
-        <Modal closeModal={handleCloseModal}>
+        <Modal isConstructor={true} closeModal={handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}

@@ -8,7 +8,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 const ECK_KEYCODE = 27
 const modalSelector = document.querySelector('#react-modals')
 
-const Modal = ({ children, closeModal, selectIngredient }) => {
+const Modal = ({ children, closeModal, isConstructor }) => {
   const onClose = () => {
     closeModal()
   }
@@ -24,15 +24,13 @@ const Modal = ({ children, closeModal, selectIngredient }) => {
     return () => {
       window.removeEventListener('keydown', closeByEsc)
     }
-  })
+  }, [])
 
   return ReactDOM.createPortal(
     <>
       <div
         className={
-          !selectIngredient
-            ? styles.order__container
-            : styles.ingredient_container
+          isConstructor ? styles.order__container : styles.ingredient_container
         }
       >
         <span className={styles.modal__close} onClick={onClose}>
@@ -40,7 +38,7 @@ const Modal = ({ children, closeModal, selectIngredient }) => {
         </span>
         {children}
       </div>
-      <ModalOverlay onClick={onClose} />
+      <ModalOverlay onClick={closeModal} />
     </>,
     modalSelector
   )
