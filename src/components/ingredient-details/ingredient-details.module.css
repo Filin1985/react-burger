@@ -1,0 +1,88 @@
+.ingredient__container {
+  color: white;
+  background-color: #1c1c21;
+  width: 720px;
+  height: 538px;
+  border-radius: 10%;
+  position: relative;
+}
+
+.ingredient__close {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.ingredient__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f2f2f3;
+}
+
+.ingredient__header {
+  composes: mt-10 ml-10 pt-2 pb-2 text text_type_main-medium from global;
+  align-self: flex-start;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.ingredient__image {
+  width: 520px;
+  height: 240px;
+}
+
+.ingredient__ingredient {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredient__items {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.ingredient__item {
+  text-align: center;
+  color: #8585ad;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ingredient__subheader {
+  composes: pt-4 pb-8 from global;
+  margin: 0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.ingredient__text {
+  margin: 0;
+  padding: 0 0 8px 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ingredient__number {
+  font-family: 'Iceland';
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+}

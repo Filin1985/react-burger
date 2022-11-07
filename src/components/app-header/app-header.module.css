@@ -1,0 +1,38 @@
+.header {
+  composes: mt-10 mr-40 ml-40 pt-4 pb-4 from global;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 320px;
+}
+
+.header__container {
+  display: flex;
+}
+
+.header__item {
+  composes: pt-4 pb-4 pl-5 pr-5 from global;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.header__item.header__item_type_active > * {
+  color: #fff;
+  fill: #fff;
+}
+
+.header__item > * {
+  fill: #8585ad;
+  color: #8585ad;
+}
+
+.header__item:hover > * {
+  color: #fff;
+  fill: #fff;
+}
+
+.header__name {
+  composes: pl-2 from global;
+  line-height: 24px;
+}

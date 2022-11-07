@@ -1,0 +1,62 @@
+.contructor {
+  composes: mt-25 ml-10 pl-4 from global;
+}
+
+.contructor__items {
+  composes: pl-4 from global;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contructor__item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 568px;
+}
+
+.contructor__items_pos_left {
+  composes: pl-8 from global;
+}
+
+.contructor__final {
+  composes: mt-10 pr-8 from global;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.contructor__final > svg {
+  padding: 0 40px 0 16px;
+  transform: scale(1.5);
+}
+
+.contructor__number {
+  font-family: 'Iceland';
+  margin: 0;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 36px;
+}
+
+.contructor__scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.contructor__scroll::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.contructor__scroll::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.contructor__scroll {
+  composes: contructor__items;
+  max-height: 470px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8585ad #2f2f37;
+}

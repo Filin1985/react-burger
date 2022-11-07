@@ -1,0 +1,98 @@
+.ingredients {
+  margin: 0 auto;
+}
+.ingredients__header {
+  composes: mt-10 mb-5 text text_type_main-large from global;
+  font-size: 36px;
+}
+
+.ingredients__subheader {
+  composes: pt-10 from global;
+  margin: 0;
+}
+
+.ingredients__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 756px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.ingredients__list::-webkit-scrollbar {
+  width: 8px;
+}
+.ingredients__list::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.ingredients__list::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.ingredients__items {
+  composes: pt-6 pl-4 pb-10 from global;
+  display: grid;
+  grid-template-columns: repeat(2, 272px);
+  justify-content: center;
+  column-gap: 24px;
+  row-gap: 32px;
+  margin: 0;
+}
+
+.ingredients__bun {
+  composes: pr-8 from global;
+}
+
+.tab {
+  display: flex;
+}
+
+.ingredients__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  position: relative;
+  min-width: 272px;
+  text-decoration: none;
+  color: white;
+}
+
+.ingredients__number {
+  font-size: 28px;
+  line-height: 24px;
+  font-family: 'Iceland';
+}
+
+.ingredients__curency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ingredients__name {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.ingredients__container {
+  display: flex;
+}
+
+.scroll {
+  composes: mt-10 ml-2 from global;
+  width: 8px;
+  height: 664px;
+  background-color: #3a3a55;
+}
+
+.scroll__inner {
+  height: 492px;
+  background-color: #8585ad;
+  z-index: 1;
+}

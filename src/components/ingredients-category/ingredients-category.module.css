@@ -1,0 +1,44 @@
+.ingredients__bun {
+  composes: pr-8 from global;
+}
+
+.ingredients__items {
+  composes: pt-6 pl-4 pb-10 from global;
+  display: grid;
+  grid-template-columns: repeat(2, 272px);
+  justify-content: center;
+  column-gap: 24px;
+  row-gap: 32px;
+  margin: 0;
+}
+
+.ingredients__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  position: relative;
+  min-width: 272px;
+  text-decoration: none;
+  color: white;
+}
+
+.ingredients__number {
+  font-size: 28px;
+  line-height: 24px;
+  font-family: 'Iceland';
+}
+
+.ingredients__curency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ingredients__name {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
