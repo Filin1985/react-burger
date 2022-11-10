@@ -4,17 +4,13 @@ import BurgerConstructor from '../burger-constructor/burger-constructor.jsx'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
 import './App.css'
 import { API_URL } from '../../utils/config.js'
+import { IngredientsContext } from '../../context/ingredientsContext.js'
+import { checkResponse } from '../../utils/utils.js'
 
 function App() {
   const [ingredients, setIngredients] = useState([])
 
-  const checkResponse = (res: Response) => {
-    return res.ok
-      ? res.json()
-      : res.json().then(() => Promise.reject(res.status))
-  }
-
-  const getApi = () => {
+  const getIngredientsApi = () => {
     fetch(`${API_URL}/ingredients`)
       .then((res) => {
         return checkResponse(res)
@@ -28,20 +24,22 @@ function App() {
   }
 
   useEffect(() => {
-    getApi()
+    getIngredientsApi()
   }, [])
 
   return (
     <>
       <Header />
-      <main className='container'>
-        {(ingredients.length > 0 && (
-          <>
-            <BurgerIngredients ingredientsData={ingredients} />
-            <BurgerConstructor ingredientsData={ingredients} />
-          </>
-        )) || <h1>Данные отсутствуют</h1>}
-      </main>
+      <IngredientsContext.Provider value={{ ingredients }}>
+        <main className='container'>
+          {(ingredients.length > 0 && (
+            <>
+              <BurgerIngredients ingredientsData={ingredients} />
+              <BurgerConstructor />
+            </>
+          )) || <h1>Данные отсутствуют</h1>}
+        </main>
+      </IngredientsContext.Provider>
     </>
   )
 }

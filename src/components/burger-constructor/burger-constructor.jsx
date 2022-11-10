@@ -1,5 +1,10 @@
-import React, { useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react'
 import {
   ConstructorElement,
   DragIcon,
@@ -9,32 +14,81 @@ import {
 import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details.jsx'
 import Modal from '../modal/modal.jsx'
-import { cardPropTypes } from '../../prop-types.js'
+import { IngredientsContext } from '../../context/ingredientsContext'
+import { API_URL } from '../../utils/config.js'
+import { checkResponse } from '../../utils/utils.js'
 
-const BurgerConstructor = ({ ingredientsData }) => {
+const initialState = { count: 0 }
+
+const BurgerConstructor = () => {
   const [openModal, setOpenModal] = useState(false)
+  const [orderDetails, setOrderDetails] = useState({})
+  const { ingredients } = useContext(IngredientsContext)
 
   const bun = useMemo(() => {
-    return ingredientsData.find((ingredient) => ingredient.type === 'bun')
-  }, [ingredientsData])
+    return ingredients.find((ingredient) => ingredient.type === 'bun')
+  }, [ingredients])
 
   const otherIngredients = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type !== 'bun')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type !== 'bun')
+  }, [ingredients])
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'calculate':
+        return {
+          count:
+            otherIngredients.reduce((acc, item) => {
+              return acc + item.price
+            }, 0) +
+            bun.price * 2,
+        }
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`)
+    }
+  }
+
+  const ingredientsIds = useMemo(() => {
+    return ingredients.map((ingredient) => ingredient._id)
+  }, [ingredients])
+
+  useEffect(() => {
+    dispatch({ type: 'calculate' })
+  }, [ingredients])
 
   const handleCloseModal = () => {
     setOpenModal(false)
   }
 
   const handleClick = () => {
-    setOpenModal(true)
+    fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ingredients: ingredientsIds,
+      }),
+    })
+      .then((res) => {
+        return checkResponse(res)
+      })
+      .then((data) => {
+        setOrderDetails(data)
+        setOpenModal(true)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   return (
     <section className={styles.contructor}>
       {openModal && (
         <Modal isConstructor={true} closeModal={handleCloseModal}>
-          <OrderDetails />
+          <OrderDetails orderDetails={orderDetails} />
         </Modal>
       )}
 
@@ -82,7 +136,7 @@ const BurgerConstructor = ({ ingredientsData }) => {
         ) : null}
       </ul>
       <div className={styles.contructor__final}>
-        <p className={styles.contructor__number}>610</p>
+        <p className={styles.contructor__number}>{state.count}</p>
         <CurrencyIcon type='primary' size='large' />
         <Button
           htmlType='button'
@@ -95,10 +149,6 @@ const BurgerConstructor = ({ ingredientsData }) => {
       </div>
     </section>
   )
-}
-
-BurgerConstructor.propTypes = {
-  ingredientsData: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
 }
 
 export default BurgerConstructor
