@@ -1,27 +1,27 @@
-import React, { useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useMemo, useState, useContext } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
 import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
-import { cardPropTypes } from '../../prop-types.js'
+import { IngredientsContext } from '../../context/ingredientsContext'
 import Modal from '../modal/modal.jsx'
 
-const BurgerIngredients = ({ ingredientsData }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')
   const [selectIngredient, setSelectIngredient] = useState(null)
+  const { ingredients } = useContext(IngredientsContext)
 
   const bun = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type === 'bun')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type === 'bun')
+  }, [ingredients])
 
   const sauce = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type === 'sauce')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type === 'sauce')
+  }, [ingredients])
 
   const main = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type === 'main')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type === 'main')
+  }, [ingredients])
 
   const setTab = (tab) => {
     setCurrent(tab)
@@ -83,10 +83,6 @@ const BurgerIngredients = ({ ingredientsData }) => {
       </div>
     </section>
   )
-}
-
-BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
 }
 
 export default BurgerIngredients

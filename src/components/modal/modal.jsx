@@ -8,7 +8,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 const ECK_KEYCODE = 27
 const modalSelector = document.querySelector('#react-modals')
 
-const Modal = ({ children, closeModal, isConstructor }) => {
+const Modal = ({ children, closeModal, isOrder }) => {
   const onClose = () => {
     closeModal()
   }
@@ -30,7 +30,7 @@ const Modal = ({ children, closeModal, isConstructor }) => {
     <>
       <div
         className={
-          isConstructor ? styles.order__container : styles.ingredient_container
+          isOrder ? styles.order__container : styles.ingredient_container
         }
       >
         <span className={styles.modal__close} onClick={onClose}>
@@ -46,7 +46,7 @@ const Modal = ({ children, closeModal, isConstructor }) => {
 
 Modal.propTypes = {
   children: PropTypes.element,
-  selectIngredient: PropTypes.object,
+  isOrder: PropTypes.bool,
   closeModal: PropTypes.func.isRequired,
 }
 

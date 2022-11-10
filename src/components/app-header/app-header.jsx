@@ -9,8 +9,8 @@ import styles from './app-header.module.css'
 
 const Header = () => {
   return (
-    <ul className={styles.header}>
-      <li className={styles.header__container}>
+    <header className={styles.header}>
+      <div className={styles.header__container}>
         {/* We will change the anchor tag to the Link tag in the next step */}
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a
@@ -27,17 +27,17 @@ const Header = () => {
           <ListIcon />
           <p className={styles.header__name}>Лента заказов</p>
         </a>
-      </li>
-      <li className={styles.header__item}>
+      </div>
+      <div className={styles.header__item}>
         <Logo />
-      </li>
+      </div>
       {/* We will change the anchor tag to the Link tag in the next step */}
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className={styles.header__item} href='#'>
         <ProfileIcon />
         <p className={styles.header__name}>Личный кабинет</p>
       </a>
-    </ul>
+    </header>
   )
 }
 

@@ -2,7 +2,6 @@
   composes: mt-10 mr-40 ml-40 pt-4 pb-4 from global;
   display: flex;
   justify-content: space-between;
-  padding: 0 320px;
 }
 
 .header__container {

@@ -16,7 +16,7 @@ import OrderDetails from '../order-details/order-details.jsx'
 import Modal from '../modal/modal.jsx'
 import { IngredientsContext } from '../../context/ingredientsContext'
 import { API_URL } from '../../utils/config.js'
-import { checkResponse } from '../../utils/utils.js'
+import { request } from '../../utils/utils.js'
 
 const initialState = { count: 0 }
 
@@ -63,7 +63,7 @@ const BurgerConstructor = () => {
   }
 
   const handleClick = () => {
-    fetch(`${API_URL}/orders`, {
+    request(`${API_URL}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,9 +72,6 @@ const BurgerConstructor = () => {
         ingredients: ingredientsIds,
       }),
     })
-      .then((res) => {
-        return checkResponse(res)
-      })
       .then((data) => {
         setOrderDetails(data)
         setOpenModal(true)
@@ -87,7 +84,7 @@ const BurgerConstructor = () => {
   return (
     <section className={styles.contructor}>
       {openModal && (
-        <Modal isConstructor={true} closeModal={handleCloseModal}>
+        <Modal isOrder={true} closeModal={handleCloseModal}>
           <OrderDetails orderDetails={orderDetails} />
         </Modal>
       )}

@@ -2,19 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Header from '../app-header/app-header.jsx'
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
-import './App.css'
+import styles from './app.module.css'
 import { API_URL } from '../../utils/config.js'
 import { IngredientsContext } from '../../context/ingredientsContext.js'
-import { checkResponse } from '../../utils/utils.js'
+import { request } from '../../utils/utils.js'
 
 function App() {
   const [ingredients, setIngredients] = useState([])
 
   const getIngredientsApi = () => {
-    fetch(`${API_URL}/ingredients`)
-      .then((res) => {
-        return checkResponse(res)
-      })
+    request(`${API_URL}/ingredients`)
       .then((data) => {
         setIngredients(data.data)
       })
@@ -31,10 +28,10 @@ function App() {
     <>
       <Header />
       <IngredientsContext.Provider value={{ ingredients }}>
-        <main className='container'>
+        <main className={styles.container}>
           {(ingredients.length > 0 && (
             <>
-              <BurgerIngredients ingredientsData={ingredients} />
+              <BurgerIngredients />
               <BurgerConstructor />
             </>
           )) || <h1>Данные отсутствуют</h1>}
