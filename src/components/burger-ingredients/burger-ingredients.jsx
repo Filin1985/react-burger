@@ -5,12 +5,14 @@ import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
 import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
 import Modal from '../modal/modal.jsx'
 import { useSelector, useDispatch } from 'react-redux'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')
-  const [selectIngredient, setSelectIngredient] = useState(null)
+  const { currentIngredient } = useSelector((store) => store.ingredients)
   const { ingredients } = useSelector((store) => store.ingredients)
-  const dispacth = useDispatch()
+  const dispatch = useDispatch()
 
   const bun = useMemo(() => {
     return ingredients.filter((ingredient) => ingredient.type === 'bun')
@@ -31,20 +33,23 @@ const BurgerIngredients = () => {
   }
 
   const handleCloseModal = () => {
-    setSelectIngredient(null)
+    dispatch({
+      type: UNSET_CURRENT_INGREDIENT,
+    })
+    dispatch({ type: CLOSE_MODAL })
   }
 
   return (
     <section className={styles.ingredients}>
-      {selectIngredient && (
+      {currentIngredient && (
         <Modal closeModal={handleCloseModal}>
           <IngredientDetails
-            image={selectIngredient.image}
-            name={selectIngredient.name}
-            calories={selectIngredient.calories}
-            carbohydrates={selectIngredient.carbohydrates}
-            fat={selectIngredient.fat}
-            proteins={selectIngredient.proteins}
+            image={currentIngredient.image}
+            name={currentIngredient.name}
+            calories={currentIngredient.calories}
+            carbohydrates={currentIngredient.carbohydrates}
+            fat={currentIngredient.fat}
+            proteins={currentIngredient.proteins}
           />
         </Modal>
       )}
@@ -62,24 +67,9 @@ const BurgerIngredients = () => {
       </div>
       <div className={styles.ingredients__container}>
         <ul className={styles.ingredients__list}>
-          <IngredientCategory
-            data={bun}
-            id={'bun'}
-            name={'Булки'}
-            setIngredient={setSelectIngredient}
-          />
-          <IngredientCategory
-            data={sauce}
-            id={'sauce'}
-            name={'Соусы'}
-            setIngredient={setSelectIngredient}
-          />
-          <IngredientCategory
-            data={main}
-            id={'main'}
-            name={'Начинки'}
-            setIngredient={setSelectIngredient}
-          />
+          <IngredientCategory data={bun} id={'bun'} name={'Булки'} />
+          <IngredientCategory data={sauce} id={'sauce'} name={'Соусы'} />
+          <IngredientCategory data={main} id={'main'} name={'Начинки'} />
         </ul>
       </div>
     </section>

@@ -5,12 +5,15 @@ export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED'
 
-export const ADD_INGREDIENT = 'ADD_INGREDIENT'
+export const CHOOSE_INGREDIENTS = 'CHOOSE_INGREDIENTS'
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
 
 export const GET_ORDER_DETAILS_REQUEST = 'GET_ORDER_DETAILS_REQUEST'
 export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS'
 export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED'
+
+export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT'
+export const UNSET_CURRENT_INGREDIENT = 'UNSET_CURRENT_INGREDIENT'
 
 export function getIngredients() {
   return function (dispatch) {
@@ -32,7 +35,7 @@ export function getIngredients() {
   }
 }
 
-export function getOrderDetails(ingredientsIds) {
+export function getOrderDetails(ingredients) {
   return function (dispatch) {
     dispatch({
       type: GET_ORDER_DETAILS_REQUEST,
@@ -43,7 +46,7 @@ export function getOrderDetails(ingredientsIds) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        ingredients: ingredientsIds,
+        ingredients,
       }),
     })
       .then((res) => {

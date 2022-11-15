@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -7,6 +9,8 @@ import {
   GET_ORDER_DETAILS_REQUEST,
   GET_ORDER_DETAILS_SUCCESS,
   GET_ORDER_DETAILS_FAILED,
+  SET_CURRENT_INGREDIENT,
+  UNSET_CURRENT_INGREDIENT,
 } from '../action/ingredient.js'
 
 export const initialState = {
@@ -14,10 +18,8 @@ export const initialState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   ingredientsBurger: {
-    bun: [],
+    bun: null,
     otherIngredients: [],
-    ingredientsIds: [],
-    count: null,
   },
   currentIngredient: {},
   burgerOrder: [],
@@ -49,11 +51,50 @@ export const ingredientsReducer = (state = initialState, action) => {
         ingredientsFailed: true,
       }
     }
-    // case CHOOSE_INGREDIENTS: {
-    //   return {
-    //     ...state,
-    //   }
-    // }
+    case CHOOSE_INGREDIENTS: {
+      if (action.item.type === 'bun') {
+        return {
+          ...state,
+          ingredientsBurger: {
+            ...state.ingredientsBurger,
+            bun: action.item,
+          },
+        }
+      }
+      return {
+        ...state,
+        ingredientsBurger: {
+          ...state.ingredientsBurger,
+          otherIngredients: [
+            ...state.ingredientsBurger.otherIngredients,
+            { ...action.item, _id: uuidv4() },
+          ],
+        },
+      }
+    }
+    case SET_CURRENT_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredient: action.item,
+      }
+    }
+    case UNSET_CURRENT_INGREDIENT: {
+      return {
+        ...state,
+        currentIngredient: null,
+      }
+    }
+    case REMOVE_INGREDIENT: {
+      return {
+        ...state,
+        ingredientsBurger: {
+          ...state.ingredientsBurger,
+          otherIngredients: [
+            ...state.ingredientsBurger.otherIngredients,
+          ].filter((element) => element._id !== action.id),
+        },
+      }
+    }
     case GET_ORDER_DETAILS_REQUEST: {
       return {
         ...state,

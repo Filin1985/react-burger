@@ -4,18 +4,28 @@ import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import ModalOverlay from '../modal-overlay/modal-overlay.jsx'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useDispatch } from 'react-redux'
+import { CLOSE_MODAL } from '../../services/action/modal'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
 
-const ECK_KEYCODE = 27
+const ESK_KEYCODE = 27
 const modalSelector = document.querySelector('#react-modals')
 
 const Modal = ({ children, closeModal, isOrder }) => {
+  const dispatch = useDispatch()
+
   const onClose = () => {
-    closeModal()
+    dispatch({
+      type: UNSET_CURRENT_INGREDIENT,
+    })
+    dispatch({
+      type: CLOSE_MODAL,
+    })
   }
 
   useEffect(() => {
     const closeByEsc = (evt) => {
-      if (evt.keyCode === ECK_KEYCODE) {
+      if (evt.keyCode === ESK_KEYCODE) {
         onClose()
       }
     }
