@@ -6,37 +6,31 @@ import styles from './app.module.css'
 import { API_URL } from '../../utils/config.js'
 import { IngredientsContext } from '../../context/ingredientsContext.js'
 import { request } from '../../utils/utils.js'
+import { useSelector, useDispatch } from 'react-redux'
+import { getIngredients } from '../../services/action/ingredient.js'
 
 function App() {
-  const [ingredients, setIngredients] = useState([])
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
+    (store) => store.ingredients
+  )
 
-  const getIngredientsApi = () => {
-    request(`${API_URL}/ingredients`)
-      .then((data) => {
-        setIngredients(data.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    getIngredientsApi()
-  }, [])
+    dispatch(getIngredients())
+  }, [dispatch])
 
   return (
     <>
       <Header />
-      <IngredientsContext.Provider value={{ ingredients }}>
-        <main className={styles.container}>
-          {(ingredients.length > 0 && (
-            <>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </>
-          )) || <h1>Данные отсутствуют</h1>}
-        </main>
-      </IngredientsContext.Provider>
+      <main className={styles.container}>
+        {(ingredients.length > 0 && (
+          <>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </>
+        )) || <h1>Данные отсутствуют</h1>}
+      </main>
     </>
   )
 }

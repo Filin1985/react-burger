@@ -1,15 +1,16 @@
-import React, { useMemo, useState, useContext } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
 import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
-import { IngredientsContext } from '../../context/ingredientsContext'
 import Modal from '../modal/modal.jsx'
+import { useSelector, useDispatch } from 'react-redux'
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')
   const [selectIngredient, setSelectIngredient] = useState(null)
-  const { ingredients } = useContext(IngredientsContext)
+  const { ingredients } = useSelector((store) => store.ingredients)
+  const dispacth = useDispatch()
 
   const bun = useMemo(() => {
     return ingredients.filter((ingredient) => ingredient.type === 'bun')

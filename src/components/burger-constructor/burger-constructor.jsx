@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from 'react'
+import React, { useEffect, useMemo, useReducer, useState } from 'react'
 import {
   ConstructorElement,
   DragIcon,
@@ -14,16 +8,16 @@ import {
 import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details.jsx'
 import Modal from '../modal/modal.jsx'
-import { IngredientsContext } from '../../context/ingredientsContext'
-import { API_URL } from '../../utils/config.js'
-import { request } from '../../utils/utils.js'
+import { useSelector, useDispatch } from 'react-redux'
+import { getOrderDetails } from '../../services/action/ingredient'
 
 const initialState = { count: 0 }
 
 const BurgerConstructor = () => {
   const [openModal, setOpenModal] = useState(false)
-  const [orderDetails, setOrderDetails] = useState({})
-  const { ingredients } = useContext(IngredientsContext)
+  const { ingredients } = useSelector((store) => store.ingredients)
+
+  const dispatch = useDispatch()
 
   const bun = useMemo(() => {
     return ingredients.find((ingredient) => ingredient.type === 'bun')
@@ -33,7 +27,7 @@ const BurgerConstructor = () => {
     return ingredients.filter((ingredient) => ingredient.type !== 'bun')
   }, [ingredients])
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatchCount] = useReducer(reducer, initialState)
 
   function reducer(state, action) {
     switch (action.type) {
@@ -55,7 +49,7 @@ const BurgerConstructor = () => {
   }, [ingredients])
 
   useEffect(() => {
-    dispatch({ type: 'calculate' })
+    dispatchCount({ type: 'calculate' })
   }, [ingredients])
 
   const handleCloseModal = () => {
@@ -63,29 +57,15 @@ const BurgerConstructor = () => {
   }
 
   const handleClick = () => {
-    request(`${API_URL}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ingredients: ingredientsIds,
-      }),
-    })
-      .then((data) => {
-        setOrderDetails(data)
-        setOpenModal(true)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    dispatch(getOrderDetails(ingredientsIds))
+    setOpenModal(true)
   }
 
   return (
     <section className={styles.contructor}>
       {openModal && (
         <Modal isOrder={true} closeModal={handleCloseModal}>
-          <OrderDetails orderDetails={orderDetails} />
+          <OrderDetails />
         </Modal>
       )}
 
