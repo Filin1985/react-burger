@@ -6,7 +6,7 @@ import BurgerItem from '../burger-item/burger-item'
 import { useDispatch } from 'react-redux'
 import { SET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
 
-const IngredientCategory = ({ name, data, id }) => {
+const IngredientCategory = React.forwardRef(({ name, data, id }, ref) => {
   const dispatch = useDispatch()
   const handleClick = (item) => {
     dispatch({
@@ -17,7 +17,7 @@ const IngredientCategory = ({ name, data, id }) => {
 
   return (
     <li className={styles.ingredients__bun}>
-      <h2 className={styles.ingredients__subheader} id={id}>
+      <h2 className={styles.ingredients__subheader} id={id} ref={ref}>
         {name}
       </h2>
       <ul className={styles.ingredients__items}>
@@ -27,7 +27,7 @@ const IngredientCategory = ({ name, data, id }) => {
       </ul>
     </li>
   )
-}
+})
 
 IngredientCategory.propTypes = {
   data: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
