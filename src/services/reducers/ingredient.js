@@ -1,5 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
-
+import { v4 as uuid } from 'uuid'
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -11,6 +10,9 @@ import {
   GET_ORDER_DETAILS_FAILED,
   SET_CURRENT_INGREDIENT,
   UNSET_CURRENT_INGREDIENT,
+  INCREASE_INGREDIENT_ITEM,
+  DECREASE_INGREDIENT_ITEM,
+  UPDATE_LIST,
 } from '../action/ingredient.js'
 
 export const initialState = {
@@ -20,8 +22,11 @@ export const initialState = {
   ingredientsBurger: {
     bun: null,
     otherIngredients: [],
+    counts: {},
+    orderSum: 0,
+    prevBunPrice: 0,
   },
-  currentIngredient: {},
+  currentIngredient: null,
   burgerOrder: [],
   burgerOrderRequest: false,
   burgerOrderFailed: false,
@@ -58,6 +63,11 @@ export const ingredientsReducer = (state = initialState, action) => {
           ingredientsBurger: {
             ...state.ingredientsBurger,
             bun: action.item,
+            orderSum:
+              state.ingredientsBurger.orderSum +
+              action.item.price * 2 -
+              state.ingredientsBurger.prevBunPrice * 2,
+            prevBunPrice: action.item.price,
           },
         }
       }
@@ -67,8 +77,9 @@ export const ingredientsReducer = (state = initialState, action) => {
           ...state.ingredientsBurger,
           otherIngredients: [
             ...state.ingredientsBurger.otherIngredients,
-            { ...action.item, _id: uuidv4() },
+            { ...action.item, key: uuid() },
           ],
+          orderSum: state.ingredientsBurger.orderSum + action.item.price,
         },
       }
     }
@@ -76,6 +87,42 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredient: action.item,
+      }
+    }
+    case INCREASE_INGREDIENT_ITEM: {
+      if (action.item.type !== 'bun') {
+        return {
+          ...state,
+          ingredientsBurger: {
+            ...state.ingredientsBurger,
+            counts: {
+              ...state.ingredientsBurger.counts,
+              [action._id]:
+                (state.ingredientsBurger.counts[action._id] || 0) + 1,
+            },
+          },
+        }
+      }
+      return {
+        ...state,
+        ingredientsBurger: {
+          ...state.ingredientsBurger,
+          counts: {
+            [action._id]: 1 || 0,
+          },
+        },
+      }
+    }
+    case DECREASE_INGREDIENT_ITEM: {
+      return {
+        ...state,
+        ingredientsBurger: {
+          ...state.ingredientsBurger,
+          counts: {
+            ...state.ingredientsBurger.counts,
+            [action._id]: state.ingredientsBurger.counts[action._id] - 1,
+          },
+        },
       }
     }
     case UNSET_CURRENT_INGREDIENT: {
@@ -89,9 +136,28 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         ingredientsBurger: {
           ...state.ingredientsBurger,
-          otherIngredients: [
-            ...state.ingredientsBurger.otherIngredients,
-          ].filter((element) => element._id !== action.id),
+          otherIngredients: state.ingredientsBurger.otherIngredients.filter(
+            (element) => element.key !== action.key
+          ),
+          orderSum: state.ingredientsBurger.orderSum - action.item.price,
+        },
+      }
+    }
+    case UPDATE_LIST: {
+      console.log(action.toIndex, action.fromIndex)
+      const newOtherIngredients = [...state.ingredientsBurger.otherIngredients]
+      newOtherIngredients.splice(
+        action.toIndex,
+        0,
+        newOtherIngredients.splice(action.fromIndex, 1)[0]
+      )
+      console.log(state.ingredientsBurger.otherIngredients)
+      console.log(newOtherIngredients)
+      return {
+        ...state,
+        ingredientsBurger: {
+          ...state.burgerIngredients,
+          otherIngredients: newOtherIngredients,
         },
       }
     }

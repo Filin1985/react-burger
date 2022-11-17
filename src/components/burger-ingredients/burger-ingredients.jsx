@@ -6,7 +6,7 @@ import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
 import Modal from '../modal/modal.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
-import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
+import { CLOSE_MODAL } from '../../services/action/modal'
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')

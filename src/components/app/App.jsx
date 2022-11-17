@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Header from '../app-header/app-header.jsx'
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
@@ -7,25 +7,26 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   CHOOSE_INGREDIENTS,
   getIngredients,
+  INCREASE_INGREDIENT_ITEM,
 } from '../../services/action/ingredient.js'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
-  const [items, setItems] = useState([])
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   )
 
   const dispatch = useDispatch()
 
-  const handleDrop = (item) => {
-    dispatch({ type: CHOOSE_INGREDIENTS, item })
-  }
-
   useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch])
+
+  const handleDrop = (item) => {
+    dispatch({ type: CHOOSE_INGREDIENTS, item })
+    dispatch({ type: INCREASE_INGREDIENT_ITEM, item, _id: item._id })
+  }
 
   return (
     <>

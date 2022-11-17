@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
+import React, { useCallback } from 'react'
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -10,18 +11,19 @@ import IngredientItem from '../ingredient-item/ingredient-item.jsx'
 import Modal from '../modal/modal.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import {
+  DECREASE_INGREDIENT_ITEM,
   getOrderDetails,
   REMOVE_INGREDIENT,
+  UPDATE_LIST,
 } from '../../services/action/ingredient'
 import { useDrop } from 'react-dnd'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
 
-// const initialState = { count: 0 }
-
 const BurgerConstructor = ({ onDropHandler }) => {
-  const { bun, otherIngredients } = useSelector(
+  const { bun, otherIngredients, orderSum } = useSelector(
     (store) => store.ingredients.ingredientsBurger
   )
+
   const { isOpen } = useSelector((store) => store.modal)
 
   const dispatch = useDispatch()
@@ -52,6 +54,17 @@ const BurgerConstructor = ({ onDropHandler }) => {
     dispatch({ type: OPEN_MODAL })
   }
 
+  const moveIngredient = useCallback(
+    (dragIngredientIndex, hoverIngredientIndex) => {
+      dispatch({
+        type: UPDATE_LIST,
+        toIndex: hoverIngredientIndex,
+        fromIndex: dragIngredientIndex,
+      })
+    },
+    [dispatch]
+  )
+
   return (
     <section
       className={`${styles.constructor} ${dropClassModifier}`}
@@ -78,19 +91,27 @@ const BurgerConstructor = ({ onDropHandler }) => {
           </li>
         )}
         <div className={styles.constructor__scroll}>
-          {otherIngredients &&
-            otherIngredients.map((ingredient) => {
+          {otherIngredients.length > 0 &&
+            otherIngredients.map((ingredient, index) => {
               const removeIngredient = () => {
                 dispatch({
                   type: REMOVE_INGREDIENT,
-                  id: ingredient._id,
+                  item: ingredient,
+                  key: ingredient.key,
+                })
+                dispatch({
+                  type: DECREASE_INGREDIENT_ITEM,
+                  ingredient,
+                  _id: ingredient._id,
                 })
               }
               return (
                 <IngredientItem
-                  key={ingredient._id}
+                  key={ingredient.key}
                   ingredient={ingredient}
                   handleDelete={removeIngredient}
+                  index={index}
+                  moveIngredient={moveIngredient}
                 />
               )
             })}
@@ -111,7 +132,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
         ) : null}
       </ul>
       <div className={styles.constructor__final}>
-        <p className={styles.constructor__number}>0</p>
+        <p className={styles.constructor__number}>{orderSum}</p>
         <CurrencyIcon type='primary' size='large' />
         <Button
           htmlType='button'

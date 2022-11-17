@@ -9,7 +9,7 @@ const OrderDetails = () => {
 
   return (
     <div className={styles.order__details}>
-      <h2 className={styles.order__number}>{burgerOrder.order.number}</h2>
+      <h2 className={styles.order__number}>{burgerOrder.number}</h2>
       <p className={styles.order__text}>идентификатор заказа</p>
       <img src={checkImage} alt='check icon' className={styles.order__icon} />
       <p className={styles.order__text}>ваш заказа начали готовить</p>

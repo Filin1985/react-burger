@@ -15,6 +15,11 @@ export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED'
 export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT'
 export const UNSET_CURRENT_INGREDIENT = 'UNSET_CURRENT_INGREDIENT'
 
+export const INCREASE_INGREDIENT_ITEM = 'INCREASE_INGREDIENT_ITEM'
+export const DECREASE_INGREDIENT_ITEM = 'DECREASE_INGREDIENT_ITEM'
+
+export const UPDATE_LIST = 'UPDATE_LIST'
+
 export function getIngredients() {
   return function (dispatch) {
     dispatch({
@@ -46,13 +51,13 @@ export function getOrderDetails(ingredients) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        ingredients,
+        ingredients: ingredients,
       }),
     })
       .then((res) => {
         dispatch({
           type: GET_ORDER_DETAILS_SUCCESS,
-          order: res,
+          order: res.order,
         })
       })
       .catch((error) => {

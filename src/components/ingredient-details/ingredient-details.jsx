@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './ingredient-details.module.css'
 
 const IngredientDetails = ({
+  handleClick,
   image,
   name,
   calories,
@@ -11,7 +12,7 @@ const IngredientDetails = ({
   proteins,
 }) => {
   return (
-    <div className={styles.ingredient__details}>
+    <div className={styles.ingredient__details} onClick={handleClick}>
       <h2 className={styles.ingredient__header}>Детали ингредиента</h2>
       <div className={styles.ingredient__ingredient}>
         <img className={styles.ingredient__image} src={image} alt={name} />
