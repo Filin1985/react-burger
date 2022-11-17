@@ -144,19 +144,16 @@ export const ingredientsReducer = (state = initialState, action) => {
       }
     }
     case UPDATE_LIST: {
-      console.log(action.toIndex, action.fromIndex)
       const newOtherIngredients = [...state.ingredientsBurger.otherIngredients]
       newOtherIngredients.splice(
         action.toIndex,
         0,
         newOtherIngredients.splice(action.fromIndex, 1)[0]
       )
-      console.log(state.ingredientsBurger.otherIngredients)
-      console.log(newOtherIngredients)
       return {
         ...state,
         ingredientsBurger: {
-          ...state.burgerIngredients,
+          ...state.ingredientsBurger,
           otherIngredients: newOtherIngredients,
         },
       }

@@ -4,27 +4,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-item.module.css'
 import { useDrag } from 'react-dnd'
-import { useSelector } from 'react-redux'
 
-const BurgerItem = ({ item, handleClick }) => {
-  const [{ isDrag }, dragRef] = useDrag({
+const BurgerItem = ({ item, handleClick, count }) => {
+  const [, dragRef] = useDrag({
     type: 'ingredient',
     item: item,
   })
-
-  const { bun, otherIngredients } = useSelector(
-    (store) => store.ingredients.ingredientsBurger
-  )
-
-  const allIngredients = [...otherIngredients, bun]
-  let count = 0
-  if (allIngredients) {
-    for (let ingredient of allIngredients) {
-      if (item._id === ingredient._id) {
-        count++
-      }
-    }
-  }
 
   return (
     <li
