@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -18,6 +19,7 @@ import {
 } from '../../services/action/ingredient'
 import { useDrop } from 'react-dnd'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
+import Placeholder from '../placeholder/placeholder'
 
 const BurgerConstructor = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
@@ -71,66 +73,72 @@ const BurgerConstructor = ({ onDropHandler }) => {
       ref={dropTarget}
     >
       {isOpen && (
-        <Modal isOrder={true} closeModal={handleCloseModal}>
+        <Modal withTitle={true} closeModal={handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}
 
-      <ul className={styles.constructor__items}>
-        {bun && (
-          <li
-            className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
-          >
-            <ConstructorElement
-              type='top'
-              isLocked={true}
-              text={`${bun.name} (верх)`}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </li>
-        )}
-        <div className={styles.constructor__scroll}>
-          {otherIngredients.length > 0 &&
-            otherIngredients.map((ingredient, index) => {
-              const removeIngredient = () => {
-                dispatch({
-                  type: REMOVE_INGREDIENT,
-                  item: ingredient,
-                  key: ingredient.key,
-                })
-                dispatch({
-                  type: DECREASE_INGREDIENT_ITEM,
-                  ingredient,
-                  _id: ingredient._id,
-                })
-              }
-              return (
-                <IngredientItem
-                  key={ingredient.key}
-                  ingredient={ingredient}
-                  handleDelete={removeIngredient}
-                  index={index}
-                  moveIngredient={moveIngredient}
-                />
-              )
-            })}
-        </div>
+      {bun ? (
+        <ul className={styles.constructor__items}>
+          {bun ? (
+            <li
+              className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
+            >
+              <ConstructorElement
+                type='top'
+                isLocked={true}
+                text={`${bun.name} (верх)`}
+                price={bun.price}
+                thumbnail={bun.image}
+              />
+            </li>
+          ) : (
+            <ConstructorElement text='Выберите булку' />
+          )}
+          <div className={styles.constructor__scroll}>
+            {otherIngredients.length > 0 &&
+              otherIngredients.map((ingredient, index) => {
+                const removeIngredient = () => {
+                  dispatch({
+                    type: REMOVE_INGREDIENT,
+                    item: ingredient,
+                    key: ingredient.key,
+                  })
+                  dispatch({
+                    type: DECREASE_INGREDIENT_ITEM,
+                    ingredient,
+                    _id: ingredient._id,
+                  })
+                }
+                return (
+                  <IngredientItem
+                    key={ingredient.key}
+                    ingredient={ingredient}
+                    handleDelete={removeIngredient}
+                    index={index}
+                    moveIngredient={moveIngredient}
+                  />
+                )
+              })}
+          </div>
 
-        {bun ? (
-          <li
-            className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
-          >
-            <ConstructorElement
-              type='bottom'
-              isLocked={true}
-              text={`${bun.name} (низ)`}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </li>
-        ) : null}
-      </ul>
+          {bun ? (
+            <li
+              className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
+            >
+              <ConstructorElement
+                type='bottom'
+                isLocked={true}
+                text={`${bun.name} (низ)`}
+                price={bun.price}
+                thumbnail={bun.image}
+              />
+            </li>
+          ) : null}
+        </ul>
+      ) : (
+        <Placeholder />
+      )}
       <div className={styles.constructor__final}>
         <p className={styles.constructor__number}>{orderSum}</p>
         <CurrencyIcon type='primary' size='large' />
@@ -139,12 +147,17 @@ const BurgerConstructor = ({ onDropHandler }) => {
           type='primary'
           size='large'
           onClick={handleClick}
+          disabled={!bun}
         >
           Оформить заказ
         </Button>
       </div>
     </section>
   )
+}
+
+BurgerConstructor.propTypes = {
+  onDropHandler: PropTypes.func.isRequired,
 }
 
 export default BurgerConstructor

@@ -19,7 +19,7 @@ const IngredientCategory = React.forwardRef(({ name, data, id }, ref) => {
   }
 
   const allIngredients = useMemo(() => {
-    return [...otherIngredients, bun]
+    return [...otherIngredients, bun ? bun : 0]
   }, [otherIngredients, bun])
 
   let res = new Map()

@@ -11,6 +11,7 @@ export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
 export const GET_ORDER_DETAILS_REQUEST = 'GET_ORDER_DETAILS_REQUEST'
 export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS'
 export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED'
+export const CLEAN_ORDER = 'CLEAN_ORDER'
 
 export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT'
 export const UNSET_CURRENT_INGREDIENT = 'UNSET_CURRENT_INGREDIENT'
@@ -58,6 +59,11 @@ export function getOrderDetails(ingredients) {
         dispatch({
           type: GET_ORDER_DETAILS_SUCCESS,
           order: res.order,
+        })
+      })
+      .then((res) => {
+        dispatch({
+          type: CLEAN_ORDER,
         })
       })
       .catch((error) => {

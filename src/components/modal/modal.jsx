@@ -4,29 +4,15 @@ import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import ModalOverlay from '../modal-overlay/modal-overlay.jsx'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch } from 'react-redux'
-import { CLOSE_MODAL } from '../../services/action/modal'
-import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
 
-const ESK_KEYCODE = 27
+const ESC_KEYCODE = 27
 const modalSelector = document.querySelector('#react-modals')
 
-const Modal = ({ children, closeModal, isOrder }) => {
-  const dispatch = useDispatch()
-
-  const onClose = () => {
-    dispatch({
-      type: UNSET_CURRENT_INGREDIENT,
-    })
-    dispatch({
-      type: CLOSE_MODAL,
-    })
-  }
-
+const Modal = ({ children, closeModal, withTitle }) => {
   useEffect(() => {
     const closeByEsc = (evt) => {
-      if (evt.keyCode === ESK_KEYCODE) {
-        onClose()
+      if (evt.keyCode === ESC_KEYCODE) {
+        closeModal()
       }
     }
 
@@ -40,10 +26,10 @@ const Modal = ({ children, closeModal, isOrder }) => {
     <>
       <div
         className={
-          isOrder ? styles.order__container : styles.ingredient_container
+          withTitle ? styles.order__container : styles.ingredient_container
         }
       >
-        <span className={styles.modal__close} onClick={onClose}>
+        <span className={styles.modal__close} onClick={closeModal}>
           <CloseIcon type='primary' />
         </span>
         {children}

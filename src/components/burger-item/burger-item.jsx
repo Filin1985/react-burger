@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types'
 import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-item.module.css'
+import { cardPropTypes } from '../../prop-types.js'
 import { useDrag } from 'react-dnd'
 
 const BurgerItem = ({ item, handleClick, count }) => {
@@ -26,6 +28,12 @@ const BurgerItem = ({ item, handleClick, count }) => {
       <p className={styles.ingredients__name}>{item.name}</p>
     </li>
   )
+}
+
+BurgerItem.propTypes = {
+  item: cardPropTypes.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  count: PropTypes.number,
 }
 
 export default BurgerItem

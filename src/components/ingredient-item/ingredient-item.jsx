@@ -1,9 +1,11 @@
 import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredient-item.module.css'
+import { cardPropTypes } from '../../prop-types.js'
 import { useDrag, useDrop } from 'react-dnd'
 
 const IngredientItem = ({
@@ -82,6 +84,13 @@ const IngredientItem = ({
       />
     </li>
   )
+}
+
+IngredientItem.propTypes = {
+  ingredient: cardPropTypes.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  moveIngredient: PropTypes.func.isRequired,
+  index: PropTypes.number,
 }
 
 export default IngredientItem

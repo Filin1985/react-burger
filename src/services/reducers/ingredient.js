@@ -13,6 +13,7 @@ import {
   INCREASE_INGREDIENT_ITEM,
   DECREASE_INGREDIENT_ITEM,
   UPDATE_LIST,
+  CLEAN_ORDER,
 } from '../action/ingredient.js'
 
 export const initialState = {
@@ -70,17 +71,20 @@ export const ingredientsReducer = (state = initialState, action) => {
             prevBunPrice: action.item.price,
           },
         }
-      }
-      return {
-        ...state,
-        ingredientsBurger: {
-          ...state.ingredientsBurger,
-          otherIngredients: [
-            ...state.ingredientsBurger.otherIngredients,
-            { ...action.item, key: uuid() },
-          ],
-          orderSum: state.ingredientsBurger.orderSum + action.item.price,
-        },
+      } else if (state.ingredientsBurger.bun) {
+        return {
+          ...state,
+          ingredientsBurger: {
+            ...state.ingredientsBurger,
+            otherIngredients: [
+              ...state.ingredientsBurger.otherIngredients,
+              { ...action.item, key: action.key },
+            ],
+            orderSum: state.ingredientsBurger.orderSum + action.item.price,
+          },
+        }
+      } else {
+        return state
       }
     }
     case SET_CURRENT_INGREDIENT: {
@@ -178,6 +182,18 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         burgerOrderRequest: false,
         burgerOrderFailed: true,
+      }
+    }
+    case CLEAN_ORDER: {
+      return {
+        ...state,
+        ingredientsBurger: {
+          ...state.ingredientsBurger,
+          bun: null,
+          otherIngredients: [],
+          orderSum: 0,
+          prevBunPrice: 0,
+        },
       }
     }
     default:

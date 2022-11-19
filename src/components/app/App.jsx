@@ -9,8 +9,10 @@ import {
   getIngredients,
   INCREASE_INGREDIENT_ITEM,
 } from '../../services/action/ingredient.js'
+import { actionCreators } from '../../services/actionCreators/ingredient.js'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import Loader from '../loader/loader.jsx'
 
 function App() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
@@ -24,7 +26,7 @@ function App() {
   }, [dispatch])
 
   const handleDrop = (item) => {
-    dispatch({ type: CHOOSE_INGREDIENTS, item })
+    dispatch(actionCreators.chooseIngredients(item))
     dispatch({ type: INCREASE_INGREDIENT_ITEM, item, _id: item._id })
   }
 
@@ -32,12 +34,14 @@ function App() {
     <>
       <Header />
       <main className={styles.container}>
-        {(ingredients.length > 0 && (
+        {ingredientsRequest && <Loader />}
+        {ingredientsFailed && <h1>Ошибка при загрузке данных</h1>}
+        {!ingredientsRequest && !ingredientsFailed && ingredients.length > 0 && (
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
             <BurgerConstructor onDropHandler={handleDrop} />
           </DndProvider>
-        )) || <h1>Данные отсутствуют</h1>}
+        )}
       </main>
     </>
   )
