@@ -1,11 +1,11 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
-import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
-import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
+import IngredientDetails from './ingredient-details/ingredient-details.jsx'
+import IngredientCategory from './ingredients-category/ingredient-category.jsx'
 import Modal from '../modal/modal.jsx'
 import { useSelector, useDispatch } from 'react-redux'
-import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/action/burgerConstructor'
 import { CLOSE_MODAL } from '../../services/action/modal'
 
 const BurgerIngredients = () => {

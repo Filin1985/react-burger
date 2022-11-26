@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './components/app/App'
@@ -22,11 +23,13 @@ const store = createStore(rootReducer, enhancer)
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <div className='content'>
-        <App />
-      </div>
-    </Provider>
-  </React.StrictMode>
+  <Router>
+    <React.StrictMode>
+      <Provider store={store}>
+        <div className='content'>
+          <App />
+        </div>
+      </Provider>
+    </React.StrictMode>
+  </Router>
 )

@@ -21,26 +21,6 @@ export const DECREASE_INGREDIENT_ITEM = 'DECREASE_INGREDIENT_ITEM'
 
 export const UPDATE_LIST = 'UPDATE_LIST'
 
-export function getIngredients() {
-  return function (dispatch) {
-    dispatch({
-      type: GET_INGREDIENTS_REQUEST,
-    })
-    request(`${API_URL}/ingredients`)
-      .then((res) => {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: res.data,
-        })
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED,
-        })
-      })
-  }
-}
-
 export function getOrderDetails(ingredients) {
   return function (dispatch) {
     dispatch({

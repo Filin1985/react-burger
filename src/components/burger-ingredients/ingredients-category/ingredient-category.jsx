@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ingredients-category.module.css'
-import { cardPropTypes } from '../../prop-types.js'
+import { cardPropTypes } from '../../../prop-types.js'
 import BurgerItem from '../burger-item/burger-item'
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
+import { SET_CURRENT_INGREDIENT } from '../../../services/action/burgerConstructor'
 
 const IngredientCategory = React.forwardRef(({ name, data, id }, ref) => {
   const { bun, otherIngredients } = useSelector(
-    (store) => store.ingredients.ingredientsBurger
+    (store) => store.burgerConstructor.ingredientsBurger
   )
   const dispatch = useDispatch()
   const handleClick = (item) => {

@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -8,7 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details.jsx'
-import IngredientItem from '../ingredient-item/ingredient-item.jsx'
+import IngredientItem from './ingredient-item/ingredient-item.jsx'
 import Modal from '../modal/modal.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -16,14 +15,14 @@ import {
   getOrderDetails,
   REMOVE_INGREDIENT,
   UPDATE_LIST,
-} from '../../services/action/ingredient'
+} from '../../services/action/burgerConstructor'
 import { useDrop } from 'react-dnd'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
-import Placeholder from '../placeholder/placeholder'
+import Placeholder from './placeholder/placeholder'
 
 const BurgerConstructor = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
-    (store) => store.ingredients.ingredientsBurger
+    (store) => store.burgerConstructor.ingredientsBurger
   )
 
   const { isOpen } = useSelector((store) => store.modal)
