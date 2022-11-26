@@ -1,8 +1,9 @@
-.contructor {
+.constructor {
   composes: mt-25 ml-10 pl-4 from global;
+  min-width: 600px;
 }
 
-.contructor__items {
+.constructor__items {
   composes: pl-4 from global;
   margin: 0;
   padding: 0;
@@ -10,32 +11,33 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-height: 450px;
 }
 
-.contructor__item {
+.constructor__item {
   display: flex;
   gap: 8px;
   align-items: center;
   min-width: 568px;
 }
 
-.contructor__items_pos_left {
+.constructor__items_pos_left {
   composes: pl-8 from global;
 }
 
-.contructor__final {
+.constructor__final {
   composes: mt-10 pr-8 from global;
   display: flex;
   justify-content: right;
   align-items: center;
 }
 
-.contructor__final > svg {
+.constructor__final > svg {
   padding: 0 40px 0 16px;
   transform: scale(1.5);
 }
 
-.contructor__number {
+.constructor__number {
   font-family: 'Iceland';
   margin: 0;
   font-weight: 400;
@@ -43,20 +45,30 @@
   line-height: 36px;
 }
 
-.contructor__scroll::-webkit-scrollbar {
+.constructor__scroll::-webkit-scrollbar {
   width: 8px;
 }
-.contructor__scroll::-webkit-scrollbar-track {
+.constructor__scroll::-webkit-scrollbar-track {
   background: #2f2f37;
 }
-.contructor__scroll::-webkit-scrollbar-thumb {
+.constructor__scroll::-webkit-scrollbar-thumb {
   background: #8585ad;
 }
 
-.contructor__scroll {
-  composes: contructor__items;
+.constructor__scroll {
+  composes: constructor__items;
   max-height: 470px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #8585ad #2f2f37;
+}
+
+.constructor_active {
+  border-radius: 10%;
+  background-color: rgba(83, 3, 129, 0.174);
+  background-image: url('../../images/background.png');
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 10;
 }

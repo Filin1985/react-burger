@@ -1,0 +1,21 @@
+.placeholder {
+  min-width: 600px;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.placeholder__list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.placeholder__item {
+  opacity: 0.5;
+}

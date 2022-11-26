@@ -1,48 +1,60 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import {
-  CurrencyIcon,
-  Counter,
-} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredients-category.module.css'
 import { cardPropTypes } from '../../prop-types.js'
+import BurgerItem from '../burger-item/burger-item'
+import { useDispatch, useSelector } from 'react-redux'
+import { SET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
 
-const IngredientCategory = ({ name, data, id, setIngredient }) => {
+const IngredientCategory = React.forwardRef(({ name, data, id }, ref) => {
+  const { bun, otherIngredients } = useSelector(
+    (store) => store.ingredients.ingredientsBurger
+  )
+  const dispatch = useDispatch()
   const handleClick = (item) => {
-    setIngredient(item)
+    dispatch({
+      type: SET_CURRENT_INGREDIENT,
+      item: item,
+    })
   }
+
+  const allIngredients = useMemo(() => {
+    return [...otherIngredients, bun ? bun : 0]
+  }, [otherIngredients, bun])
+
+  let res = new Map()
+  useMemo(() => {
+    return allIngredients[0] !== null
+      ? allIngredients.reduce(
+          (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
+          res
+        )
+      : 0
+  }, [allIngredients, res])
 
   return (
     <li className={styles.ingredients__bun}>
-      <h2 className={styles.ingredients__subheader} id={id}>
+      <h2 className={styles.ingredients__subheader} id={id} ref={ref}>
         {name}
       </h2>
       <ul className={styles.ingredients__items}>
         {data.map((item) => (
-          <li
-            onClick={() => handleClick(item)}
+          <BurgerItem
+            count={res.get(item._id)}
             key={item._id}
-            className={styles.ingredients__item}
-          >
-            {item.count > 0 && <Counter count={item.count} size='default' />}
-            <img src={item.image} alt={item.name} />
-            <div className={styles.ingredients__curency}>
-              <span className={styles.ingredients__number}>{item.price}</span>
-              <CurrencyIcon type='primary' />
-            </div>
-            <p className={styles.ingredients__name}>{item.name}</p>
-          </li>
+            item={item}
+            handleClick={handleClick}
+          />
         ))}
       </ul>
     </li>
   )
-}
+})
 
 IngredientCategory.propTypes = {
   data: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  setIngredient: PropTypes.func.isRequired,
 }
 
 export default IngredientCategory

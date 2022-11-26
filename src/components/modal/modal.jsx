@@ -5,18 +5,14 @@ import ReactDOM from 'react-dom'
 import ModalOverlay from '../modal-overlay/modal-overlay.jsx'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const ECK_KEYCODE = 27
+const ESC_KEYCODE = 27
 const modalSelector = document.querySelector('#react-modals')
 
-const Modal = ({ children, closeModal, isConstructor }) => {
-  const onClose = () => {
-    closeModal()
-  }
-
+const Modal = ({ children, closeModal, withTitle }) => {
   useEffect(() => {
     const closeByEsc = (evt) => {
-      if (evt.keyCode === ECK_KEYCODE) {
-        onClose()
+      if (evt.keyCode === ESC_KEYCODE) {
+        closeModal()
       }
     }
 
@@ -30,10 +26,10 @@ const Modal = ({ children, closeModal, isConstructor }) => {
     <>
       <div
         className={
-          isConstructor ? styles.order__container : styles.ingredient_container
+          withTitle ? styles.order__container : styles.ingredient_container
         }
       >
-        <span className={styles.modal__close} onClick={onClose}>
+        <span className={styles.modal__close} onClick={closeModal}>
           <CloseIcon type='primary' />
         </span>
         {children}
@@ -46,7 +42,7 @@ const Modal = ({ children, closeModal, isConstructor }) => {
 
 Modal.propTypes = {
   children: PropTypes.element,
-  selectIngredient: PropTypes.object,
+  isOrder: PropTypes.bool,
   closeModal: PropTypes.func.isRequired,
 }
 

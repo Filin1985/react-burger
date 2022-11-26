@@ -1,27 +1,34 @@
-import React, { useMemo, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useMemo, useRef, useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
 import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
 import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
-import { cardPropTypes } from '../../prop-types.js'
 import Modal from '../modal/modal.jsx'
+import { useSelector, useDispatch } from 'react-redux'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
+import { CLOSE_MODAL } from '../../services/action/modal'
 
-const BurgerIngredients = ({ ingredientsData }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')
-  const [selectIngredient, setSelectIngredient] = useState(null)
+  const { currentIngredient } = useSelector((store) => store.ingredients)
+  const { ingredients } = useSelector((store) => store.ingredients)
+  const dispatch = useDispatch()
+  const parentRef = useRef(null)
+  const bunRef = useRef(null)
+  const sauceRef = useRef(null)
+  const mainRef = useRef(null)
 
   const bun = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type === 'bun')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type === 'bun')
+  }, [ingredients])
 
   const sauce = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type === 'sauce')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type === 'sauce')
+  }, [ingredients])
 
   const main = useMemo(() => {
-    return ingredientsData.filter((ingredient) => ingredient.type === 'main')
-  }, [ingredientsData])
+    return ingredients.filter((ingredient) => ingredient.type === 'main')
+  }, [ingredients])
 
   const setTab = (tab) => {
     setCurrent(tab)
@@ -30,20 +37,51 @@ const BurgerIngredients = ({ ingredientsData }) => {
   }
 
   const handleCloseModal = () => {
-    setSelectIngredient(null)
+    dispatch({
+      type: UNSET_CURRENT_INGREDIENT,
+    })
+    dispatch({ type: CLOSE_MODAL })
+  }
+
+  const scrollToIngredient = () => {
+    const bunInterval = Math.abs(
+      parentRef.current.getBoundingClientRect().top -
+        bunRef.current.getBoundingClientRect().top
+    )
+    const sauceInterval = Math.abs(
+      parentRef.current.getBoundingClientRect().top -
+        sauceRef.current.getBoundingClientRect().top
+    )
+    const mainInterval = Math.abs(
+      parentRef.current.getBoundingClientRect().top -
+        mainRef.current.getBoundingClientRect().top
+    )
+    const minInterval = Math.min(bunInterval, sauceInterval, mainInterval)
+    const nearestTab =
+      minInterval === bunInterval
+        ? 'bun'
+        : minInterval === sauceInterval
+        ? 'sauce'
+        : 'main'
+    setCurrent((prevState) => {
+      if (nearestTab === prevState.current) {
+        return prevState.current
+      }
+      return nearestTab
+    })
   }
 
   return (
     <section className={styles.ingredients}>
-      {selectIngredient && (
+      {currentIngredient && (
         <Modal closeModal={handleCloseModal}>
           <IngredientDetails
-            image={selectIngredient.image}
-            name={selectIngredient.name}
-            calories={selectIngredient.calories}
-            carbohydrates={selectIngredient.carbohydrates}
-            fat={selectIngredient.fat}
-            proteins={selectIngredient.proteins}
+            image={currentIngredient.image}
+            name={currentIngredient.name}
+            calories={currentIngredient.calories}
+            carbohydrates={currentIngredient.carbohydrates}
+            fat={currentIngredient.fat}
+            proteins={currentIngredient.proteins}
           />
         </Modal>
       )}
@@ -60,33 +98,33 @@ const BurgerIngredients = ({ ingredientsData }) => {
         </Tab>
       </div>
       <div className={styles.ingredients__container}>
-        <ul className={styles.ingredients__list}>
+        <ul
+          className={styles.ingredients__list}
+          ref={parentRef}
+          onScroll={scrollToIngredient}
+        >
           <IngredientCategory
             data={bun}
             id={'bun'}
             name={'Булки'}
-            setIngredient={setSelectIngredient}
+            ref={bunRef}
           />
           <IngredientCategory
             data={sauce}
             id={'sauce'}
             name={'Соусы'}
-            setIngredient={setSelectIngredient}
+            ref={sauceRef}
           />
           <IngredientCategory
             data={main}
             id={'main'}
             name={'Начинки'}
-            setIngredient={setSelectIngredient}
+            ref={mainRef}
           />
         </ul>
       </div>
     </section>
   )
-}
-
-BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
 }
 
 export default BurgerIngredients

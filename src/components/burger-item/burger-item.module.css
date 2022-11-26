@@ -1,0 +1,30 @@
+.ingredients__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  position: relative;
+  min-width: 272px;
+  text-decoration: none;
+  color: white;
+}
+
+.ingredients__number {
+  font-size: 28px;
+  line-height: 24px;
+  font-family: 'Iceland';
+}
+
+.ingredients__currency {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ingredients__name {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
