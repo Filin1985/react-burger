@@ -15,6 +15,7 @@ import { getIngredients } from '../../services/action/ingredients.js'
 import { actionCreators } from '../../services/actionCreators/burgerConstructor.js'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import RegisterPage from '../pages/register-page'
 
 function App() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
@@ -36,6 +37,9 @@ function App() {
     <>
       <Header />
       <Switch>
+        <Route path='/register' exact>
+          <RegisterPage />
+        </Route>
         <Route path='/login' exact>
           <LoginPage />
         </Route>

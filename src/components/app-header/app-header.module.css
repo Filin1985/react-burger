@@ -16,11 +16,6 @@
   text-decoration: none;
 }
 
-/* .header__item.header__item_type_active > * {
-  color: #fff;
-  fill: #fff;
-} */
-
 .header__item_active > * {
   color: #fff;
   fill: #fff;

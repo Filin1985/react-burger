@@ -7,7 +7,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './register-page.module.css'
 
-const LoginPage = () => {
+const RegisterPage = () => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const inputRef = useRef(null)
@@ -21,11 +22,24 @@ const LoginPage = () => {
 
   return (
     <div className={styles.register}>
-      <h1 className={styles.register__header}>Вход</h1>
+      <h1 className={styles.register__header}>Регистрация</h1>
       <form className={styles.register__inputs}>
         <Input
-          type='text'
-          placeholder='E-mail'
+          type={'text'}
+          placeholder={'Имя'}
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          name={'name'}
+          error={false}
+          ref={inputRef}
+          onIconClick={onIconClick}
+          errorText={'Ошибка'}
+          size={'default'}
+          extraClass='mt-1'
+        />
+        <Input
+          type={'text'}
+          placeholder={'E-mail'}
           onChange={(e) => setEmail(e.target.value)}
           value={email}
           name={'name'}
@@ -43,17 +57,14 @@ const LoginPage = () => {
           extraClass='mb-2'
         />
         <Button htmlType='button' type='primary' size='medium'>
-          Войти
+          Зарегистрироваться
         </Button>
       </form>
       <p className={styles.register__login}>
-        Вы - новый пользователь? <Link to='/register'>Зарегистрироваться</Link>
-      </p>
-      <p className={styles.register__login}>
-        Забыли пароль? <Link to='/login'>Восстановить пароль</Link>
+        Уже зарегистрировались? <Link to='/login'>Войти</Link>
       </p>
     </div>
   )
 }
 
-export default LoginPage
+export default RegisterPage
