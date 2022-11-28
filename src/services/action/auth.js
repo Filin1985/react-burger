@@ -1,4 +1,9 @@
-import { getCookie, request, setCookie } from '../../utils/utils.js'
+import {
+  getCookie,
+  request,
+  setCookie,
+  deleteCookie,
+} from '../../utils/utils.js'
 import { API_URL } from '../../utils/config.js'
 
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST'
@@ -65,7 +70,7 @@ export function registerUser({ email, password, name }, history) {
   }
 }
 
-export function loginUser({ email, password }) {
+export function loginUser({ email, password }, history) {
   return function (dispatch) {
     dispatch({
       type: LOGIN_USER_REQUEST,
@@ -86,16 +91,55 @@ export function loginUser({ email, password }) {
           const refreshToken = res.refreshToken
           setCookie('token', authToken)
           localStorage.setItem('refreshToken', refreshToken)
+          dispatch({
+            type: AUTH_USER_SUCCESS,
+            user: res.user,
+          })
+          history.push('/')
         } else {
           dispatch({
             type: LOGIN_USER_FAILED,
-            user: res.user,
           })
         }
       })
       .catch((error) => {
         dispatch({
           type: LOGIN_USER_FAILED,
+        })
+      })
+  }
+}
+
+export function logoutUser() {
+  return function (dispatch) {
+    dispatch({
+      type: LOGOUT_USER_REQUEST,
+    })
+    request(`${API_URL}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charger=utf-8',
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem('refreshToken'),
+      }),
+    })
+      .then((res) => {
+        if (res && res.success) {
+          deleteCookie('token')
+          localStorage.removeItem('refreshToken')
+          dispatch({
+            type: LOGOUT_USER_SUCCESS,
+          })
+        } else {
+          dispatch({
+            type: LOGOUT_USER_FAILED,
+          })
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          type: LOGOUT_USER_FAILED,
         })
       })
   }
