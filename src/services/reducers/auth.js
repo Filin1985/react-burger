@@ -8,6 +8,15 @@ import {
   LOGOUT_USER_REQUEST,
   LOGOUT_USER_SUCCESS,
   LOGOUT_USER_FAILED,
+  TOKEN_USER_REQUEST,
+  TOKEN_USER_SUCCESS,
+  TOKEN_USER_FAILED,
+  AUTH_USER_REQUEST,
+  AUTH_USER_SUCCESS,
+  AUTH_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
 } from '../action/auth.js'
 
 const initialState = {
@@ -20,10 +29,13 @@ const initialState = {
   loginFailed: false,
   logoutRequest: false,
   logoutFailed: false,
+  tokenRequest: false,
+  tokenFailed: false,
 }
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_USER_REQUEST:
     case REGISTER_USER_REQUEST: {
       return {
         ...state,
@@ -31,6 +43,7 @@ export const authReducer = (state = initialState, action) => {
         registerFailed: false,
       }
     }
+    case UPDATE_USER_SUCCESS:
     case REGISTER_USER_SUCCESS: {
       return {
         ...state,
@@ -41,6 +54,7 @@ export const authReducer = (state = initialState, action) => {
         password: action.user.password,
       }
     }
+    case UPDATE_USER_FAILED:
     case REGISTER_USER_FAILED: {
       return {
         ...state,
@@ -48,6 +62,7 @@ export const authReducer = (state = initialState, action) => {
         registerFailed: true,
       }
     }
+    case AUTH_USER_REQUEST:
     case LOGIN_USER_REQUEST: {
       return {
         ...state,
@@ -55,7 +70,9 @@ export const authReducer = (state = initialState, action) => {
         loginFailed: false,
       }
     }
+    case AUTH_USER_SUCCESS:
     case LOGIN_USER_SUCCESS: {
+      console.log(state.name)
       return {
         ...state,
         name: action.user.name,
@@ -64,6 +81,7 @@ export const authReducer = (state = initialState, action) => {
         loginFailed: false,
       }
     }
+    case AUTH_USER_FAILED:
     case LOGIN_USER_FAILED: {
       return {
         ...state,
@@ -93,6 +111,27 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: false,
         logoutFailed: true,
+      }
+    }
+    case TOKEN_USER_REQUEST: {
+      return {
+        ...state,
+        tokenRequest: true,
+        tokenFailed: false,
+      }
+    }
+    case TOKEN_USER_SUCCESS: {
+      return {
+        ...state,
+        tokenRequest: false,
+        tokenFailed: false,
+      }
+    }
+    case TOKEN_USER_FAILED: {
+      return {
+        ...state,
+        tokenRequest: false,
+        tokenFailed: true,
       }
     }
     default:

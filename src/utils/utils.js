@@ -1,3 +1,5 @@
+import { API_URL } from './config'
+
 export const checkResponse = (res) => {
   return res.ok ? res.json() : res.json().then(() => Promise.reject(res.status))
 }
@@ -6,26 +8,26 @@ export function request(url, options) {
   return fetch(url, options).then(checkResponse)
 }
 
-export function setCookie(name, value, props) {
-  props = props || {}
-  let exp = props.expires
-  if (typeof exp == 'number' && exp) {
-    const d = new Date()
-    d.setTime(d.getTime() + exp * 1000)
-    exp = props.expires = d
+export function setCookie(name, value, options = {}) {
+  options = {
+    path: '/',
+    ...options,
   }
-  if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString()
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString()
   }
-  value = encodeURIComponent(value)
-  let updatedCookie = name + '=' + value
-  for (const propName in props) {
-    updatedCookie += '; ' + propName
-    const propValue = props[propName]
-    if (propValue !== true) {
-      updatedCookie += '=' + propValue
+
+  let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value)
+
+  for (let optionKey in options) {
+    updatedCookie += '; ' + optionKey
+    let optionValue = options[optionKey]
+    if (optionValue !== true) {
+      updatedCookie += '=' + optionValue
     }
   }
+
   document.cookie = updatedCookie
 }
 
@@ -42,4 +44,39 @@ export function getCookie(name) {
 
 export function deleteCookie(name) {
   setCookie(name, null, { expires: -1 })
+}
+
+export const refreshToken = () => {
+  return fetch(`${API_URL}/auth/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem('refreshToken'),
+    }),
+  }).then(checkResponse)
+}
+
+export const fetchWithRefresh = async (url, options) => {
+  try {
+    console.log(options)
+    const res = await fetch(url, options)
+    console.log(res)
+    return await checkResponse(res)
+  } catch (err) {
+    if (err.message === 'jwt expired') {
+      const refreshData = await refreshToken()
+      if (!refreshData.success) {
+        Promise.reject(refreshData)
+      }
+      localStorage.setItem('refreshToken', refreshData.refreshToken)
+      setCookie('accessToken', refreshData.accessToken)
+      options.headers.authorization = refreshData.accessToken
+      const res = await fetch(url, options)
+      return await checkResponse(res)
+    } else {
+      return Promise.reject(err)
+    }
+  }
 }

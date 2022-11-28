@@ -6,7 +6,7 @@ import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { logoutUser } from '../../../services/action/auth'
+import { logoutUser, updateUser } from '../../../services/action/auth'
 
 const Profile = () => {
   const activeUserName = useSelector((store) => store.user.name)
@@ -70,6 +70,11 @@ const Profile = () => {
     })
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(updateUser(state))
+  }
+
   const handleLogout = () => {
     dispatch(logoutUser())
   }
@@ -99,7 +104,7 @@ const Profile = () => {
           <span onClick={handleLogout}>Выход</span>
         </NavLink>
       </ul>
-      <form className={styles.profile__data}>
+      <form className={styles.profile__data} onSubmit={handleSubmit}>
         <Input
           type='text'
           placeholder='Имя'

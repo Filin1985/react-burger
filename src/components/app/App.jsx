@@ -24,7 +24,6 @@ function App() {
     (store) => store.ingredients
   )
   const { user } = useSelector((store) => store)
-  console.log(user.name)
 
   const dispatch = useDispatch()
 
