@@ -1,62 +1,79 @@
-import React, { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
 import {
   Button,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './register-page.module.css'
+import { registerUser } from '../../services/action/auth'
 
 const RegisterPage = () => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const inputRef = useRef(null)
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const [state, setState] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
+
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
     alert('Icon Click Callback')
   }
-  const onChange = (e) => {
-    setPassword(e.target.value)
+  const handleChange = (e) => {
+    const target = e.target
+    const value = target.value
+    const name = target.name
+    setState({
+      ...state,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(registerUser(state, history))
   }
 
   return (
     <div className={styles.register}>
       <h1 className={styles.register__header}>Регистрация</h1>
-      <form className={styles.register__inputs}>
+      <form
+        className={styles.register__inputs}
+        onSubmit={(e) => handleSubmit(e)}
+      >
         <Input
-          type={'text'}
-          placeholder={'Имя'}
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          name={'name'}
+          type='text'
+          placeholder='Имя'
+          onChange={handleChange}
+          value={state.name}
+          name='name'
           error={false}
-          ref={inputRef}
           onIconClick={onIconClick}
-          errorText={'Ошибка'}
-          size={'default'}
+          errorText='Ошибка'
+          size='default'
           extraClass='mt-1'
         />
         <Input
-          type={'text'}
-          placeholder={'E-mail'}
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          name={'name'}
+          type='text'
+          placeholder='E-mail'
+          onChange={handleChange}
+          value={state.email}
+          name='email'
           error={false}
-          ref={inputRef}
           onIconClick={onIconClick}
-          errorText={'Ошибка'}
-          size={'default'}
+          errorText='Ошибка'
+          size='default'
           extraClass='ml-1'
         />
         <PasswordInput
-          onChange={onChange}
-          value={password}
-          name={'password'}
+          onChange={handleChange}
+          value={state.password}
+          name='password'
           extraClass='mb-2'
         />
-        <Button htmlType='button' type='primary' size='medium'>
+        <Button htmlType='submit' type='primary' size='medium'>
           Зарегистрироваться
         </Button>
       </form>

@@ -7,7 +7,10 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
 import LoginPage from '../pages/login-page.jsx'
 import OrderList from '../order-list/order-list.jsx'
 import Loader from '../loader/loader.jsx'
-import Profile from '../profile/profile.jsx'
+import Profile from '../pages/profile/profile.jsx'
+import RegisterPage from '../pages/register-page'
+import ForgotPassword from '../pages/forgot-password'
+import ResetPassword from '../pages/reset-password'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { INCREASE_INGREDIENT_ITEM } from '../../services/action/burgerConstructor.js'
@@ -15,12 +18,13 @@ import { getIngredients } from '../../services/action/ingredients.js'
 import { actionCreators } from '../../services/actionCreators/burgerConstructor.js'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import RegisterPage from '../pages/register-page'
 
 function App() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   )
+  const { user } = useSelector((store) => store)
+  console.log(user.name)
 
   const dispatch = useDispatch()
 
@@ -42,6 +46,12 @@ function App() {
         </Route>
         <Route path='/login' exact>
           <LoginPage />
+        </Route>
+        <Route path='/forgot-password' exact>
+          <ForgotPassword />
+        </Route>
+        <Route path='/reset-password' exact>
+          <ResetPassword path='reset-password' />
         </Route>
         <Route path={['/', '/constructor']} exact>
           <main className={styles.container}>

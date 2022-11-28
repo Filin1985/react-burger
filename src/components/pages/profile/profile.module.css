@@ -1,0 +1,57 @@
+.profile {
+  composes: mt-30 from global;
+  display: flex;
+  gap: 60px;
+}
+
+.profile__links {
+  list-style: none;
+  width: 320px;
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+
+.profile__link {
+  height: 64px;
+  font-family: 'JetBrains';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #8585ad;
+}
+
+.profile__link_active {
+  color: #fff;
+  fill: #fff;
+}
+
+.profile__link:hover {
+  color: #fff;
+  fill: #fff;
+}
+
+.profile__data {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile__change {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.profile__cancel > * {
+  font-family: 'JetBrains';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #4c4cff;
+  text-decoration: none;
+}
