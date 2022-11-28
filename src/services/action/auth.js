@@ -235,9 +235,9 @@ export function updateUser({ name, email, password }) {
         authorization: 'Bearer ' + getCookie('token'),
       },
       body: JSON.stringify({
-        name: 'name',
-        email: 'email',
-        password: 'password',
+        name: name,
+        email: email,
+        password: password,
       }),
     })
       .then((res) => {

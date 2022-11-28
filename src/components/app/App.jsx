@@ -25,7 +25,6 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import Modal from '../modal/modal'
 import { CLOSE_MODAL } from '../../services/action/modal'
-import OrderDetails from '../order-details/order-details'
 
 function App() {
   const location = useLocation()
