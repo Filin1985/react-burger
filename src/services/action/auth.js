@@ -32,6 +32,14 @@ export const TOKEN_USER_REQUEST = 'TOKEN_USER_REQUEST'
 export const TOKEN_USER_SUCCESS = 'TOKEN_USER_SUCCESS'
 export const TOKEN_USER_FAILED = 'TOKEN_USER_FAILED'
 
+export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST'
+export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS'
+export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED'
+
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST'
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
+export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED'
+
 export function registerUser({ email, password, name }, history) {
   return function (dispatch) {
     dispatch({
@@ -185,6 +193,7 @@ export function authUser() {
   return function (dispatch) {
     dispatch({
       type: AUTH_USER_REQUEST,
+      authChecked: false,
     })
     fetchWithRefresh(`${API_URL}/auth/user`, {
       method: 'GET',
@@ -223,12 +232,12 @@ export function updateUser({ name, email, password }) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charger=utf-8',
-        Authorization: 'Bearer ' + getCookie('token'),
+        authorization: 'Bearer ' + getCookie('token'),
       },
       body: JSON.stringify({
-        name: name,
-        email: email,
-        password: password,
+        name: 'name',
+        email: 'email',
+        password: 'password',
       }),
     })
       .then((res) => {
@@ -247,6 +256,63 @@ export function updateUser({ name, email, password }) {
       .catch((error) => {
         dispatch({
           type: UPDATE_USER_FAILED,
+        })
+      })
+  }
+}
+
+export function forgotPassword(email, history) {
+  return function (dispatch) {
+    dispatch({
+      type: FORGOT_PASSWORD_REQUEST,
+    })
+    request(`${API_URL}/password-reset`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charger=utf-8',
+      },
+      body: {
+        email: email,
+      },
+    })
+      .then((res) => {
+        dispatch({
+          type: FORGOT_PASSWORD_SUCCESS,
+        })
+        history.push('/reset-password')
+      })
+      .catch((error) => {
+        dispatch({
+          type: FORGOT_PASSWORD_FAILED,
+        })
+      })
+  }
+}
+
+export function resetPassword(password, token, history) {
+  return function (dispatch) {
+    dispatch({
+      type: RESET_PASSWORD_REQUEST,
+    })
+    request(`${API_URL}/password-reset/reset`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charger=utf-8',
+      },
+      body: {
+        password: password,
+        token: token,
+      },
+    })
+      .then((res) => {
+        dispatch({
+          type: RESET_PASSWORD_SUCCESS,
+        })
+        history.push('/login')
+      })
+      .catch((error) => {
+        dispatch({
+          RESET_PASSWORD_FAILED,
         })
       })
   }

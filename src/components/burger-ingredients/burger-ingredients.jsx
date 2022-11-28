@@ -10,7 +10,7 @@ import { CLOSE_MODAL } from '../../services/action/modal'
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')
-  const { currentIngredient } = useSelector((store) => store.ingredients)
+  const { currentIngredient } = useSelector((store) => store.burgerConstructor)
   const { ingredients } = useSelector((store) => store.ingredients)
   const dispatch = useDispatch()
   const parentRef = useRef(null)
@@ -75,14 +75,7 @@ const BurgerIngredients = () => {
     <section className={styles.ingredients}>
       {currentIngredient && (
         <Modal closeModal={handleCloseModal}>
-          <IngredientDetails
-            image={currentIngredient.image}
-            name={currentIngredient.name}
-            calories={currentIngredient.calories}
-            carbohydrates={currentIngredient.carbohydrates}
-            fat={currentIngredient.fat}
-            proteins={currentIngredient.proteins}
-          />
+          <IngredientDetails />
         </Modal>
       )}
       <h1 className={styles.ingredients__header}>Соберите бургер</h1>

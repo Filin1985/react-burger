@@ -10,17 +10,17 @@ const modalSelector = document.querySelector('#react-modals')
 
 const Modal = ({ children, closeModal, withTitle }) => {
   useEffect(() => {
-    const closeByEsc = (evt) => {
-      if (evt.keyCode === ESC_KEYCODE) {
-        closeModal()
-      }
-    }
-
     window.addEventListener('keydown', closeByEsc)
     return () => {
       window.removeEventListener('keydown', closeByEsc)
     }
   }, [])
+
+  const closeByEsc = (e) => {
+    if (e.keyCode === ESC_KEYCODE) {
+      closeModal(e)
+    }
+  }
 
   return ReactDOM.createPortal(
     <>
@@ -29,8 +29,8 @@ const Modal = ({ children, closeModal, withTitle }) => {
           withTitle ? styles.order__container : styles.ingredient_container
         }
       >
-        <span className={styles.modal__close} onClick={closeModal}>
-          <CloseIcon type='primary' />
+        <span className={styles.modal__close}>
+          <CloseIcon type='primary' onClick={closeModal} />
         </span>
         {children}
       </div>

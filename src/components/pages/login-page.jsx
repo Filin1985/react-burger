@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import {
   Button,
   Input,
@@ -16,6 +16,7 @@ const LoginPage = () => {
   })
   const dispatch = useDispatch()
   const history = useHistory()
+  const location = useLocation()
   const onIconClick = () => {
     alert('Icon Click Callback')
   }
@@ -32,6 +33,8 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(loginUser(state, history))
+    const { from } = location.state || { from: { pathname: '/' } }
+    history.push(from)
   }
 
   return (

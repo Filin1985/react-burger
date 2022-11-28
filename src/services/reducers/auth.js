@@ -17,6 +17,12 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
 } from '../action/auth.js'
 
 const initialState = {
@@ -31,6 +37,12 @@ const initialState = {
   logoutFailed: false,
   tokenRequest: false,
   tokenFailed: false,
+  forgotPasswordRequest: false,
+  forgotPasswordFailed: false,
+  resetPasswordRequest: false,
+  resetPasswordFailed: false,
+
+  authChecked: false,
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -68,6 +80,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loginRequest: true,
         loginFailed: false,
+        authChecked: false,
       }
     }
     case AUTH_USER_SUCCESS:
@@ -79,6 +92,7 @@ export const authReducer = (state = initialState, action) => {
         email: action.user.email,
         loginRequest: false,
         loginFailed: false,
+        authChecked: true,
       }
     }
     case AUTH_USER_FAILED:
@@ -87,6 +101,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: true,
+        authChecked: true,
       }
     }
     case LOGOUT_USER_REQUEST: {
@@ -132,6 +147,49 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         tokenRequest: false,
         tokenFailed: true,
+      }
+    }
+    case FORGOT_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        forgotPasswordRequest: true,
+        forgotPasswordFailed: false,
+      }
+    }
+    case FORGOT_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false,
+      }
+    }
+    case FORGOT_PASSWORD_FAILED: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: true,
+      }
+    }
+
+    case RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        resetPasswordRequest: true,
+        resetPasswordFailed: false,
+      }
+    }
+    case RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: false,
+      }
+    }
+    case RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: true,
       }
     }
     default:
