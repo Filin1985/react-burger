@@ -5,6 +5,7 @@ export const checkResponse = (res) => {
 }
 
 export function request(url, options) {
+  console.log(options)
   return fetch(url, options).then(checkResponse)
 }
 

@@ -32,6 +32,8 @@ export const TOKEN_USER_REQUEST = 'TOKEN_USER_REQUEST'
 export const TOKEN_USER_SUCCESS = 'TOKEN_USER_SUCCESS'
 export const TOKEN_USER_FAILED = 'TOKEN_USER_FAILED'
 
+export const AUTH_CHECKED = 'AUTH_CHECKED'
+
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST'
 export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS'
 export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED'
@@ -101,7 +103,6 @@ export function loginUser({ email, password }, history) {
     })
       .then((res) => {
         if (res && res.success) {
-          console.log(res)
           const authToken = res.accessToken.split('Bearer')[1]
           const refreshToken = res.refreshToken
           setCookie('token', authToken)
@@ -193,7 +194,6 @@ export function authUser() {
   return function (dispatch) {
     dispatch({
       type: AUTH_USER_REQUEST,
-      authChecked: false,
     })
     fetchWithRefresh(`${API_URL}/auth/user`, {
       method: 'GET',
@@ -315,5 +315,15 @@ export function resetPassword(password, token, history) {
           RESET_PASSWORD_FAILED,
         })
       })
+  }
+}
+
+export const checkUserAuth = () => (dispatch) => {
+  if (getCookie('token')) {
+    dispatch(authUser()).finally(() => {
+      dispatch({ type: 'AUTH_CHECKED' })
+    })
+  } else {
+    dispatch({ type: 'AUTH_CHECKED' })
   }
 }

@@ -23,6 +23,7 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
+  AUTH_CHECKED,
 } from '../action/auth.js'
 
 const initialState = {
@@ -47,6 +48,12 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case AUTH_CHECKED: {
+      return {
+        ...state,
+        authChecked: true,
+      }
+    }
     case UPDATE_USER_REQUEST:
     case REGISTER_USER_REQUEST: {
       return {
