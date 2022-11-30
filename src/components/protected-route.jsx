@@ -6,9 +6,7 @@ import Loader from './loader/loader'
 
 const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
   const authChecked = useSelector((store) => store.user.authChecked)
-  console.log(authChecked)
   const user = useSelector((store) => store.user.email)
-  console.log(user)
   const location = useLocation()
   const dispatch = useDispatch()
 
@@ -18,6 +16,18 @@ const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
 
   if (!authChecked) {
     return <Loader />
+  }
+
+  const { from } = location.state || { from: { pathname: '/' } }
+
+  if (onlyUnAuth && user) {
+    return (
+      <Redirect
+        to={{
+          pathname: from.pathname,
+        }}
+      />
+    )
   }
 
   if (!onlyUnAuth && !user) {

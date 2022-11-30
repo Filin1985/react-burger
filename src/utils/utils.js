@@ -5,7 +5,6 @@ export const checkResponse = (res) => {
 }
 
 export function request(url, options) {
-  console.log(options)
   return fetch(url, options).then(checkResponse)
 }
 
@@ -61,9 +60,7 @@ export const refreshToken = () => {
 
 export const fetchWithRefresh = async (url, options) => {
   try {
-    console.log(options)
     const res = await fetch(url, options)
-    console.log(res)
     return await checkResponse(res)
   } catch (err) {
     if (err.message === 'jwt expired') {

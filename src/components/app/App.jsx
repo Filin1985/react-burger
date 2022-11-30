@@ -4,13 +4,13 @@ import styles from './app.module.css'
 import Header from '../app-header/app-header.jsx'
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
-import LoginPage from '../pages/login-page.jsx'
-import OrderList from '../order-list/order-list.jsx'
+import LoginPage from '../pages/login-page/login-page.jsx'
+import OrderHistory from '../order-history/order-history.jsx'
 import Loader from '../loader/loader.jsx'
 import Profile from '../pages/profile/profile.jsx'
-import RegisterPage from '../pages/register-page'
-import ForgotPassword from '../pages/forgot-password'
-import ResetPassword from '../pages/reset-password'
+import RegisterPage from '../pages/register/register-page'
+import ForgotPassword from '../pages/forgot-password/forgot-password'
+import ResetPassword from '../pages/reset-password/reset-password'
 import ProtectedRoute from '../protected-route'
 import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details'
 
@@ -31,7 +31,8 @@ function App() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   )
-  const { user } = useSelector((store) => store)
+  const { visitedPath } = useSelector((store) => store.user)
+  console.log(visitedPath)
 
   const dispatch = useDispatch()
 
@@ -78,21 +79,26 @@ function App() {
         <Route path='/ingredients/:id' exact>
           <IngredientDetails />
         </Route>
-        <Route path='/register' exact>
+        <ProtectedRoute path='/register' onlyUnAuth={true} exact>
           <RegisterPage />
-        </Route>
-        <Route path='/login' exact>
+        </ProtectedRoute>
+        <ProtectedRoute path='/login' onlyUnAuth={true} exact>
           <LoginPage />
-        </Route>
-        <Route path='/forgot-password' exact>
+        </ProtectedRoute>
+        <ProtectedRoute path='/forgot-password' onlyUnAuth={true} exact>
           <ForgotPassword />
-        </Route>
-        <Route path='/reset-password' exact>
-          <ResetPassword path='reset-password' />
-        </Route>
-        <Route path='/order_list'>
-          <OrderList />
-        </Route>
+        </ProtectedRoute>
+        {visitedPath === '/forgot-password' && (
+          <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
+            <ResetPassword />
+          </ProtectedRoute>
+        )}
+        <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
+          <ResetPassword />
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders' onlyUnAuth={true} exact>
+          <OrderHistory />
+        </ProtectedRoute>
         <ProtectedRoute path='/profile' exact>
           <Profile />
         </ProtectedRoute>

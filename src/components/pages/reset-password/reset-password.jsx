@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import {
   Button,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './register-page.module.css'
-import { resetPassword } from '../../services/action/auth'
+import styles from '../register/register-page.module.css'
+import { resetPassword } from '../../../services/action/auth'
 
 const ResetPassword = () => {
   const [token, setToken] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const history = useHistory()
+  const location = useLocation()
   const onChange = (e) => {
     setPassword(e.target.value)
   }
@@ -30,7 +31,7 @@ const ResetPassword = () => {
         <PasswordInput
           onChange={onChange}
           value={password}
-          name={'password'}
+          name='password'
           extraClass='mb-2'
         />
         <Input
@@ -38,7 +39,7 @@ const ResetPassword = () => {
           placeholder='Введите код из письма'
           onChange={(e) => setToken(e.target.value)}
           value={token}
-          name='name'
+          name='token'
           error={false}
           errorText='Ошибка'
           size='default'

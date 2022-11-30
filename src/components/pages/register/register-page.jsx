@@ -7,7 +7,7 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './register-page.module.css'
-import { registerUser } from '../../services/action/auth'
+import { registerUser } from '../../../services/action/auth'
 
 const RegisterPage = () => {
   const history = useHistory()

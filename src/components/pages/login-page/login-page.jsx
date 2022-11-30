@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   Button,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './register-page.module.css'
-import { loginUser } from '../../services/action/auth'
+import styles from '../register/register-page.module.css'
+import { loginUser } from '../../../services/action/auth'
 
 const LoginPage = () => {
   const [state, setState] = useState({
@@ -15,8 +15,6 @@ const LoginPage = () => {
     password: '',
   })
   const dispatch = useDispatch()
-  const history = useHistory()
-  const location = useLocation()
   const onIconClick = () => {
     alert('Icon Click Callback')
   }
@@ -32,9 +30,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(loginUser(state, history))
-    const { from } = location.state || { from: { pathname: '/' } }
-    history.push(from)
+    dispatch(loginUser(state))
   }
 
   return (

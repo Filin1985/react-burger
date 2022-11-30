@@ -61,7 +61,7 @@ export function registerUser({ email, password, name }, history) {
       .then((res) => {
         if (res && res.success) {
           console.log(res)
-          const authToken = res.accessToken.split('Bearer')[1]
+          const authToken = res.accessToken.split('Bearer ')[1]
           const refreshToken = res.refreshToken
           setCookie('token', authToken)
           localStorage.setItem('refreshToken', refreshToken)
@@ -86,7 +86,7 @@ export function registerUser({ email, password, name }, history) {
   }
 }
 
-export function loginUser({ email, password }, history) {
+export function loginUser({ email, password }) {
   return function (dispatch) {
     dispatch({
       type: LOGIN_USER_REQUEST,
@@ -103,7 +103,7 @@ export function loginUser({ email, password }, history) {
     })
       .then((res) => {
         if (res && res.success) {
-          const authToken = res.accessToken.split('Bearer')[1]
+          const authToken = res.accessToken.split('Bearer ')[1]
           const refreshToken = res.refreshToken
           setCookie('token', authToken)
           localStorage.setItem('refreshToken', refreshToken)
@@ -111,7 +111,6 @@ export function loginUser({ email, password }, history) {
             type: LOGIN_USER_SUCCESS,
             user: res.user,
           })
-          history.push('/')
         } else {
           dispatch({
             type: LOGIN_USER_FAILED,
@@ -169,7 +168,7 @@ export function updateToken() {
     refreshToken()
       .then((res) => {
         if (res && res.success) {
-          const authToken = res.accessToken.split('Bearer')[1]
+          const authToken = res.accessToken.split('Bearer ')[1]
           const refreshToken = res.refreshToken
           setCookie('token', authToken)
           localStorage.setItem('refreshToken', refreshToken)
@@ -204,6 +203,7 @@ export function authUser() {
     })
       .then((res) => {
         if (res && res.success) {
+          console.log('Сделано')
           dispatch({
             type: AUTH_USER_SUCCESS,
             user: res.user,
@@ -232,7 +232,7 @@ export function updateUser({ name, email, password }) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charger=utf-8',
-        authorization: 'Bearer ' + getCookie('token'),
+        authorization: `Bearer ${getCookie('token')}`,
       },
       body: JSON.stringify({
         name: name,
@@ -261,7 +261,7 @@ export function updateUser({ name, email, password }) {
   }
 }
 
-export function forgotPassword(email, history) {
+export function forgotPassword(email, prevPath, history) {
   return function (dispatch) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
@@ -271,13 +271,14 @@ export function forgotPassword(email, history) {
       headers: {
         'Content-Type': 'application/json;charger=utf-8',
       },
-      body: {
+      body: JSON.stringify({
         email: email,
-      },
+      }),
     })
       .then((res) => {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
+          visitedPath: prevPath,
         })
         history.push('/reset-password')
       })
@@ -299,10 +300,10 @@ export function resetPassword(password, token, history) {
       headers: {
         'Content-Type': 'application/json;charger=utf-8',
       },
-      body: {
+      body: JSON.stringify({
         password: password,
         token: token,
-      },
+      }),
     })
       .then((res) => {
         dispatch({
@@ -312,18 +313,19 @@ export function resetPassword(password, token, history) {
       })
       .catch((error) => {
         dispatch({
-          RESET_PASSWORD_FAILED,
+          type: RESET_PASSWORD_FAILED,
         })
       })
   }
 }
 
-export const checkUserAuth = () => (dispatch) => {
+export const checkUserAuth = () => async (dispatch) => {
   if (getCookie('token')) {
-    dispatch(authUser()).finally(() => {
-      dispatch({ type: 'AUTH_CHECKED' })
-    })
-  } else {
-    dispatch({ type: 'AUTH_CHECKED' })
+    try {
+      await dispatch(authUser())
+    } catch (error) {
+      console.log(error)
+    }
   }
+  await dispatch({ type: 'AUTH_CHECKED' })
 }

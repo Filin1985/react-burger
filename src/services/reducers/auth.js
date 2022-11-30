@@ -42,7 +42,7 @@ const initialState = {
   forgotPasswordFailed: false,
   resetPasswordRequest: false,
   resetPasswordFailed: false,
-
+  visitedPath: '',
   authChecked: false,
 }
 
@@ -87,19 +87,16 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loginRequest: true,
         loginFailed: false,
-        authChecked: false,
       }
     }
     case AUTH_USER_SUCCESS:
     case LOGIN_USER_SUCCESS: {
-      console.log(state.name)
       return {
         ...state,
         name: action.user.name,
         email: action.user.email,
         loginRequest: false,
         loginFailed: false,
-        authChecked: true,
       }
     }
     case AUTH_USER_FAILED:
@@ -108,7 +105,6 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: true,
-        authChecked: true,
       }
     }
     case LOGOUT_USER_REQUEST: {
@@ -166,6 +162,7 @@ export const authReducer = (state = initialState, action) => {
     case FORGOT_PASSWORD_SUCCESS: {
       return {
         ...state,
+        visitedPath: action.visitedPath,
         forgotPasswordRequest: false,
         forgotPasswordFailed: false,
       }
@@ -181,6 +178,7 @@ export const authReducer = (state = initialState, action) => {
     case RESET_PASSWORD_REQUEST: {
       return {
         ...state,
+        visitedPath: '',
         resetPasswordRequest: true,
         resetPasswordFailed: false,
       }
