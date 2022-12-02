@@ -5,7 +5,7 @@ import {
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './ingredient-item.module.css'
-import { cardPropTypes } from '../../prop-types.js'
+import { cardPropTypes } from '../../../prop-types.js'
 import { useDrag, useDrop } from 'react-dnd'
 
 const IngredientItem = ({

@@ -6,7 +6,7 @@ import Loader from '../loader/loader'
 
 const OrderDetails = () => {
   const { burgerOrder, burgerOrderRequest } = useSelector(
-    (store) => store.ingredients
+    (store) => store.burgerConstructor
   )
 
   return (

@@ -4,7 +4,7 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-item.module.css'
-import { cardPropTypes } from '../../prop-types.js'
+import { cardPropTypes } from '../../../prop-types.js'
 import { useDrag } from 'react-dnd'
 
 const BurgerItem = ({ item, handleClick, count }) => {

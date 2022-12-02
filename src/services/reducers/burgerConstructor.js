@@ -1,8 +1,4 @@
-import { v4 as uuid } from 'uuid'
 import {
-  GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED,
   CHOOSE_INGREDIENTS,
   REMOVE_INGREDIENT,
   GET_ORDER_DETAILS_REQUEST,
@@ -14,12 +10,9 @@ import {
   DECREASE_INGREDIENT_ITEM,
   UPDATE_LIST,
   CLEAN_ORDER,
-} from '../action/ingredient.js'
+} from '../action/burgerConstructor.js'
 
 export const initialState = {
-  ingredients: [],
-  ingredientsRequest: false,
-  ingredientsFailed: false,
   ingredientsBurger: {
     bun: null,
     otherIngredients: [],
@@ -33,30 +26,8 @@ export const initialState = {
   burgerOrderFailed: false,
 }
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_INGREDIENTS_REQUEST: {
-      return {
-        ...state,
-        ingredientsRequest: true,
-        ingredientsFailed: false,
-      }
-    }
-    case GET_INGREDIENTS_SUCCESS: {
-      return {
-        ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: false,
-        ingredients: action.ingredients,
-      }
-    }
-    case GET_INGREDIENTS_FAILED: {
-      return {
-        ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: true,
-      }
-    }
     case CHOOSE_INGREDIENTS: {
       if (action.item.type === 'bun') {
         return {

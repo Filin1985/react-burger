@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink, useRouteMatch } from 'react-router-dom'
 import {
   Logo,
   BurgerIcon,
@@ -8,35 +9,41 @@ import {
 import styles from './app-header.module.css'
 
 const Header = () => {
+  const isConstructor = useRouteMatch({ path: '/constructor', exact: true })
+  const isOrderList = useRouteMatch({ path: '/order_list' })
+  const isProfile = useRouteMatch({ path: '/profile' })
+
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
-        {/* We will change the anchor tag to the Link tag in the next step */}
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a
-          className={`${styles.header__item} ${styles.header__item_type_active}`}
-          href='#'
+        <NavLink
+          className={styles.header__item}
+          to='/constructor'
+          activeClassName={styles.header__item_active}
         >
-          <BurgerIcon type='primary' />
+          <BurgerIcon type={isConstructor ? 'primary' : 'secondary'} />
           <p className={styles.header__name}>Конструктор</p>
-        </a>
-        {/* We will change the anchor tag to the Link tag in the next step */}
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className={styles.header__item} href='#'>
-          {' '}
-          <ListIcon />
+        </NavLink>
+        <NavLink
+          className={styles.header__item}
+          to='/order_list'
+          activeClassName={styles.header__item_active}
+        >
+          <ListIcon type={isOrderList ? 'primary' : 'secondary'} />
           <p className={styles.header__name}>Лента заказов</p>
-        </a>
+        </NavLink>
       </div>
       <div className={styles.header__item}>
         <Logo />
       </div>
-      {/* We will change the anchor tag to the Link tag in the next step */}
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className={styles.header__item} href='#'>
-        <ProfileIcon />
+      <NavLink
+        className={styles.header__item}
+        to='/profile'
+        activeClassName={styles.header__item_active}
+      >
+        <ProfileIcon type={isProfile ? 'primary' : 'secondary'} />
         <p className={styles.header__name}>Личный кабинет</p>
-      </a>
+      </NavLink>
     </header>
   )
 }

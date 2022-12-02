@@ -1,16 +1,16 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css'
-import IngredientDetails from '../ingredient-details/ingredient-details.jsx'
-import IngredientCategory from '../ingredients-category/ingredient-category.jsx'
+import IngredientDetails from './ingredient-details/ingredient-details.jsx'
+import IngredientCategory from './ingredients-category/ingredient-category.jsx'
 import Modal from '../modal/modal.jsx'
 import { useSelector, useDispatch } from 'react-redux'
-import { UNSET_CURRENT_INGREDIENT } from '../../services/action/ingredient'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/action/burgerConstructor'
 import { CLOSE_MODAL } from '../../services/action/modal'
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun')
-  const { currentIngredient } = useSelector((store) => store.ingredients)
+  const { currentIngredient } = useSelector((store) => store.burgerConstructor)
   const { ingredients } = useSelector((store) => store.ingredients)
   const dispatch = useDispatch()
   const parentRef = useRef(null)
@@ -75,14 +75,7 @@ const BurgerIngredients = () => {
     <section className={styles.ingredients}>
       {currentIngredient && (
         <Modal closeModal={handleCloseModal}>
-          <IngredientDetails
-            image={currentIngredient.image}
-            name={currentIngredient.name}
-            calories={currentIngredient.calories}
-            carbohydrates={currentIngredient.carbohydrates}
-            fat={currentIngredient.fat}
-            proteins={currentIngredient.proteins}
-          />
+          <IngredientDetails />
         </Modal>
       )}
       <h1 className={styles.ingredients__header}>Соберите бургер</h1>

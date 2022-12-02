@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './placeholder.module.css'
-import bun1 from '../../images/bun-01.png'
-import bun2 from '../../images/bun-02.png'
+import bun1 from '../../../images/bun-01.png'
+import bun2 from '../../../images/bun-02.png'
 
 const Placeholder = () => {
   return (
