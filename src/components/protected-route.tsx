@@ -1,16 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Redirect, Route } from 'react-router-dom'
 import { checkUserAuth } from '../services/action/auth'
 import Loader from './loader/loader'
 
-const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
-  const authChecked = useSelector((store) => store.user.authChecked)
-  const user = useSelector((store) => store.user.email)
+interface IAuth {
+  onlyUnAuth?: boolean
+  children: JSX.Element
+  path: string
+  exact: boolean
+}
+
+const ProtectedRoute: FC<IAuth> = ({ onlyUnAuth = false, ...rest }) => {
+  const authChecked = useSelector((store: any) => store.user.authChecked)
+  const user = useSelector((store: any) => store.user.email)
   const location = useLocation()
   const dispatch = useDispatch()
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(checkUserAuth())
   }, [])
 
@@ -18,7 +26,7 @@ const ProtectedRoute = ({ onlyUnAuth = false, ...rest }) => {
     return <Loader />
   }
 
-  const { from } = location.state || { from: { pathname: '/' } }
+  const { from }: any = location.state || { from: { pathname: '/' } }
 
   if (onlyUnAuth && user) {
     return (

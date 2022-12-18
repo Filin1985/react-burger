@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, FC } from 'react'
 import PropTypes from 'prop-types'
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+//@ts-ignore
 import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details.jsx'
-import IngredientItem from './ingredient-item/ingredient-item.jsx'
-import Modal from '../modal/modal.jsx'
+import IngredientItem from './ingredient-item/ingredient-item'
+import Modal from '../modal/modal'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   DECREASE_INGREDIENT_ITEM,
@@ -19,19 +20,29 @@ import {
 import { useDrop } from 'react-dnd'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
 import Placeholder from './placeholder/placeholder'
+import { IIngredient } from '../../types'
 
-const BurgerConstructor = ({ onDropHandler }) => {
+type TDrop = {
+  onDropHandler: (item: IIngredient) => void
+}
+
+type TCallback = (
+  dragIngredientIndex: number,
+  hoverIngredientIndex: number
+) => any
+
+const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
-    (store) => store.burgerConstructor.ingredientsBurger
+    (store: any) => store.burgerConstructor.ingredientsBurger
   )
 
-  const { isOpen } = useSelector((store) => store.modal)
+  const { isOpen } = useSelector((store: any) => store.modal)
 
   const dispatch = useDispatch()
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(itemId) {
+    drop(itemId: IIngredient) {
       onDropHandler(itemId)
     },
     collect: (monitor) => ({
@@ -48,14 +59,15 @@ const BurgerConstructor = ({ onDropHandler }) => {
   const handleClick = () => {
     const bunId = [bun._id]
     const ingredientsIds = bunId.concat(
-      otherIngredients.map((ingredient) => ingredient._id),
+      otherIngredients.map((ingredient: IIngredient) => ingredient._id),
       bunId
     )
+    //@ts-ignore
     dispatch(getOrderDetails(ingredientsIds))
     dispatch({ type: OPEN_MODAL })
   }
 
-  const moveIngredient = useCallback(
+  const moveIngredient = useCallback<TCallback>(
     (dragIngredientIndex, hoverIngredientIndex) => {
       dispatch({
         type: UPDATE_LIST,
@@ -92,26 +104,32 @@ const BurgerConstructor = ({ onDropHandler }) => {
               />
             </li>
           ) : (
-            <ConstructorElement text='Выберите булку' />
+            <ConstructorElement
+              text='Выберите булку'
+              price={bun.price}
+              thumbnail={bun.image}
+            />
           )}
           <div className={styles.constructor__scroll}>
             {otherIngredients.length > 0 &&
-              otherIngredients.map((ingredient, index) => {
+              otherIngredients.map((ingredient: IIngredient, index: number) => {
                 const removeIngredient = () => {
                   dispatch({
                     type: REMOVE_INGREDIENT,
                     item: ingredient,
+                    //@ts-ignore
                     key: ingredient.key,
                   })
                   dispatch({
                     type: DECREASE_INGREDIENT_ITEM,
                     ingredient,
-                    _id: ingredient._id,
+                    //@ts-ignore
+                    _id: ingredient.key,
                   })
                 }
                 return (
                   <IngredientItem
-                    key={ingredient.key}
+                    key={ingredient._id}
                     ingredient={ingredient}
                     handleDelete={removeIngredient}
                     index={index}
@@ -140,7 +158,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
       )}
       <div className={styles.constructor__final}>
         <p className={styles.constructor__number}>{orderSum}</p>
-        <CurrencyIcon type='primary' size='large' />
+        <CurrencyIcon type='primary' />
         <Button
           htmlType='button'
           type='primary'

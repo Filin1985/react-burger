@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useLocation } from 'react-router-dom'
 import styles from './ingredients-category.module.css'
-import { cardPropTypes } from '../../../prop-types.js'
+import { IIngredient } from '../../../types'
 import BurgerItem from '../burger-item/burger-item'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_CURRENT_INGREDIENT } from '../../../services/action/burgerConstructor'
@@ -61,10 +61,10 @@ const IngredientCategory = React.forwardRef(({ name, data, id }, ref) => {
   )
 })
 
-IngredientCategory.propTypes = {
-  data: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-}
+// IngredientCategory.propTypes = {
+//   data: PropTypes.arrayOf(cardPropTypes.isRequired).isRequired,
+//   name: PropTypes.string.isRequired,
+//   id: PropTypes.string.isRequired,
+// }
 
 export default IngredientCategory

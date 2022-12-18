@@ -11,6 +11,7 @@ import { logoutUser, updateUser } from '../../../services/action/auth'
 const Profile = () => {
   const activeUserName = useSelector((store) => store.user.name)
   const activeUserEmail = useSelector((store) => store.user.email)
+  const activeUserPassword = useSelector((store) => store.user.password)
   const dispatch = useDispatch()
   const [state, setState] = useState({
     name: '',
@@ -20,6 +21,7 @@ const Profile = () => {
     emailEdit: false,
     passwordEdit: false,
   })
+  const [buttonDisabled, setButtonDisabled] = useState(true)
   const nameRef = useRef(null)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -29,8 +31,9 @@ const Profile = () => {
       ...state,
       name: activeUserName,
       email: activeUserEmail,
+      password: activeUserPassword,
     })
-  }, [activeUserName, activeUserEmail])
+  }, [activeUserName, activeUserEmail, activeUserPassword])
 
   let nameIcon = state.nameEdit ? 'CloseIcon' : 'EditIcon'
   let emailIcon = state.emailEdit ? 'CloseIcon' : 'EditIcon'
@@ -61,6 +64,9 @@ const Profile = () => {
   }
 
   const handleChange = (e) => {
+    if (state[e.target.name] !== e.target.value) {
+      setButtonDisabled(false)
+    }
     const target = e.target
     const value = target.value
     const name = target.name
@@ -72,11 +78,25 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setButtonDisabled(true)
     dispatch(updateUser(state))
   }
 
   const handleLogout = () => {
     dispatch(logoutUser())
+  }
+
+  const handleClearChanges = () => {
+    setState({
+      ...state,
+      name: activeUserName,
+      email: activeUserEmail,
+      password: activeUserPassword,
+      nameEdit: false,
+      emailEdit: false,
+      passwordEdit: false,
+    })
+    setButtonDisabled(true)
   }
 
   return (
@@ -145,10 +165,23 @@ const Profile = () => {
           disabled={!state.passwordEdit}
         />
         <div className={styles.profile__change}>
-          <p className={styles.profile__cancel}>
-            <Link to='/'>Отмена</Link>
-          </p>
-          <Button htmlType='submit' type='primary' size='medium'>
+          <Button
+            className={styles.profile__cancel}
+            htmlType='button'
+            type='secondary'
+            size='medium'
+            onClick={handleClearChanges}
+            disabled={buttonDisabled}
+          >
+            {/* <Link to='/profile'>Отмена</Link> */}
+            Отмена
+          </Button>
+          <Button
+            htmlType='submit'
+            type='primary'
+            size='medium'
+            disabled={buttonDisabled}
+          >
             Сохранить
           </Button>
         </div>

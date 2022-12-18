@@ -4,7 +4,7 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-item.module.css'
-import { cardPropTypes } from '../../../prop-types.js'
+import { IIngredient } from '../../../types'
 import { useDrag } from 'react-dnd'
 
 const BurgerItem = ({ item, handleClick, count }) => {
@@ -30,10 +30,10 @@ const BurgerItem = ({ item, handleClick, count }) => {
   )
 }
 
-BurgerItem.propTypes = {
-  item: cardPropTypes.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  count: PropTypes.number,
-}
+// BurgerItem.propTypes = {
+//   item: cardPropTypes.isRequired,
+//   handleClick: PropTypes.func.isRequired,
+//   count: PropTypes.number,
+// }
 
 export default BurgerItem

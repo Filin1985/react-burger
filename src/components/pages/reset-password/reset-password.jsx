@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {
   Button,
   Input,
@@ -14,7 +14,6 @@ const ResetPassword = () => {
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const history = useHistory()
-  const location = useLocation()
   const onChange = (e) => {
     setPassword(e.target.value)
   }

@@ -60,7 +60,6 @@ export function registerUser({ email, password, name }, history) {
     })
       .then((res) => {
         if (res && res.success) {
-          console.log(res)
           const authToken = res.accessToken.split('Bearer ')[1]
           const refreshToken = res.refreshToken
           setCookie('token', authToken)
@@ -203,7 +202,6 @@ export function authUser() {
     })
       .then((res) => {
         if (res && res.success) {
-          console.log('Сделано')
           dispatch({
             type: AUTH_USER_SUCCESS,
             user: res.user,
@@ -223,7 +221,6 @@ export function authUser() {
 }
 
 export function updateUser({ name, email, password }) {
-  console.log(name)
   return function (dispatch) {
     dispatch({
       type: UPDATE_USER_REQUEST,

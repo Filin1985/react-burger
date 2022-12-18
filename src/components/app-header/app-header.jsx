@@ -26,7 +26,7 @@ const Header = () => {
         </NavLink>
         <NavLink
           className={styles.header__item}
-          to='/order_list'
+          to='/feed'
           activeClassName={styles.header__item_active}
         >
           <ListIcon type={isOrderList ? 'primary' : 'secondary'} />
