@@ -1,30 +1,47 @@
-import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef, FC } from 'react'
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+//@ts-ignore
 import styles from './ingredient-item.module.css'
-import { cardPropTypes } from '../../../prop-types.js'
+import { IIngredient } from '../../../types'
 import { useDrag, useDrop } from 'react-dnd'
+import { XYCoord, Identifier } from 'dnd-core'
 
-const IngredientItem = ({
+interface IIngredientItem {
+  ingredient: IIngredient
+  handleDelete: () => void
+  index: number
+  moveIngredient: (firstIndex: number, lastIndex: number) => void
+}
+
+interface IDragItem {
+  id: string
+  index: number
+}
+
+interface CollectedProps {
+  handlerId: Identifier | null
+}
+
+const IngredientItem: FC<IIngredientItem> = ({
   ingredient,
   handleDelete,
   index,
   moveIngredient,
 }) => {
   const id = ingredient._id
-  const itemRef = useRef(null)
+  const itemRef = useRef<HTMLLIElement>(null)
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<IDragItem, undefined, CollectedProps>({
     accept: 'item',
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       }
     },
-    hover(item, monitor) {
+    hover(item: IDragItem, monitor) {
       if (!itemRef.current) {
         return
       }
@@ -40,7 +57,7 @@ const IngredientItem = ({
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
 
       if (firstIndex < lastIndex && hoverClientY < hoverMiddleY) {
         return
@@ -84,13 +101,6 @@ const IngredientItem = ({
       />
     </li>
   )
-}
-
-IngredientItem.propTypes = {
-  ingredient: cardPropTypes.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  moveIngredient: PropTypes.func.isRequired,
-  index: PropTypes.number,
 }
 
 export default IngredientItem

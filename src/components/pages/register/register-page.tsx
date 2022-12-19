@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { SyntheticEvent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import {
@@ -6,6 +6,7 @@ import {
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+//@ts-ignore
 import styles from './register-page.module.css'
 import { registerUser } from '../../../services/action/auth'
 
@@ -21,8 +22,8 @@ const RegisterPage = () => {
   const onIconClick = () => {
     alert('Icon Click Callback')
   }
-  const handleChange = (e) => {
-    const target = e.target
+  const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
     const value = target.value
     const name = target.name
     setState({
@@ -31,8 +32,9 @@ const RegisterPage = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
+    //@ts-ignore
     dispatch(registerUser(state, history))
   }
 

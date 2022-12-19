@@ -1,12 +1,14 @@
 import React from 'react'
+//@ts-ignore
 import styles from './order-details.module.css'
+//@ts-ignore
 import checkImage from '../../images/done.svg'
 import { useSelector } from 'react-redux'
 import Loader from '../loader/loader'
 
 const OrderDetails = () => {
   const { burgerOrder, burgerOrderRequest } = useSelector(
-    (store) => store.burgerConstructor
+    (store: any) => store.burgerConstructor
   )
 
   return (

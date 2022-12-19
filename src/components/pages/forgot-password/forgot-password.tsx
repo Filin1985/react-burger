@@ -1,27 +1,24 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, SyntheticEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+//@ts-ignore
 import styles from '../register/register-page.module.css'
 import { forgotPassword } from '../../../services/action/auth'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')
 
-  const inputRef = useRef(null)
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
-  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
+    //@ts-ignore
     dispatch(forgotPassword(email, location.pathname, history))
   }
 
@@ -36,8 +33,6 @@ const ForgotPassword = () => {
           value={email}
           name='email'
           error={false}
-          ref={inputRef}
-          onIconClick={onIconClick}
           errorText='Ошибка'
           size='default'
           extraClass='ml-1'

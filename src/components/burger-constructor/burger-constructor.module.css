@@ -59,6 +59,7 @@
   composes: constructor__items;
   max-height: 470px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #8585ad #2f2f37;
 }

@@ -46,12 +46,15 @@
   gap: 20px;
 }
 
-.profile__cancel > * {
+.profile__cancel {
   font-family: 'JetBrains';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #4c4cff;
+  border: none;
+  background-color: #131316;
   text-decoration: none;
+  color: #4c4cff;
+  cursor: pointer;
 }

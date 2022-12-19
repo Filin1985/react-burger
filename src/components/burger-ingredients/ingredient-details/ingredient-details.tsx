@@ -1,12 +1,12 @@
-import React, { useEffect, useState, memo } from 'react'
+import React, { memo } from 'react'
+//@ts-ignore
 import styles from './ingredient-details.module.css'
-import { useParams } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { getIngredients } from '../../../services/action/ingredients'
-import Loader from '../../loader/loader'
+import { useSelector } from 'react-redux'
 
 const IngredientDetails = () => {
-  const { currentIngredient } = useSelector((store) => store.burgerConstructor)
+  const { currentIngredient } = useSelector(
+    (store: any) => store.burgerConstructor
+  )
 
   if (!currentIngredient) {
     return null

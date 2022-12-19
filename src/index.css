@@ -1,5 +1,9 @@
 @import url('./fonts/fonts.css');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'JetBrains', 'Helvetica Neue', sans-serif;
