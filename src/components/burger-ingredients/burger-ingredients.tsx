@@ -1,36 +1,47 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState, FC } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+//@ts-ignore
 import styles from './burger-ingredients.module.css'
-import IngredientDetails from './ingredient-details/ingredient-details.jsx'
-import IngredientCategory from './ingredients-category/ingredient-category.jsx'
-import Modal from '../modal/modal.jsx'
+import IngredientDetails from './ingredient-details/ingredient-details'
+import IngredientCategory from './ingredients-category/ingredient-category'
+import Modal from '../modal/modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { UNSET_CURRENT_INGREDIENT } from '../../services/action/burgerConstructor'
 import { CLOSE_MODAL } from '../../services/action/modal'
+import { IIngredient } from '../../types'
 
-const BurgerIngredients = () => {
-  const [current, setCurrent] = useState('bun')
-  const { currentIngredient } = useSelector((store) => store.burgerConstructor)
-  const { ingredients } = useSelector((store) => store.ingredients)
+const BurgerIngredients: FC = () => {
+  const [current, setCurrent] = useState<string>('bun')
+  const { currentIngredient } = useSelector(
+    (store: any) => store.burgerConstructor
+  )
+  const { ingredients } = useSelector((store: any) => store.ingredients)
   const dispatch = useDispatch()
-  const parentRef = useRef(null)
-  const bunRef = useRef(null)
-  const sauceRef = useRef(null)
-  const mainRef = useRef(null)
+  const parentRef = useRef<HTMLUListElement | null>(null)
+  const bunRef = useRef<HTMLDivElement | null>(null)
+  const sauceRef = useRef<HTMLDivElement | null>(null)
+  const mainRef = useRef<HTMLDivElement | null>(null)
 
   const bun = useMemo(() => {
-    return ingredients.filter((ingredient) => ingredient.type === 'bun')
+    return ingredients.filter(
+      (ingredient: IIngredient) => ingredient.type === 'bun'
+    )
   }, [ingredients])
 
   const sauce = useMemo(() => {
-    return ingredients.filter((ingredient) => ingredient.type === 'sauce')
+    return ingredients.filter(
+      (ingredient: IIngredient) => ingredient.type === 'sauce'
+    )
   }, [ingredients])
 
   const main = useMemo(() => {
-    return ingredients.filter((ingredient) => ingredient.type === 'main')
+    return ingredients.filter(
+      (ingredient: IIngredient) => ingredient.type === 'main'
+    )
   }, [ingredients])
 
-  const setTab = (tab) => {
+  const setTab = (tab: string) => {
+    console.log(tab)
     setCurrent(tab)
     const element = document.getElementById(tab)
     if (element) element.scrollIntoView({ behavior: 'smooth' })
@@ -44,31 +55,42 @@ const BurgerIngredients = () => {
   }
 
   const scrollToIngredient = () => {
-    const bunInterval = Math.abs(
-      parentRef.current.getBoundingClientRect().top -
-        bunRef.current.getBoundingClientRect().top
-    )
-    const sauceInterval = Math.abs(
-      parentRef.current.getBoundingClientRect().top -
-        sauceRef.current.getBoundingClientRect().top
-    )
-    const mainInterval = Math.abs(
-      parentRef.current.getBoundingClientRect().top -
-        mainRef.current.getBoundingClientRect().top
-    )
-    const minInterval = Math.min(bunInterval, sauceInterval, mainInterval)
-    const nearestTab =
-      minInterval === bunInterval
-        ? 'bun'
-        : minInterval === sauceInterval
-        ? 'sauce'
-        : 'main'
-    setCurrent((prevState) => {
-      if (nearestTab === prevState.current) {
-        return prevState.current
-      }
-      return nearestTab
-    })
+    if (
+      parentRef &&
+      parentRef.current &&
+      bunRef &&
+      bunRef.current &&
+      sauceRef &&
+      sauceRef.current &&
+      mainRef &&
+      mainRef.current
+    ) {
+      const bunInterval = Math.abs(
+        parentRef.current.getBoundingClientRect().top -
+          bunRef.current.getBoundingClientRect().top
+      )
+      const sauceInterval = Math.abs(
+        parentRef.current.getBoundingClientRect().top -
+          sauceRef.current.getBoundingClientRect().top
+      )
+      const mainInterval = Math.abs(
+        parentRef.current.getBoundingClientRect().top -
+          mainRef.current.getBoundingClientRect().top
+      )
+      const minInterval = Math.min(bunInterval, sauceInterval, mainInterval)
+      const nearestTab =
+        minInterval === bunInterval
+          ? 'bun'
+          : minInterval === sauceInterval
+          ? 'sauce'
+          : 'main'
+      setCurrent((prevState) => {
+        if (nearestTab === prevState) {
+          return prevState
+        }
+        return nearestTab
+      })
+    }
   }
 
   return (

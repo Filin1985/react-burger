@@ -1,5 +1,5 @@
-import { request } from '../../utils/utils.js'
-import { API_URL } from '../../utils/config.js'
+import { request } from '../../utils/utils'
+import { API_URL } from '../../utils/config'
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'

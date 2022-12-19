@@ -1,14 +1,24 @@
 import { API_URL } from './config'
 
-export const checkResponse = (res) => {
+export interface RefreshTokensResponse {
+  accessSchema: string
+  accessToken: string
+  refreshToken: string
+}
+
+export const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then(() => Promise.reject(res.status))
 }
 
-export function request(url, options) {
+export function request(url: string, options: RequestInit) {
   return fetch(url, options).then(checkResponse)
 }
 
-export function setCookie(name, value, options = {}) {
+export function setCookie(
+  name: string,
+  value: string | number,
+  options: any = {}
+) {
   options = {
     path: '/',
     ...options,
@@ -31,7 +41,7 @@ export function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp(
       '(?:^|; )' +
@@ -42,11 +52,11 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined
 }
 
-export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 })
+export function deleteCookie(name: string) {
+  setCookie(name, '', { expires: -1 })
 }
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<any> => {
   return fetch(`${API_URL}/auth/token`, {
     method: 'POST',
     headers: {
@@ -58,12 +68,19 @@ export const refreshToken = () => {
   }).then(checkResponse)
 }
 
-export const fetchWithRefresh = async (url, options) => {
+interface IOptions {
+  method: string
+  headers: {
+    authorization: string
+  }
+}
+
+export const fetchWithRefresh = async (url: string, options: IOptions) => {
   try {
     const res = await fetch(url, options)
     return await checkResponse(res)
-  } catch (err) {
-    if (err.message === 'jwt expired') {
+  } catch (err: any) {
+    if (err?.message === 'jwt expired') {
       const refreshData = await refreshToken()
       if (!refreshData.success) {
         Promise.reject(refreshData)

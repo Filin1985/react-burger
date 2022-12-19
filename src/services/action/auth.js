@@ -5,8 +5,8 @@ import {
   deleteCookie,
   refreshToken,
   fetchWithRefresh,
-} from '../../utils/utils.js'
-import { API_URL } from '../../utils/config.js'
+} from '../../utils/utils'
+import { API_URL } from '../../utils/config'
 
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST'
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS'

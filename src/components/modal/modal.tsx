@@ -2,13 +2,13 @@ import React, { useEffect, FC, ReactNode } from 'react'
 //@ts-ignore
 import styles from './modal.module.css'
 import ReactDOM from 'react-dom'
-import ModalOverlay from '../modal-overlay/modal-overlay.jsx'
+import ModalOverlay from '../modal-overlay/modal-overlay'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 interface IModalProps {
-  closeModal: (e: KeyboardEvent) => void
+  closeModal: () => void
   children: ReactNode
-  withTitle: boolean
+  withTitle?: boolean
 }
 
 const ESC_KEYCODE = 27
@@ -17,7 +17,7 @@ const modalSelector = document.querySelector('#react-modals') as HTMLElement
 const Modal: FC<IModalProps> = ({ children, closeModal, withTitle }) => {
   const closeByEsc = (e: KeyboardEvent) => {
     if (e.keyCode === ESC_KEYCODE) {
-      closeModal(e)
+      closeModal()
     }
   }
 

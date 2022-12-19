@@ -1,5 +1,4 @@
 import React, { useRef, FC } from 'react'
-import PropTypes from 'prop-types'
 import {
   ConstructorElement,
   DragIcon,
@@ -103,12 +102,5 @@ const IngredientItem: FC<IIngredientItem> = ({
     </li>
   )
 }
-
-// IngredientItem.propTypes = {
-//   ingredient: cardPropTypes.isRequired,
-//   handleDelete: PropTypes.func.isRequired,
-//   moveIngredient: PropTypes.func.isRequired,
-//   index: PropTypes.number,
-// }
 
 export default IngredientItem

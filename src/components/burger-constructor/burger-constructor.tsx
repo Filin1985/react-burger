@@ -7,7 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 //@ts-ignore
 import styles from './burger-constructor.module.css'
-import OrderDetails from '../order-details/order-details.jsx'
+import OrderDetails from '../order-details/order-details'
 import IngredientItem from './ingredient-item/ingredient-item'
 import Modal from '../modal/modal'
 import { useSelector, useDispatch } from 'react-redux'

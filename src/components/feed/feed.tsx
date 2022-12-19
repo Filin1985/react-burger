@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+//@ts-ignore
 import styles from './feed.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -9,8 +10,8 @@ const Feed = () => {
       <h1 className={styles.orders__header}>Лента заказов</h1>
       <div className={styles.orders__list}>
         <ul className={styles.orders__scroll}>
-          {[...Array(10)].map((item) => (
-            <li className={styles.orders__item}>
+          {[...Array(10)].map((item, index) => (
+            <li key={index} className={styles.orders__item}>
               <NavLink to='#' className={styles.orders__link}>
                 <div className={styles.orders__info}>
                   <h3 className={styles.orders__number}>#034535</h3>
@@ -21,23 +22,26 @@ const Feed = () => {
                 </h2>
                 <div className={styles.orders__container}>
                   <ul className={styles.orders__ingredients}>
-                    {[...Array(6).keys()].map((item, index) => (
-                      <li key={item} className={styles.orders__ingredient}>
-                        <img
-                          className={styles.orders__image}
-                          style={{
-                            left: `${0 + 50 * index}px`,
-                            zIndex: -index,
-                          }}
-                          src='https://code.s3.yandex.net/react/code/meat-04.png'
-                          alt=''
-                        />
-                      </li>
-                    ))}
+                    {
+                      //@ts-ignore
+                      [...Array(6).keys()].map((item, index) => (
+                        <li key={index} className={styles.orders__ingredient}>
+                          <img
+                            className={styles.orders__image}
+                            style={{
+                              left: `${0 + 50 * index}px`,
+                              zIndex: -index,
+                            }}
+                            src='https://code.s3.yandex.net/react/code/meat-02.png'
+                            alt=''
+                          />
+                        </li>
+                      ))
+                    }
                   </ul>
                   <div className={styles.orders__result}>
                     <p className={styles.orders__price}>630</p>
-                    <CurrencyIcon />
+                    <CurrencyIcon type='primary' />
                   </div>
                 </div>
               </NavLink>

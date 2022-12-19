@@ -1,19 +1,36 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  SyntheticEvent,
+  ChangeEvent,
+} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+//@ts-ignore
 import styles from './profile.module.css'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { logoutUser, updateUser } from '../../../services/action/auth'
+import { TICons } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons'
+
+interface IForm {
+  name: string
+  email: string
+  password: string
+  nameEdit: boolean
+  emailEdit: boolean
+  passwordEdit: boolean
+}
 
 const Profile = () => {
-  const activeUserName = useSelector((store) => store.user.name)
-  const activeUserEmail = useSelector((store) => store.user.email)
-  const activeUserPassword = useSelector((store) => store.user.password)
+  const activeUserName = useSelector((store: any) => store.user.name)
+  const activeUserEmail = useSelector((store: any) => store.user.email)
+  const activeUserPassword = useSelector((store: any) => store.user.password)
   const dispatch = useDispatch()
-  const [state, setState] = useState({
+  const [form, setForm] = useState<IForm>({
     name: '',
     email: '',
     password: '',
@@ -21,74 +38,83 @@ const Profile = () => {
     emailEdit: false,
     passwordEdit: false,
   })
-  const [buttonDisabled, setButtonDisabled] = useState(true)
-  const nameRef = useRef(null)
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
+  const nameRef = useRef<HTMLInputElement | null>(null)
+  const emailRef = useRef<HTMLInputElement | null>(null)
+  const passwordRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    setState({
-      ...state,
+    setForm({
+      ...form,
       name: activeUserName,
       email: activeUserEmail,
       password: activeUserPassword,
     })
   }, [activeUserName, activeUserEmail, activeUserPassword])
 
-  let nameIcon = state.nameEdit ? 'CloseIcon' : 'EditIcon'
-  let emailIcon = state.emailEdit ? 'CloseIcon' : 'EditIcon'
-  let passwordIcon = state.passwordEdit ? 'CloseIcon' : 'EditIcon'
+  const nameIcon: keyof TICons = form.nameEdit ? 'CloseIcon' : 'EditIcon'
+  const emailIcon: keyof TICons = form.emailEdit ? 'CloseIcon' : 'EditIcon'
+  const passwordIcon: keyof TICons = form.passwordEdit
+    ? 'CloseIcon'
+    : 'EditIcon'
 
   const onNameIconClick = () => {
-    setState({
-      ...state,
-      nameEdit: state.nameEdit ? false : true,
+    setForm({
+      ...form,
+      nameEdit: form.nameEdit ? false : true,
     })
-    nameRef.current.disabled = !nameRef.current.disabled
+    if (nameRef && nameRef.current) {
+      nameRef.current.disabled = !nameRef.current.disabled
+    }
   }
 
   const onEmailIconClick = () => {
-    setState({
-      ...state,
-      emailEdit: state.emailEdit ? false : true,
+    setForm({
+      ...form,
+      emailEdit: form.emailEdit ? false : true,
     })
-    emailRef.current.disabled = !emailRef.current.disabled
+    if (emailRef && emailRef.current) {
+      emailRef.current.disabled = !emailRef.current.disabled
+    }
   }
 
   const onPasswordIconClick = () => {
-    setState({
-      ...state,
-      passwordEdit: state.passwordEdit ? false : true,
+    setForm({
+      ...form,
+      passwordEdit: form.passwordEdit ? false : true,
     })
-    passwordRef.current.disabled = !passwordRef.current.disabled
+    if (passwordRef && passwordRef.current) {
+      passwordRef.current.disabled = !passwordRef.current.disabled
+    }
   }
 
-  const handleChange = (e) => {
-    if (state[e.target.name] !== e.target.value) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    if (form[e.target.name as keyof IForm] !== e.target.value) {
       setButtonDisabled(false)
     }
-    const target = e.target
-    const value = target.value
-    const name = target.name
-    setState({
-      ...state,
+    const value = e.target.value
+    const name = e.target.name
+    setForm({
+      ...form,
       [name]: value,
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
     setButtonDisabled(true)
+    //@ts-ignore
     dispatch(updateUser(state))
   }
 
   const handleLogout = () => {
+    //@ts-ignore
     dispatch(logoutUser())
   }
 
   const handleClearChanges = () => {
-    setState({
-      ...state,
+    setForm({
+      ...form,
       name: activeUserName,
       email: activeUserEmail,
       password: activeUserPassword,
@@ -129,7 +155,7 @@ const Profile = () => {
           type='text'
           placeholder='Имя'
           onChange={handleChange}
-          value={state.name}
+          value={form.name}
           name='name'
           error={false}
           ref={nameRef}
@@ -137,13 +163,13 @@ const Profile = () => {
           errorText='Ошибка'
           size='default'
           icon={nameIcon}
-          disabled={!state.nameEdit}
+          disabled={!form.nameEdit}
         />
         <Input
           type='text'
           placeholder='E-mail'
           onChange={handleChange}
-          value={state.email}
+          value={form.email}
           name='email'
           ref={emailRef}
           error={false}
@@ -151,18 +177,18 @@ const Profile = () => {
           errorText='Ошибка'
           size='default'
           icon={emailIcon}
-          disabled={!state.emailEdit}
+          disabled={!form.emailEdit}
         />
         <Input
           type='password'
           placeholder='пароль'
           onChange={handleChange}
-          value={state.password}
+          value={form.password}
           icon={passwordIcon}
           onIconClick={onPasswordIconClick}
           name='password'
           ref={passwordRef}
-          disabled={!state.passwordEdit}
+          disabled={!form.passwordEdit}
         />
         <div className={styles.profile__change}>
           <Button

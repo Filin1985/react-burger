@@ -1,14 +1,14 @@
-import React, { useEffect, KeyboardEvent, SyntheticEvent } from 'react'
+import React, { useEffect } from 'react'
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
 //@ts-ignore
 import styles from './app.module.css'
-import Header from '../app-header/app-header.jsx'
+import Header from '../app-header/app-header'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
-import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx'
-import LoginPage from '../pages/login-page/login-page.jsx'
-import OrderHistory from '../order-history/order-history.jsx'
-import Loader from '../loader/loader.jsx'
-import Profile from '../pages/profile/profile.jsx'
+import BurgerIngredients from '../burger-ingredients/burger-ingredients'
+import LoginPage from '../pages/login-page/login-page'
+import OrderHistory from '../order-history/order-history'
+import Loader from '../loader/loader'
+import Profile from '../pages/profile/profile'
 import RegisterPage from '../pages/register/register-page'
 import ForgotPassword from '../pages/forgot-password/forgot-password'
 import ResetPassword from '../pages/reset-password/reset-password'
@@ -33,11 +33,9 @@ import * as H from 'history'
 function App() {
   const location = useLocation<{ background: H.Location }>()
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
-    //@ts-ignore
-    (store) => store.ingredients
+    (store: any) => store.ingredients
   )
-  //@ts-ignore
-  const { visitedPath } = useSelector((store) => store.user)
+  const { visitedPath } = useSelector((store: any) => store.user)
 
   const dispatch = useDispatch()
 
@@ -52,8 +50,7 @@ function App() {
   }
   const history = useHistory()
 
-  const handleCloseModal = (e: SyntheticEvent) => {
-    e.preventDefault()
+  const handleCloseModal = () => {
     history.goBack()
     dispatch({ type: CLOSE_MODAL })
     dispatch({ type: UNSET_CURRENT_INGREDIENT })
