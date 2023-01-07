@@ -6,9 +6,8 @@ import Header from '../app-header/app-header'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
 import LoginPage from '../pages/login-page/login-page'
-import OrderHistory from '../order-history/order-history'
 import Loader from '../loader/loader'
-import Profile from '../pages/profile/profile'
+import Profile from '../profile/profile'
 import RegisterPage from '../pages/register/register-page'
 import ForgotPassword from '../pages/forgot-password/forgot-password'
 import ResetPassword from '../pages/reset-password/reset-password'
@@ -19,16 +18,19 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   INCREASE_INGREDIENT_ITEM,
   UNSET_CURRENT_INGREDIENT,
-} from '../../services/action/burgerConstructor.js'
-import { getIngredients } from '../../services/action/ingredients.js'
-import { actionCreators } from '../../services/actionCreators/burgerConstructor.js'
+} from '../../services/constants/burgerConstructor'
+import { getIngredients } from '../../services/action/ingredients'
+import { actionCreators } from '../../services/actionCreators/burgerConstructor'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import Modal from '../modal/modal'
-import { CLOSE_MODAL } from '../../services/action/modal'
+import { CLOSE_MODAL } from '../../services/constants/modal'
 import Feed from '../feed/feed'
 import { IIngredient } from '../../types'
 import * as H from 'history'
+import FeedDetails from '../feed/feed-details/feed-details'
+import OrderHistory from '../profile/order-history/order-history'
+import ProfileOrderDetails from '../profile/profile-order-details/profile-order-details'
 
 function App() {
   const location = useLocation<{ background: H.Location }>()
@@ -85,6 +87,9 @@ function App() {
         <Route path='/feed' exact>
           <Feed />
         </Route>
+        <Route path='/feed/:id' exact>
+          <FeedDetails />
+        </Route>
         <ProtectedRoute path='/register' onlyUnAuth={true} exact>
           <RegisterPage />
         </ProtectedRoute>
@@ -102,11 +107,14 @@ function App() {
         <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
           <ResetPassword />
         </ProtectedRoute>
-        <ProtectedRoute path='/profile/orders' onlyUnAuth={true} exact>
-          <OrderHistory />
-        </ProtectedRoute>
         <ProtectedRoute path='/profile' exact>
           <Profile />
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders' exact>
+          <OrderHistory />
+        </ProtectedRoute>
+        <ProtectedRoute path='/profile/orders/:id' exact>
+          <ProfileOrderDetails />
         </ProtectedRoute>
       </Switch>
       {background && (
@@ -116,6 +124,23 @@ function App() {
             children={
               <Modal closeModal={handleCloseModal}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:id'
+            children={
+              <Modal closeModal={handleCloseModal}>
+                <FeedDetails />
+              </Modal>
+            }
+          />
+          <ProtectedRoute
+            exact
+            path='/profile/orders/:id'
+            children={
+              <Modal closeModal={handleCloseModal}>
+                <ProfileOrderDetails />
               </Modal>
             }
           />

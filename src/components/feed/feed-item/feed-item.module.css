@@ -1,0 +1,77 @@
+.orders__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orders__number {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.orders__date {
+  font-family: 'JetBrains';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #8585ad;
+  margin: 0;
+  padding: 0;
+}
+
+.orders__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-height: 64px;
+}
+
+.orders__ingredients {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  float: right;
+  display: flex;
+}
+
+.orders__image {
+  position: absolute;
+  top: 0;
+  width: 64px;
+  height: 64px;
+  border: solid 2px #801ab2;
+  border-radius: 50%;
+  background-color: black;
+  object-fit: cover;
+  display: block;
+}
+
+.orders__result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.orders__price {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+}
+
+.orders__item {
+  composes: p-6 from global;
+  min-width: 584px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  gap: 24px;
+  margin-right: 8px;
+}

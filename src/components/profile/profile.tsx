@@ -6,15 +6,15 @@ import React, {
   ChangeEvent,
 } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-//@ts-ignore
 import styles from './profile.module.css'
-import { NavLink } from 'react-router-dom'
+
 import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { logoutUser, updateUser } from '../../../services/action/auth'
+import { updateUser } from '../../services/action/auth'
 import { TICons } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons'
+import ProfileNav from './profile-nav/profile-nav'
 
 interface IForm {
   name: string
@@ -107,11 +107,6 @@ const Profile = () => {
     dispatch(updateUser(state))
   }
 
-  const handleLogout = () => {
-    //@ts-ignore
-    dispatch(logoutUser())
-  }
-
   const handleClearChanges = () => {
     setForm({
       ...form,
@@ -127,29 +122,7 @@ const Profile = () => {
 
   return (
     <section className={styles.profile}>
-      <ul className={styles.profile__links}>
-        <NavLink
-          activeClassName={styles.profile__link_active}
-          className={styles.profile__link}
-          to='/profile'
-        >
-          Профиль
-        </NavLink>
-        <NavLink
-          activeClassName={styles.profile__link_active}
-          className={styles.profile__link}
-          to='/profile/orders'
-        >
-          История заказов
-        </NavLink>
-        <NavLink
-          activeClassName={styles.profile__link_active}
-          className={styles.profile__link}
-          to='/login'
-        >
-          <span onClick={handleLogout}>Выход</span>
-        </NavLink>
-      </ul>
+      <ProfileNav />
       <form className={styles.profile__data} onSubmit={handleSubmit}>
         <Input
           type='text'

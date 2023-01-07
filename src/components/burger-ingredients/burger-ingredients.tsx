@@ -6,8 +6,8 @@ import IngredientDetails from './ingredient-details/ingredient-details'
 import IngredientCategory from './ingredients-category/ingredient-category'
 import Modal from '../modal/modal'
 import { useSelector, useDispatch } from 'react-redux'
-import { UNSET_CURRENT_INGREDIENT } from '../../services/action/burgerConstructor'
-import { CLOSE_MODAL } from '../../services/action/modal'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/constants/burgerConstructor'
+import { CLOSE_MODAL } from '../../services/constants/modal'
 import { IIngredient } from '../../types'
 
 const BurgerIngredients: FC = () => {

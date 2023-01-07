@@ -13,12 +13,12 @@ import Modal from '../modal/modal'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   DECREASE_INGREDIENT_ITEM,
-  getOrderDetails,
   REMOVE_INGREDIENT,
   UPDATE_LIST,
-} from '../../services/action/burgerConstructor'
+} from '../../services/constants/burgerConstructor'
+import { getOrderDetails } from '../../services/action/burgerConstructor'
 import { useDrop } from 'react-dnd'
-import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/constants/modal'
 import Placeholder from './placeholder/placeholder'
 import { IIngredient } from '../../types'
 
@@ -124,12 +124,13 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
                     type: DECREASE_INGREDIENT_ITEM,
                     ingredient,
                     //@ts-ignore
-                    _id: ingredient.key,
+                    _id: ingredient._id,
                   })
                 }
                 return (
                   <IngredientItem
-                    key={ingredient._id}
+                    //@ts-ignore
+                    key={ingredient.key}
                     ingredient={ingredient}
                     handleDelete={removeIngredient}
                     index={index}

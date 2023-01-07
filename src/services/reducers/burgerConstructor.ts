@@ -1,3 +1,5 @@
+import { TOrderActions } from '../action/burgerConstructor'
+
 import {
   CHOOSE_INGREDIENTS,
   REMOVE_INGREDIENT,
@@ -10,7 +12,7 @@ import {
   DECREASE_INGREDIENT_ITEM,
   UPDATE_LIST,
   CLEAN_ORDER,
-} from '../action/burgerConstructor.js'
+} from '../constants/burgerConstructor'
 
 export const initialState = {
   ingredientsBurger: {

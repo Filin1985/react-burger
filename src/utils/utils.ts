@@ -1,4 +1,5 @@
 import { API_URL } from './config'
+import { store } from '../services/store'
 
 export interface RefreshTokensResponse {
   accessSchema: string
@@ -6,12 +7,14 @@ export interface RefreshTokensResponse {
   refreshToken: string
 }
 
+export type RootState = ReturnType<typeof store.getState>
+
 export const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then(() => Promise.reject(res.status))
 }
 
-export function request(url: string, options: RequestInit) {
-  return fetch(url, options).then(checkResponse)
+export const request = <T>(url: string, options: RequestInit): Promise<T> => {
+  return fetch(url, options).then((res) => checkResponse<T>(res))
 }
 
 export function setCookie(
@@ -68,17 +71,13 @@ export const refreshToken = (): Promise<any> => {
   }).then(checkResponse)
 }
 
-interface IOptions {
-  method: string
-  headers: {
-    authorization: string
-  }
-}
-
-export const fetchWithRefresh = async (url: string, options: IOptions) => {
+export const fetchWithRefresh = async <T>(
+  url: string,
+  options: RequestInit
+): Promise<T> => {
   try {
     const res = await fetch(url, options)
-    return await checkResponse(res)
+    return await checkResponse<T>(res)
   } catch (err: any) {
     if (err?.message === 'jwt expired') {
       const refreshData = await refreshToken()
@@ -87,9 +86,15 @@ export const fetchWithRefresh = async (url: string, options: IOptions) => {
       }
       localStorage.setItem('refreshToken', refreshData.refreshToken)
       setCookie('accessToken', refreshData.accessToken)
-      options.headers.authorization = refreshData.accessToken
+      if (!options.headers) {
+        options.headers = new Headers()
+      }
+      ;(options.headers as Headers).append(
+        'Authorization',
+        refreshData.accessToken
+      )
       const res = await fetch(url, options)
-      return await checkResponse(res)
+      return await checkResponse<T>(res)
     } else {
       return Promise.reject(err)
     }

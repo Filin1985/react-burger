@@ -5,7 +5,7 @@ import styles from './ingredients-category.module.css'
 import { IIngredient } from '../../../types'
 import BurgerItem from '../burger-item/burger-item'
 import { useDispatch, useSelector } from 'react-redux'
-import { SET_CURRENT_INGREDIENT } from '../../../services/action/burgerConstructor'
+import { SET_CURRENT_INGREDIENT } from '../../../services/constants/burgerConstructor'
 
 interface ICategoryRef {
   name: string
