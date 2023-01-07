@@ -1,13 +1,12 @@
 import { request } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
+import { AppThunk, AppDispatch } from '../hooks'
+
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
 } from '../constants/ingredients'
-import { ThunkAction } from 'redux-thunk'
-import { Action, ActionCreator, Dispatch } from 'redux'
-import { RootState } from '../../utils/utils'
 import { IIngredient } from '../../types'
 
 type TIngredientsResponse = {
@@ -32,13 +31,6 @@ export type TIngredientsActions =
   | IGetIngredientsAction
   | IGetIngredientsSuccessAction
   | IGetIngredientsFailedAction
-
-type TApplicationActions = TIngredientsActions
-export type AppDispatch = Dispatch<TApplicationActions>
-
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
->
 
 export const getIngredientsAction = (): IGetIngredientsAction => ({
   type: GET_INGREDIENTS_REQUEST,

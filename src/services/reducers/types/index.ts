@@ -1,5 +1,4 @@
 import { IIngredient } from '../../../types'
-import { TOrder } from '../../action/types'
 
 export type TAuthInitialState = {
   name: string
@@ -21,6 +20,18 @@ export type TAuthInitialState = {
   authChecked: boolean
 }
 
+export type TOrder = {
+  _id: string
+  ingredients: string[]
+  status: string
+  name: string
+  createdAt: string
+  updatedAt: string
+  number: number
+}
+
+export type TOrders = TOrder[]
+
 export type TIngredientWithKey = IIngredient & { key: string }
 export type TCountsIngredients = {
   [_id: string]: number
@@ -29,7 +40,11 @@ export type TCountsIngredients = {
 export type TIngredientsBurger = {
   bun: IIngredient | null
   otherIngredients: Array<TIngredientWithKey>
-  counts: TCountsIngredients | {}
+  counts:
+    | TCountsIngredients
+    | {
+        [_id: string]: number
+      }
   orderSum: number
   prevBunPrice: number
 }
@@ -40,4 +55,24 @@ export type TConstructorInitialState = {
   burgerOrder: Array<TOrder> | number
   burgerOrderRequest: boolean
   burgerOrderFailed: boolean
+}
+
+export type TIngredientsInitialState = {
+  ingredients: Array<IIngredient>
+  ingredientsRequest: boolean
+  ingredientsFailed: boolean
+}
+
+export type TWsInitialState = {
+  wsConnected: boolean
+  orders: TOrders
+  userOrders: TOrders
+  total: number
+  totalToday: number
+  loading: boolean
+  error?: Event
+}
+
+export type TModalInitialState = {
+  isOpen: boolean
 }

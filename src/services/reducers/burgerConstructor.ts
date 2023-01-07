@@ -15,7 +15,7 @@ import {
   CLEAN_ORDER,
 } from '../constants/burgerConstructor'
 
-export const initialState = {
+export const initialState: TConstructorInitialState = {
   ingredientsBurger: {
     bun: null,
     otherIngredients: [],

@@ -1,6 +1,4 @@
-import { ThunkAction } from 'redux-thunk'
-import { Action, ActionCreator, Dispatch } from 'redux'
-import { RootState } from '../../utils/utils'
+import { AppThunk, AppDispatch } from '../hooks'
 
 import {
   getCookie,
@@ -180,13 +178,6 @@ export type TUserActions =
   | IResetSuccessAction
   | IResetFailedAction
   | IAuthCheckedAction
-
-type TApplicationActions = TUserActions
-export type AppDispatch = Dispatch<TApplicationActions>
-
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
->
 
 export const registerAction = (): IRegisterRequestAction => ({
   type: REGISTER_USER_REQUEST,

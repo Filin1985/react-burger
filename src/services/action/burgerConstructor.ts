@@ -1,8 +1,6 @@
 import { request } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
-import { ThunkAction } from 'redux-thunk'
-import { Action, ActionCreator, Dispatch } from 'redux'
-import { RootState } from '../../utils/utils'
+import { AppThunk, AppDispatch } from '../hooks'
 import { IIngredient } from '../../types'
 
 import {
@@ -19,7 +17,7 @@ import {
   CLEAN_ORDER,
 } from '../constants/burgerConstructor'
 
-import { TOrderDetails, TOrder } from './types'
+import { TOrderDetails } from './types'
 
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_DETAILS_REQUEST
@@ -89,13 +87,6 @@ export type TOrderActions =
   | IIncreaseIngredientAction
   | IDecreaseIngredientAction
   | IUpdateListAction
-
-type TApplicationActions = TOrderActions
-export type AppDispatch = Dispatch<TApplicationActions>
-
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
->
 
 export const getOrderAction = (): IGetOrderRequestAction => ({
   type: GET_ORDER_DETAILS_REQUEST,

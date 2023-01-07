@@ -1,4 +1,5 @@
 import { TWsActionTypes } from '../action/wsActions'
+import { TWsInitialState } from './types'
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_STOP,
@@ -8,29 +9,6 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_ORDER,
 } from '../action/wsActions'
-
-export type TOrder = {
-  _id: string
-  ingredients: string[]
-  status: string
-  name: string
-  createdAt: string
-  updatedAt: string
-  number: number
-}
-
-export type TOrders = TOrder[]
-
-type TWsInitialState = {
-  wsConnected: boolean
-  orders: TOrders
-  userOrders: TOrders
-  total: number
-  totalToday: number
-  loading: boolean
-
-  error?: Event
-}
 
 export const initialState: TWsInitialState = {
   wsConnected: false,
