@@ -5,7 +5,6 @@ import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details'
 import IngredientItem from './ingredient-item/ingredient-item'
@@ -21,6 +20,7 @@ import { useDrop } from 'react-dnd'
 import { CLOSE_MODAL, OPEN_MODAL } from '../../services/constants/modal'
 import Placeholder from './placeholder/placeholder'
 import { IIngredient } from '../../types'
+import { TIngredientWithKey } from '../../services/reducers/types'
 
 type TDrop = {
   onDropHandler: (item: IIngredient) => void
@@ -112,32 +112,31 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
           )}
           <div className={styles.constructor__scroll}>
             {otherIngredients.length > 0 &&
-              otherIngredients.map((ingredient: IIngredient, index: number) => {
-                const removeIngredient = () => {
-                  dispatch({
-                    type: REMOVE_INGREDIENT,
-                    item: ingredient,
-                    //@ts-ignore
-                    key: ingredient.key,
-                  })
-                  dispatch({
-                    type: DECREASE_INGREDIENT_ITEM,
-                    ingredient,
-                    //@ts-ignore
-                    _id: ingredient._id,
-                  })
+              otherIngredients.map(
+                (ingredient: TIngredientWithKey, index: number) => {
+                  const removeIngredient = () => {
+                    dispatch({
+                      type: REMOVE_INGREDIENT,
+                      item: ingredient,
+                      key: ingredient.key,
+                    })
+                    dispatch({
+                      type: DECREASE_INGREDIENT_ITEM,
+                      ingredient,
+                      _id: ingredient._id,
+                    })
+                  }
+                  return (
+                    <IngredientItem
+                      key={ingredient.key}
+                      ingredient={ingredient}
+                      handleDelete={removeIngredient}
+                      index={index}
+                      moveIngredient={moveIngredient}
+                    />
+                  )
                 }
-                return (
-                  <IngredientItem
-                    //@ts-ignore
-                    key={ingredient.key}
-                    ingredient={ingredient}
-                    handleDelete={removeIngredient}
-                    index={index}
-                    moveIngredient={moveIngredient}
-                  />
-                )
-              })}
+              )}
           </div>
 
           {bun ? (

@@ -10,13 +10,18 @@ import { Action, ActionCreator, Dispatch } from 'redux'
 import { RootState } from '../../utils/utils'
 import { IIngredient } from '../../types'
 
+type TIngredientsResponse = {
+  success: boolean
+  data: IIngredient[]
+}
+
 export interface IGetIngredientsAction {
   readonly type: typeof GET_INGREDIENTS_REQUEST
 }
 
 export interface IGetIngredientsSuccessAction {
   readonly type: typeof GET_INGREDIENTS_SUCCESS
-  readonly ingredients: IIngredient[]
+  readonly ingredients: Array<IIngredient>
 }
 
 export interface IGetIngredientsFailedAction {
@@ -40,7 +45,7 @@ export const getIngredientsAction = (): IGetIngredientsAction => ({
 })
 
 export const getIngredientsSuccessAction = (
-  ingredients: IIngredient[]
+  ingredients: Array<IIngredient>
 ): IGetIngredientsSuccessAction => ({
   type: GET_INGREDIENTS_SUCCESS,
   ingredients,
@@ -54,14 +59,13 @@ export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch({
     type: GET_INGREDIENTS_REQUEST,
   })
-  request<IIngredient>(`${API_URL}/ingredients`, {
+  request<TIngredientsResponse>(`${API_URL}/ingredients`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((res) => {
-      console.log(res)
       dispatch({
         type: GET_INGREDIENTS_SUCCESS,
         ingredients: res.data,
