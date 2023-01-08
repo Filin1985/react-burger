@@ -10,6 +10,7 @@ import {
   GET_ORDER_DETAILS_SUCCESS,
   GET_ORDER_DETAILS_FAILED,
   SET_CURRENT_INGREDIENT,
+  SET_CURRENT_ORDER,
   UNSET_CURRENT_INGREDIENT,
   INCREASE_INGREDIENT_ITEM,
   DECREASE_INGREDIENT_ITEM,
@@ -19,6 +20,7 @@ import {
 
 import { TOrderDetails } from './types'
 import { TOrderNumber } from '../reducers/types'
+import { TOrder } from '../../components/feed/feed-item/feed-item'
 
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_DETAILS_REQUEST
@@ -52,6 +54,11 @@ export interface IRemoveIngredientAction {
 export interface ISetIngredientsAction {
   readonly type: typeof SET_CURRENT_INGREDIENT
   readonly item: IIngredient
+}
+
+export interface ISetOrderAction {
+  readonly type: typeof SET_CURRENT_ORDER
+  readonly item: TOrder
 }
 
 export interface IUnsetIngredientAction {
@@ -88,6 +95,7 @@ export type TOrderActions =
   | IIncreaseIngredientAction
   | IDecreaseIngredientAction
   | IUpdateListAction
+  | ISetOrderAction
 
 export const getOrderAction = (): IGetOrderRequestAction => ({
   type: GET_ORDER_DETAILS_REQUEST,

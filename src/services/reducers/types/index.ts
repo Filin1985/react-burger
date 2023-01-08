@@ -1,3 +1,4 @@
+import { TOrder } from '../../../components/feed/feed-item/feed-item'
 import { IIngredient } from '../../../types'
 
 export type TAuthInitialState = {
@@ -40,6 +41,7 @@ export type TIngredientsBurger = {
 export type TConstructorInitialState = {
   ingredientsBurger: TIngredientsBurger
   currentIngredient: IIngredient | null
+  currentOrder: TOrder | null
   burgerOrder: TOrderNumber
   burgerOrderRequest: boolean
   burgerOrderFailed: boolean

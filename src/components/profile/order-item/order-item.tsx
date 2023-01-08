@@ -1,26 +1,36 @@
 import React, { FC } from 'react'
 import styles from '../order-history/order-history.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { TOrder } from '../../feed/feed-item/feed-item'
+import { TOrderItem } from '../../feed/feed-item/feed-item'
 import { useSelector } from '../../../services/hooks'
 import {
   getFormatedDate,
   getOrderIngredients,
   getTotalPrice,
 } from '../../../utils/utils'
+import { IIngredient } from '../../../types'
 
 const SLICE_NUMBER = 6
 
-const OrderItem: FC<TOrder> = ({ order }) => {
+interface IOrderItem {
+  order: TOrderItem
+  handleClick: (item: TOrderItem) => void
+}
+
+const OrderItem: FC<IOrderItem> = ({ order, handleClick }) => {
   const { ingredients } = useSelector((store) => store.ingredients)
 
   const orderIngredients = getOrderIngredients(ingredients, order.ingredients)
   const totalPrice = getTotalPrice(orderIngredients)
   const sliceOrderIngredients = orderIngredients.slice(0, SLICE_NUMBER)
   const formattedDate = getFormatedDate(order.createdAt)
-  console.log(order)
+
   return (
-    <>
+    <li
+      key={order._id}
+      className={styles.orders__item}
+      onClick={() => handleClick(order)}
+    >
       <div className={styles.orders__info}>
         <h3 className={styles.orders__number}>#{order.number}</h3>
         <p className={styles.orders__date}>{formattedDate}</p>
@@ -55,7 +65,7 @@ const OrderItem: FC<TOrder> = ({ order }) => {
           <CurrencyIcon type='primary' />
         </div>
       </div>
-    </>
+    </li>
   )
 }
 

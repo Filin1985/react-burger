@@ -11,6 +11,8 @@ import {
   wsDisconnectionAction,
 } from '../../../services/action/wsUserActions'
 import OrderItem from '../order-item/order-item'
+import { TOrderItem } from '../../../services/reducers/types'
+import { SET_CURRENT_ORDER } from '../../../services/constants/burgerConstructor'
 
 export const WS_USER_ORDERS = 'wss://norma.nomoreparties.space/orders'
 
@@ -30,6 +32,13 @@ const OrderHistory: FC = () => {
 
   const { orders } = useSelector((store) => store.wsUserFeed)
 
+  const handleClick = (item: TOrderItem) => {
+    dispatch({
+      type: SET_CURRENT_ORDER,
+      item,
+    })
+  }
+
   if (loading) {
     return <Loader />
   }
@@ -44,17 +53,15 @@ const OrderHistory: FC = () => {
       </div>
       <ul className={styles.orders__items}>
         {orders.map((item) => (
-          <li key={item._id} className={styles.orders__item}>
-            <Link
-              to={{
-                pathname: `/profile/orders/${item._id}`,
-                state: { background: location },
-              }}
-              className={styles.orders__link}
-            >
-              <OrderItem order={item} />
-            </Link>
-          </li>
+          <Link
+            to={{
+              pathname: `/profile/orders/${item._id}`,
+              state: { background: location },
+            }}
+            className={styles.orders__link}
+          >
+            <OrderItem order={item} handleClick={handleClick} />
+          </Link>
         ))}
       </ul>
     </section>

@@ -13,6 +13,7 @@ import {
   DECREASE_INGREDIENT_ITEM,
   UPDATE_LIST,
   CLEAN_ORDER,
+  SET_CURRENT_ORDER,
 } from '../constants/burgerConstructor'
 
 export const initialState: TConstructorInitialState = {
@@ -24,6 +25,7 @@ export const initialState: TConstructorInitialState = {
     prevBunPrice: 0,
   },
   currentIngredient: null,
+  currentOrder: null,
   burgerOrder: {
     number: 0,
   },
@@ -70,6 +72,12 @@ export const constructorReducer = (
       return {
         ...state,
         currentIngredient: action.item,
+      }
+    }
+    case SET_CURRENT_ORDER: {
+      return {
+        ...state,
+        currentOrder: action.item,
       }
     }
     case INCREASE_INGREDIENT_ITEM: {
