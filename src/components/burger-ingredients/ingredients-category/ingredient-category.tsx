@@ -27,20 +27,25 @@ const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
       })
     }
 
-    const allIngredients = useMemo(() => {
-      return [...otherIngredients, bun ? bun : 0]
+    const allIngredientIds = useMemo(() => {
+      const ingredientIds = otherIngredients.map((el) => el._id)
+      if (bun) {
+        ingredientIds.push(bun._id)
+        ingredientIds.push(bun._id)
+      }
+      return ingredientIds
     }, [otherIngredients, bun])
 
-    let res = new Map()
-    useMemo(() => {
-      return allIngredients[0] !== null
-        ? allIngredients.reduce(
-            //@ts-ignore
-            (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
-            res
-          )
-        : 0
-    }, [allIngredients, res])
+    const res = useMemo(() => {
+      const res = new Map<string, number>()
+
+      allIngredientIds.reduce(
+        (acc, id) => acc.set(id, (acc.get(id) ?? 0) + 1),
+        res
+      )
+
+      return res
+    }, [allIngredientIds])
 
     let location = useLocation()
 
@@ -59,7 +64,7 @@ const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
               }}
             >
               <BurgerItem
-                count={res.get(item._id)}
+                count={res.get(item._id) ?? 0}
                 item={item}
                 handleClick={handleClick}
               />

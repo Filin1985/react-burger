@@ -1,5 +1,8 @@
 import { API_URL } from './config'
 import { store } from '../services/store'
+import { IIngredient } from '../types'
+
+const MILSECONDS_IN_DAY = 86400000
 
 export interface RefreshTokensResponse {
   accessSchema: string
@@ -99,4 +102,47 @@ export const fetchWithRefresh = async <T>(
       return Promise.reject(err)
     }
   }
+}
+
+export const getOrderIngredients = (
+  allIngredients: Array<IIngredient>,
+  orderIngredients: Array<string>
+) =>
+  orderIngredients
+    ?.map((id: string) =>
+      allIngredients.filter((item: IIngredient) => item._id === id)
+    )
+    ?.flat()
+
+export const getTotalPrice = (allIngredients: Array<IIngredient>) =>
+  allIngredients?.reduce(
+    (acc: number, item: IIngredient) => (acc += item.price),
+    0
+  )
+
+export const getFormatedDate = (date: string) => {
+  const orderDate = new Date(date)
+  const todaysDate = new Date()
+  let hours: number | string = orderDate.getHours()
+  let minutes: number | string = orderDate.getMinutes()
+  if (hours < 10) hours = '0' + hours
+  if (minutes < 10) minutes = '0' + minutes
+  todaysDate.setHours(0, 0, 0, 0)
+  orderDate.setHours(0, 0, 0, 0)
+  let difference: string | number =
+    (+todaysDate - +orderDate) / MILSECONDS_IN_DAY
+  if (difference > 1) difference = difference + ' дн. назад'
+  if (difference === 1) difference = 'Вчера'
+  if (difference === 0) difference = 'Сегодня'
+  let timeZone = orderDate.getTimezoneOffset() / 60
+
+  return (
+    difference +
+    ', ' +
+    hours +
+    ':' +
+    minutes +
+    ' i-GMT' +
+    (timeZone > 0 ? timeZone : '+' + timeZone * -1)
+  )
 }

@@ -1,11 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProfileNav from '../profile-nav/profile-nav'
 import { Link, useLocation } from 'react-router-dom'
 import styles from './order-history.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../../services/hooks'
+import Loader from '../../loader/loader'
+import {
+  wsConnectionStartAction,
+  wsDisconnectionAction,
+} from '../../../services/action/wsUserActions'
+
+export const WS_USER_ORDERS = 'wss://norma.nomoreparties.space/orders'
 
 const OrderHistory = () => {
   const location = useLocation()
+
+  const dispatch = useDispatch()
+
+  const { loading } = useSelector((store) => store.wsUserFeed)
+
+  useEffect(() => {
+    dispatch(wsConnectionStartAction(WS_USER_ORDERS))
+    return () => {
+      dispatch(wsDisconnectionAction())
+    }
+  }, [dispatch])
+
+  const { orders } = useSelector((store) => store.wsUserFeed)
+  console.log(orders)
+
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <section className={styles.orders}>

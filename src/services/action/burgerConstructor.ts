@@ -1,4 +1,4 @@
-import { request } from '../../utils/utils'
+import { getCookie, request } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
 import { AppThunk, AppDispatch } from '../hooks'
 import { IIngredient } from '../../types'
@@ -113,6 +113,7 @@ export const getOrderDetails: AppThunk =
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + getCookie('token'),
       },
       body: JSON.stringify({
         ingredients: ingredients,

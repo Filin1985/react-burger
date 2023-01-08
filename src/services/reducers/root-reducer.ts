@@ -4,6 +4,7 @@ import { modalReducer } from './modal'
 import { authReducer } from './auth'
 import { combineReducers } from 'redux'
 import { wsReducer } from './wsReducer'
+import { wsUserReducer } from './wsUserReducer'
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
   burgerConstructor: constructorReducer,
   user: authReducer,
   wsFeed: wsReducer,
+  wsUserFeed: wsUserReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

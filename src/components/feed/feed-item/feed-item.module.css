@@ -39,11 +39,12 @@
   padding: 0;
   float: right;
   display: flex;
+  position: relative;
 }
 
 .orders__image {
   position: absolute;
-  top: 0;
+  top: -30px;
   width: 64px;
   height: 64px;
   border: solid 2px #801ab2;
@@ -51,6 +52,20 @@
   background-color: black;
   object-fit: cover;
   display: block;
+}
+
+.orders__count {
+  background: rgba(19, 19, 22, 0.7);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -29px;
+  right: -313px;
+  z-index: 100;
 }
 
 .orders__result {

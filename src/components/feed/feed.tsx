@@ -10,7 +10,6 @@ import {
   wsDisconnectionAction,
 } from '../../services/action/wsActions'
 import Loader from '../loader/loader'
-import { IIngredient } from '../../types'
 
 const WS_ALL_ORDERS_URL = 'wss://norma.nomoreparties.space/orders/all'
 
@@ -19,18 +18,6 @@ const Feed: FC = () => {
   const dispatch = useDispatch()
 
   const { loading } = useSelector((store) => store.wsFeed)
-  const { ingredients } = useSelector((store) => store.ingredients)
-
-  const getOrderIngredients = (
-    allIngredients: Array<IIngredient>,
-    orderIngredients: Array<string>
-  ) => {
-    orderIngredients?.map((id: string) => {
-      allIngredients.filter((item: IIngredient) => {
-        item._id === id
-      })
-    })
-  }
 
   useEffect(() => {
     dispatch(wsConnectionStartAction(WS_ALL_ORDERS_URL))

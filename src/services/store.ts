@@ -10,7 +10,7 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDER,
-} from './action/wsActions'
+} from './constants/ws'
 
 declare global {
   interface Window {
@@ -19,8 +19,6 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-const wsUrl = 'wss://norma.nomoreparties.space/orders/all'
 
 export const wsActions = {
   wsConnect: WS_CONNECTION_START,
@@ -32,8 +30,22 @@ export const wsActions = {
   wsDisconnect: WS_CONNECTION_STOP,
 }
 
+export const wsUserActions = {
+  wsConnect: WS_CONNECTION_START,
+  onOpen: WS_CONNECTION_SUCCESS,
+  onClose: WS_CONNECTION_CLOSED,
+  onError: WS_CONNECTION_ERROR,
+  onOrders: WS_GET_ORDER,
+  onSendOrders: WS_SEND_ORDER,
+  wsDisconnect: WS_CONNECTION_STOP,
+}
+
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(wsActions))
+  applyMiddleware(
+    thunk,
+    socketMiddleware(wsActions, false),
+    socketMiddleware(wsUserActions, true)
+  )
 )
 
 export const store = createStore(rootReducer, enhancer)

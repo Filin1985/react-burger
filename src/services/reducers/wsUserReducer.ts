@@ -6,6 +6,7 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDER,
+  WS_SEND_ORDER,
 } from '../constants/ws'
 
 export const initialState: TWsInitialState = {
@@ -16,7 +17,7 @@ export const initialState: TWsInitialState = {
   loading: false,
 }
 
-export const wsReducer = (
+export const wsUserReducer = (
   state = initialState,
   action: TWsActionTypes
 ): TWsInitialState => {

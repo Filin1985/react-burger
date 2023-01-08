@@ -8,7 +8,8 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDER,
-} from '../action/wsActions'
+} from '../constants/ws'
+import { getCookie } from '../../utils/utils'
 
 type TWSOrderActions = {
   wsConnect: typeof WS_CONNECTION_START
@@ -21,7 +22,8 @@ type TWSOrderActions = {
 }
 
 export const socketMiddleware = (
-  wsAction: TWSOrderActions
+  wsAction: TWSOrderActions,
+  userAuth: boolean
 ): Middleware<{}, RootState> => {
   return (store) => {
     let socket: WebSocket | null = null
@@ -38,9 +40,12 @@ export const socketMiddleware = (
         onError,
         onOrders,
       } = wsAction
+      const token = userAuth ? getCookie('token') : null
 
       if (type === wsConnect) {
-        socket = new WebSocket(wsUrl)
+        socket = token
+          ? new WebSocket(`${wsUrl}?token=${token}`)
+          : new WebSocket(`${wsUrl}`)
       }
 
       if (socket) {
@@ -70,7 +75,8 @@ export const socketMiddleware = (
         }
 
         if (type === onSendOrders) {
-          socket.send(JSON.stringify(payload))
+          const result = token ? { ...payload, token } : { ...payload }
+          socket.send(JSON.stringify(result))
         }
       }
       next(action)

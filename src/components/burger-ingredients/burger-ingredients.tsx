@@ -39,7 +39,6 @@ const BurgerIngredients: FC = () => {
   }, [ingredients])
 
   const setTab = (tab: string) => {
-    console.log(tab)
     setCurrent(tab)
     const element = document.getElementById(tab)
     if (element) element.scrollIntoView({ behavior: 'smooth' })

@@ -70,7 +70,6 @@ export type TOrders = TOrderItem[]
 export type TWsInitialState = {
   wsConnected: boolean
   orders: Array<TOrderItem>
-  userOrders: TOrders
   total: number
   totalToday: number
   loading: boolean
