@@ -59,6 +59,7 @@ const OrderHistory: FC = () => {
               state: { background: location },
             }}
             className={styles.orders__link}
+            key={item._id}
           >
             <OrderItem order={item} handleClick={handleClick} />
           </Link>

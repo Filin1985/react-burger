@@ -19,7 +19,7 @@ import {
 } from '../constants/burgerConstructor'
 
 import { TOrderDetails } from './types'
-import { TOrderNumber } from '../reducers/types'
+import { TOrderNumber, TOrderItem } from '../reducers/types'
 import { TOrder } from '../../components/feed/feed-item/feed-item'
 
 export interface IGetOrderRequestAction {
@@ -58,7 +58,7 @@ export interface ISetIngredientsAction {
 
 export interface ISetOrderAction {
   readonly type: typeof SET_CURRENT_ORDER
-  readonly item: TOrder
+  readonly item: TOrderItem
 }
 
 export interface IUnsetIngredientAction {

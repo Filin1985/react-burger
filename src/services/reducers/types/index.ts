@@ -41,7 +41,7 @@ export type TIngredientsBurger = {
 export type TConstructorInitialState = {
   ingredientsBurger: TIngredientsBurger
   currentIngredient: IIngredient | null
-  currentOrder: TOrder | null
+  currentOrder: TOrderItem | null
   burgerOrder: TOrderNumber
   burgerOrderRequest: boolean
   burgerOrderFailed: boolean
