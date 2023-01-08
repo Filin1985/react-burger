@@ -11,6 +11,7 @@ import { TUserActions } from './action/auth'
 import { TOrderActions } from './action/burgerConstructor'
 import { TWsActionTypes } from './action/wsActions'
 import { TModalActions } from './action/modal'
+import type {} from 'redux-thunk/extend-redux'
 
 type TUnionActions =
   | TIngredientsActions
@@ -19,12 +20,14 @@ type TUnionActions =
   | TWsActionTypes
   | TModalActions
 
-type TApplicationActions = TUnionActions
-export type AppDispatch = Dispatch<TApplicationActions>
+type AppActions = TUnionActions
 
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+export type AppThunk<ReturnType = void> = ActionCreator<
+  ThunkAction<ReturnType, RootState, unknown, AppActions>
 >
+export type AppDispatch<TReturnType = void> = (
+  action: AppActions | AppThunk<TReturnType>
+) => TReturnType
 
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook
-export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>()
+export const useDispatch: () => AppDispatch = dispatchHook

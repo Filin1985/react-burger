@@ -20,18 +20,6 @@ export type TAuthInitialState = {
   authChecked: boolean
 }
 
-export type TOrder = {
-  _id: string
-  ingredients: string[]
-  status: string
-  name: string
-  createdAt: string
-  updatedAt: string
-  number: number
-}
-
-export type TOrders = TOrder[]
-
 export type TIngredientWithKey = IIngredient & { key: string }
 export type TCountsIngredients = {
   [_id: string]: number
@@ -52,9 +40,13 @@ export type TIngredientsBurger = {
 export type TConstructorInitialState = {
   ingredientsBurger: TIngredientsBurger
   currentIngredient: IIngredient | null
-  burgerOrder: Array<TOrder> | number
+  burgerOrder: TOrderNumber
   burgerOrderRequest: boolean
   burgerOrderFailed: boolean
+}
+
+export type TOrderNumber = {
+  number: number
 }
 
 export type TIngredientsInitialState = {
@@ -63,9 +55,21 @@ export type TIngredientsInitialState = {
   ingredientsFailed: boolean
 }
 
+export type TOrderItem = {
+  createdAt: string
+  ingredients: Array<string>
+  name: string
+  number: number
+  status: string
+  updatedAt: string
+  _id: string
+}
+
+export type TOrders = TOrderItem[]
+
 export type TWsInitialState = {
   wsConnected: boolean
-  orders: TOrders
+  orders: Array<TOrderItem>
   userOrders: TOrders
   total: number
   totalToday: number

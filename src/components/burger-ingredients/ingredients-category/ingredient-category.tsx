@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-//@ts-ignore
 import styles from './ingredients-category.module.css'
 import { IIngredient } from '../../../types'
 import BurgerItem from '../burger-item/burger-item'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../../services/hooks'
 import { SET_CURRENT_INGREDIENT } from '../../../services/constants/burgerConstructor'
+import { TIngredientWithKey } from '../../../services/reducers/types'
 
 interface ICategoryRef {
   name: string
@@ -16,7 +17,7 @@ interface ICategoryRef {
 const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
   ({ name, data, id }, ref) => {
     const { bun, otherIngredients } = useSelector(
-      (store: any) => store.burgerConstructor.ingredientsBurger
+      (store) => store.burgerConstructor.ingredientsBurger
     )
     const dispatch = useDispatch()
     const handleClick = (item: IIngredient) => {
@@ -34,6 +35,7 @@ const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
     useMemo(() => {
       return allIngredients[0] !== null
         ? allIngredients.reduce(
+            //@ts-ignore
             (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
             res
           )

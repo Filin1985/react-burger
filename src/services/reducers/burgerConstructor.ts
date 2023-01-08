@@ -24,7 +24,9 @@ export const initialState: TConstructorInitialState = {
     prevBunPrice: 0,
   },
   currentIngredient: null,
-  burgerOrder: [],
+  burgerOrder: {
+    number: 0,
+  },
   burgerOrderRequest: false,
   burgerOrderFailed: false,
 }

@@ -9,7 +9,8 @@ import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details'
 import IngredientItem from './ingredient-item/ingredient-item'
 import Modal from '../modal/modal'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../services/hooks'
 import {
   DECREASE_INGREDIENT_ITEM,
   REMOVE_INGREDIENT,
@@ -33,7 +34,7 @@ type TCallback = (
 
 const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
-    (store: any) => store.burgerConstructor.ingredientsBurger
+    (store) => store.burgerConstructor.ingredientsBurger
   )
 
   const { isOpen } = useSelector((store: any) => store.modal)
@@ -57,14 +58,15 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   }
 
   const handleClick = () => {
-    const bunId = [bun._id]
-    const ingredientsIds = bunId.concat(
-      otherIngredients.map((ingredient: IIngredient) => ingredient._id),
-      bunId
-    )
-    //@ts-ignore
-    dispatch(getOrderDetails(ingredientsIds))
-    dispatch({ type: OPEN_MODAL })
+    if (bun !== null) {
+      const bunId = [bun._id]
+      const ingredientsIds = bunId.concat(
+        otherIngredients.map((ingredient: IIngredient) => ingredient._id),
+        bunId
+      )
+      dispatch(getOrderDetails(ingredientsIds))
+      dispatch({ type: OPEN_MODAL })
+    }
   }
 
   const moveIngredient = useCallback<TCallback>(
@@ -103,13 +105,7 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
                 thumbnail={bun.image}
               />
             </li>
-          ) : (
-            <ConstructorElement
-              text='Выберите булку'
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          )}
+          ) : null}
           <div className={styles.constructor__scroll}>
             {otherIngredients.length > 0 &&
               otherIngredients.map(

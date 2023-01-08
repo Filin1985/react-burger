@@ -1,12 +1,9 @@
 import React, { memo } from 'react'
-//@ts-ignore
 import styles from './ingredient-details.module.css'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../../services/hooks'
 
 const IngredientDetails = () => {
-  const { currentIngredient } = useSelector(
-    (store: any) => store.burgerConstructor
-  )
+  const { currentIngredient } = useSelector((store) => store.burgerConstructor)
 
   if (!currentIngredient) {
     return null

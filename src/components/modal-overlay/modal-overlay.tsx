@@ -1,5 +1,4 @@
 import { FC } from 'react'
-//@ts-ignore
 import styles from './modal-overlay.module.css'
 
 interface IOverlayClick {

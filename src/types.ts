@@ -12,20 +12,3 @@ export interface IIngredient {
   readonly image_large: string
   readonly __v: number
 }
-
-export interface IOrder {
-  readonly createdAt: string
-  readonly ingredients: Array<string>
-  readonly name: string
-  readonly number: number
-  readonly status: string
-  readonly updatedAt: string
-  readonly _id: string
-}
-
-export interface IOrdersResponse {
-  readonly success: boolean
-  readonly orders: IOrder
-  readonly total: number
-  readonly totalToday: number
-}

@@ -27,8 +27,12 @@ export type TLogoutResponse = {
 
 export type TOrderDetails = {
   name: string
-  order: number
+  order: TOrderNumber
   success: boolean
+}
+
+export type TOrderNumber = {
+  number: number
 }
 
 export type TOrder = {
@@ -39,4 +43,11 @@ export type TOrder = {
   status: string
   updatedAt: string
   _id: string
+}
+
+export type TOrdersResponse = {
+  success: boolean
+  orders: TOrder[]
+  total: number
+  totalToday: number
 }

@@ -1,4 +1,4 @@
-import { IOrder, IOrdersResponse } from '../../types'
+import { TOrder, TOrdersResponse } from './types'
 
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START'
 export const WS_CONNECTION_STOP: 'WS_CONNECTION_STOP' = 'WS_CONNECTION_STOP'
@@ -21,7 +21,7 @@ interface IWsDisconnectAction {
 
 interface IWsSendOrderAction {
   readonly type: typeof WS_SEND_ORDER
-  readonly payload: IOrder
+  readonly payload: TOrder
 }
 
 interface IOnOpenAction {
@@ -39,7 +39,7 @@ interface IOnErrorAction {
 
 interface IWsGetOrderAction {
   readonly type: typeof WS_GET_ORDER
-  readonly payload: IOrdersResponse
+  readonly payload: TOrdersResponse
 }
 
 export type TWsActionTypes =
@@ -84,7 +84,7 @@ export const wsConnectionClosedAction = (): IOnCloseAction => {
 }
 
 export const wsConnectionGetOrdersAction = (
-  response: IOrdersResponse
+  response: TOrdersResponse
 ): IWsGetOrderAction => {
   return {
     type: WS_GET_ORDER,
@@ -93,7 +93,7 @@ export const wsConnectionGetOrdersAction = (
 }
 
 export const wsConnectionSendOrderAction = (
-  order: IOrder
+  order: TOrder
 ): IWsSendOrderAction => {
   return {
     type: WS_SEND_ORDER,

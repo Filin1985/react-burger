@@ -1,5 +1,4 @@
 import React, { useEffect, FC, ReactNode } from 'react'
-//@ts-ignore
 import styles from './modal.module.css'
 import ReactDOM from 'react-dom'
 import ModalOverlay from '../modal-overlay/modal-overlay'

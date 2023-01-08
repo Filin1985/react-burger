@@ -18,6 +18,7 @@ import {
 } from '../constants/burgerConstructor'
 
 import { TOrderDetails } from './types'
+import { TOrderNumber } from '../reducers/types'
 
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_DETAILS_REQUEST
@@ -25,7 +26,7 @@ export interface IGetOrderRequestAction {
 
 export interface IGetOrderSuccessAction {
   readonly type: typeof GET_ORDER_DETAILS_SUCCESS
-  readonly order: number
+  readonly order: TOrderNumber
 }
 
 export interface IGetOrderFailedAction {
@@ -93,7 +94,7 @@ export const getOrderAction = (): IGetOrderRequestAction => ({
 })
 
 export const getOrderSuccessAction = (
-  order: number
+  order: TOrderNumber
 ): IGetOrderSuccessAction => ({
   type: GET_ORDER_DETAILS_SUCCESS,
   order,
@@ -118,6 +119,7 @@ export const getOrderDetails: AppThunk =
       }),
     })
       .then((res) => {
+        console.log(res)
         dispatch({
           type: GET_ORDER_DETAILS_SUCCESS,
           order: res.order,

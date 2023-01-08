@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom'
-//@ts-ignore
 import styles from './app.module.css'
 import Header from '../app-header/app-header'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
@@ -14,7 +13,8 @@ import ResetPassword from '../pages/reset-password/reset-password'
 import ProtectedRoute from '../protected-route'
 import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../services/hooks'
 import {
   INCREASE_INGREDIENT_ITEM,
   UNSET_CURRENT_INGREDIENT,
@@ -35,14 +35,13 @@ import ProfileOrderDetails from '../profile/profile-order-details/profile-order-
 function App() {
   const location = useLocation<{ background: H.Location }>()
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
-    (store: any) => store.ingredients
+    (store) => store.ingredients
   )
   const { visitedPath } = useSelector((store: any) => store.user)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(getIngredients())
   }, [dispatch])
 

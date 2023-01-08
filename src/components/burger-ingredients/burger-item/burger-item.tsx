@@ -3,7 +3,6 @@ import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './burger-item.module.css'
 import { IIngredient } from '../../../types'
 import { useDrag } from 'react-dnd'

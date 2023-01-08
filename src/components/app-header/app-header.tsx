@@ -6,7 +6,6 @@ import {
   ProfileIcon,
   ListIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './app-header.module.css'
 
 const Header = () => {
