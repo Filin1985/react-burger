@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
-import styles from './feed-item.module.css'
+import styles from '../order-history/order-history.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { TOrder } from '../../feed/feed-item/feed-item'
 import { useSelector } from '../../../services/hooks'
 import {
   getFormatedDate,
@@ -10,34 +11,24 @@ import {
 
 const SLICE_NUMBER = 6
 
-export type TOrder = {
-  order: TOrderItem
-}
-
-export type TOrderItem = {
-  createdAt: string
-  ingredients: Array<string>
-  name: string
-  number: number
-  status: string
-  updatedAt: string
-  _id: string
-}
-
-const FeedItem: FC<TOrder> = ({ order }) => {
+const OrderItem: FC<TOrder> = ({ order }) => {
   const { ingredients } = useSelector((store) => store.ingredients)
 
   const orderIngredients = getOrderIngredients(ingredients, order.ingredients)
   const totalPrice = getTotalPrice(orderIngredients)
   const sliceOrderIngredients = orderIngredients.slice(0, SLICE_NUMBER)
   const formattedDate = getFormatedDate(order.createdAt)
+  console.log(order)
   return (
-    <li className={styles.orders__item}>
+    <>
       <div className={styles.orders__info}>
         <h3 className={styles.orders__number}>#{order.number}</h3>
         <p className={styles.orders__date}>{formattedDate}</p>
       </div>
       <h2 className={styles.orders__name}>{order.name}</h2>
+      <p className={styles.orders__subname}>
+        {order.status === 'done' ? 'Выполнено' : 'Готовится'}
+      </p>
       <div className={styles.orders__container}>
         <ul className={styles.orders__ingredients}>
           {sliceOrderIngredients.map((item, index) => (
@@ -55,9 +46,7 @@ const FeedItem: FC<TOrder> = ({ order }) => {
           ))}
           {orderIngredients.length > 6 ? (
             <div className={styles.orders__count}>
-              <p className={styles.orders__text}>{`+${
-                orderIngredients.length - SLICE_NUMBER
-              }`}</p>
+              <p>{`+${orderIngredients.length - SLICE_NUMBER}`}</p>
             </div>
           ) : null}
         </ul>
@@ -66,8 +55,8 @@ const FeedItem: FC<TOrder> = ({ order }) => {
           <CurrencyIcon type='primary' />
         </div>
       </div>
-    </li>
+    </>
   )
 }
 
-export default FeedItem
+export default OrderItem
