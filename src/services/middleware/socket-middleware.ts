@@ -43,9 +43,7 @@ export const socketMiddleware = (
       const token = userAuth ? getCookie('token') : null
 
       if (type === wsConnect) {
-        socket = token
-          ? new WebSocket(`${wsUrl}?token=${token}`)
-          : new WebSocket(`${wsUrl}`)
+        socket = new WebSocket(wsUrl)
       }
 
       if (socket) {

@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './feed-table.module.css'
 import { useSelector } from '../../../services/hooks'
 
-const ORDERS_NUMBER = 10
+const ORDERS_NUMBER = 15
 
 const FeedTable = () => {
   const { orders, total, totalToday } = useSelector((store) => store.wsFeed)

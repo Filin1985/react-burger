@@ -13,6 +13,7 @@ import {
 import OrderItem from '../order-item/order-item'
 import { TOrderItem } from '../../../services/reducers/types'
 import { SET_CURRENT_ORDER } from '../../../services/constants/burgerConstructor'
+import { getCookie } from '../../../utils/utils'
 
 export const WS_USER_ORDERS = 'wss://norma.nomoreparties.space/orders'
 
@@ -24,11 +25,12 @@ const OrderHistory: FC = () => {
   const { loading } = useSelector((store) => store.wsUserFeed)
 
   useEffect(() => {
-    dispatch(wsConnectionStartAction(WS_USER_ORDERS))
+    const token = getCookie('token')
+    dispatch(wsConnectionStartAction(`${WS_USER_ORDERS}?token=${token}`))
     return () => {
       dispatch(wsDisconnectionAction())
     }
-  }, [dispatch])
+  }, [])
 
   const { orders } = useSelector((store) => store.wsUserFeed)
 

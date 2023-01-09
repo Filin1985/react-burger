@@ -12,6 +12,7 @@ const SLICE_NUMBER = 6
 
 export type TOrder = {
   order: TOrderItem
+  handleClick: (item: TOrderItem) => void
 }
 
 export type TOrderItem = {
@@ -24,7 +25,7 @@ export type TOrderItem = {
   _id: string
 }
 
-const FeedItem: FC<TOrder> = ({ order }) => {
+const FeedItem: FC<TOrder> = ({ order, handleClick }) => {
   const { ingredients } = useSelector((store) => store.ingredients)
 
   const orderIngredients = getOrderIngredients(ingredients, order.ingredients)
@@ -32,7 +33,7 @@ const FeedItem: FC<TOrder> = ({ order }) => {
   const sliceOrderIngredients = orderIngredients.slice(0, SLICE_NUMBER)
   const formattedDate = getFormatedDate(order.createdAt)
   return (
-    <li className={styles.orders__item}>
+    <li className={styles.orders__item} onClick={() => handleClick(order)}>
       <div className={styles.orders__info}>
         <h3 className={styles.orders__number}>#{order.number}</h3>
         <p className={styles.orders__date}>{formattedDate}</p>

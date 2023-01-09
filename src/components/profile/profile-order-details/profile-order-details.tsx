@@ -2,13 +2,25 @@ import React from 'react'
 import styles from './profile-order-details.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector } from '../../../services/hooks'
+import {
+  getFormatedDate,
+  getOrderIngredients,
+  getTotalPrice,
+} from '../../../utils/utils'
 
 const ProfileOrderDetails = () => {
   const { currentOrder } = useSelector((store) => store.burgerConstructor)
+  const { ingredients } = useSelector((store) => store.ingredients)
 
   if (!currentOrder) {
     return null
   } else {
+    const orderIngredients = getOrderIngredients(
+      ingredients,
+      currentOrder.ingredients
+    )
+    const formattedDate = getFormatedDate(currentOrder.createdAt)
+    const totalPrice = getTotalPrice(orderIngredients)
     return (
       <div className={styles.details}>
         <p className={styles.details__order}>#{currentOrder.number}</p>
@@ -18,91 +30,29 @@ const ProfileOrderDetails = () => {
         </p>
         <p className={styles.details__ingredients}>Состав:</p>
         <ul className={styles.details__list}>
-          <li className={styles.details__item}>
-            <div className={styles.details__wrap}>
-              <img
-                className={styles.details__image}
-                src='https://code.s3.yandex.net/react/code/meat-02.png'
-                alt=''
-              />
-              <p className={styles.details__name}>Флюоресцентная булка R2-D3</p>
-            </div>
-            <div className={styles.details__result}>
-              <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X</span>630
-              </p>
-              <CurrencyIcon type='primary' />
-            </div>
-          </li>
-          <li className={styles.details__item}>
-            <div className={styles.details__wrap}>
-              <img
-                className={styles.details__image}
-                src='https://code.s3.yandex.net/react/code/meat-02.png'
-                alt=''
-              />
-              <p className={styles.details__name}>Флюоресцентная булка R2-D3</p>
-            </div>
-            <div className={styles.details__result}>
-              <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X</span>630
-              </p>
-              <CurrencyIcon type='primary' />
-            </div>
-          </li>
-          <li className={styles.details__item}>
-            <div className={styles.details__wrap}>
-              <img
-                className={styles.details__image}
-                src='https://code.s3.yandex.net/react/code/meat-02.png'
-                alt=''
-              />
-              <p className={styles.details__name}>Флюоресцентная булка R2-D3</p>
-            </div>
-            <div className={styles.details__result}>
-              <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X</span>630
-              </p>
-              <CurrencyIcon type='primary' />
-            </div>
-          </li>
-          <li className={styles.details__item}>
-            <div className={styles.details__wrap}>
-              <img
-                className={styles.details__image}
-                src='https://code.s3.yandex.net/react/code/meat-02.png'
-                alt=''
-              />
-              <p className={styles.details__name}>Флюоресцентная булка R2-D3</p>
-            </div>
-            <div className={styles.details__result}>
-              <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X</span>630
-              </p>
-              <CurrencyIcon type='primary' />
-            </div>
-          </li>
-          <li className={styles.details__item}>
-            <div className={styles.details__wrap}>
-              <img
-                className={styles.details__image}
-                src='https://code.s3.yandex.net/react/code/meat-02.png'
-                alt=''
-              />
-              <p className={styles.details__name}>Флюоресцентная булка R2-D3</p>
-            </div>
-            <div className={styles.details__result}>
-              <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X</span>630
-              </p>
-              <CurrencyIcon type='primary' />
-            </div>
-          </li>
+          {orderIngredients.map((item, index) => (
+            <li key={index} className={styles.details__item}>
+              <div className={styles.details__wrap}>
+                <img
+                  className={styles.details__image}
+                  src={item.image}
+                  alt=''
+                />
+                <p className={styles.details__name}>{item.name}</p>
+              </div>
+              <div className={styles.details__result}>
+                <p className={styles.details__price}>
+                  <span className={styles.details__extra}>1 X</span>630
+                </p>
+                <CurrencyIcon type='primary' />
+              </div>
+            </li>
+          ))}
         </ul>
         <div className={styles.details__data}>
-          <p className={styles.details__date}>Вчера, 13:50 i-GMT+3</p>
+          <p className={styles.details__date}>{formattedDate}</p>
           <div className={styles.details__result}>
-            <p className={styles.details__price}>630</p>
+            <p className={styles.details__price}>{totalPrice}</p>
             <CurrencyIcon type='primary' />
           </div>
         </div>
