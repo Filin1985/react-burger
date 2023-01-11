@@ -1,24 +1,16 @@
 import type { Middleware, ActionCreator } from 'redux'
 import { RootState } from '../reducers/root-reducer'
-import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_STOP,
-  WS_SEND_ORDER,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_ORDER,
-} from '../constants/ws'
+
 import { getCookie } from '../../utils/utils'
 
 type TWSOrderActions = {
-  wsConnect: typeof WS_CONNECTION_START
-  onOpen: typeof WS_CONNECTION_SUCCESS
-  onClose: typeof WS_CONNECTION_CLOSED
-  onError: typeof WS_CONNECTION_ERROR
-  onOrders: typeof WS_GET_ORDER
-  onSendOrders: typeof WS_SEND_ORDER
-  wsDisconnect: typeof WS_CONNECTION_STOP
+  wsConnect: string
+  onOpen: string
+  onClose: string
+  onError: string
+  onOrders: string
+  onSendOrders: string
+  wsDisconnect: string
 }
 
 export const socketMiddleware = (

@@ -10,8 +10,6 @@ import {
   wsDisconnectionAction,
 } from '../../services/action/wsActions'
 import Loader from '../loader/loader'
-import { TOrderItem } from '../../services/reducers/types'
-import { SET_CURRENT_ORDER } from '../../services/constants/burgerConstructor'
 
 const WS_ALL_ORDERS_URL = 'wss://norma.nomoreparties.space/orders/all'
 
@@ -30,13 +28,6 @@ const Feed: FC = () => {
 
   const { orders } = useSelector((store) => store.wsFeed)
 
-  const handleClick = (item: TOrderItem) => {
-    dispatch({
-      type: SET_CURRENT_ORDER,
-      item,
-    })
-  }
-
   if (loading) {
     return <Loader />
   }
@@ -51,12 +42,12 @@ const Feed: FC = () => {
               <Link
                 key={item._id}
                 to={{
-                  pathname: `/feed/${item._id}`,
+                  pathname: `/feed/${item.number}`,
                   state: { background: location },
                 }}
                 className={styles.orders__link}
               >
-                <FeedItem order={item} handleClick={handleClick} />
+                <FeedItem order={item} />
               </Link>
             ))}
           </ul>

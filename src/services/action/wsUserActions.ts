@@ -1,44 +1,44 @@
 import { TOrder, TOrdersResponse } from './types'
 
 import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_START,
-  WS_CONNECTION_STOP,
-  WS_CONNECTION_SUCCESS,
-  WS_GET_ORDER,
-  WS_SEND_ORDER,
-} from '../constants/ws'
+  WS_CONNECTION_CLOSED_USER,
+  WS_CONNECTION_ERROR_USER,
+  WS_CONNECTION_START_USER,
+  WS_CONNECTION_STOP_USER,
+  WS_CONNECTION_SUCCESS_USER,
+  WS_GET_ORDER_USER,
+  WS_SEND_ORDER_USER,
+} from '../constants/wsUser'
 
 interface IWsConnectAction {
-  readonly type: typeof WS_CONNECTION_START
+  readonly type: typeof WS_CONNECTION_START_USER
   readonly wsUrl: string
 }
 
 interface IWsDisconnectAction {
-  readonly type: typeof WS_CONNECTION_STOP
+  readonly type: typeof WS_CONNECTION_STOP_USER
 }
 
 interface IWsSendOrderAction {
-  readonly type: typeof WS_SEND_ORDER
+  readonly type: typeof WS_SEND_ORDER_USER
   readonly payload: TOrder
 }
 
 interface IOnOpenAction {
-  readonly type: typeof WS_CONNECTION_SUCCESS
+  readonly type: typeof WS_CONNECTION_SUCCESS_USER
 }
 
 interface IOnCloseAction {
-  readonly type: typeof WS_CONNECTION_CLOSED
+  readonly type: typeof WS_CONNECTION_CLOSED_USER
 }
 
 interface IOnErrorAction {
-  readonly type: typeof WS_CONNECTION_ERROR
+  readonly type: typeof WS_CONNECTION_ERROR_USER
   readonly payload: Event
 }
 
 interface IWsGetOrderAction {
-  readonly type: typeof WS_GET_ORDER
+  readonly type: typeof WS_GET_ORDER_USER
   readonly payload: TOrdersResponse
 }
 
@@ -53,33 +53,33 @@ export type TWsActionTypes =
 
 export const wsConnectionStartAction = (wsUrl: string): IWsConnectAction => {
   return {
-    type: WS_CONNECTION_START,
+    type: WS_CONNECTION_START_USER,
     wsUrl,
   }
 }
 
 export const wsDisconnectionAction = (): IWsDisconnectAction => {
   return {
-    type: WS_CONNECTION_STOP,
+    type: WS_CONNECTION_STOP_USER,
   }
 }
 
 export const wsConnectionSuccessAction = (): IOnOpenAction => {
   return {
-    type: WS_CONNECTION_SUCCESS,
+    type: WS_CONNECTION_SUCCESS_USER,
   }
 }
 
 export const wsConnectionErrorAction = (error: Event): IOnErrorAction => {
   return {
-    type: WS_CONNECTION_ERROR,
+    type: WS_CONNECTION_ERROR_USER,
     payload: error,
   }
 }
 
 export const wsConnectionClosedAction = (): IOnCloseAction => {
   return {
-    type: WS_CONNECTION_CLOSED,
+    type: WS_CONNECTION_CLOSED_USER,
   }
 }
 
@@ -87,7 +87,7 @@ export const wsConnectionGetOrdersAction = (
   response: TOrdersResponse
 ): IWsGetOrderAction => {
   return {
-    type: WS_GET_ORDER,
+    type: WS_GET_ORDER_USER,
     payload: response,
   }
 }
@@ -96,7 +96,7 @@ export const wsConnectionSendOrderAction = (
   order: TOrder
 ): IWsSendOrderAction => {
   return {
-    type: WS_SEND_ORDER,
+    type: WS_SEND_ORDER_USER,
     payload: order,
   }
 }

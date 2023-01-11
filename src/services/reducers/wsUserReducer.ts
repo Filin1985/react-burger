@@ -1,13 +1,13 @@
-import { TWsActionTypes } from '../action/wsActions'
+import { TWsActionTypes } from '../action/wsUserActions'
 import { TWsInitialState } from './types'
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_ORDER,
-  WS_SEND_ORDER,
-} from '../constants/ws'
+  WS_CONNECTION_START_USER,
+  WS_CONNECTION_SUCCESS_USER,
+  WS_CONNECTION_ERROR_USER,
+  WS_CONNECTION_CLOSED_USER,
+  WS_GET_ORDER_USER,
+  WS_SEND_ORDER_USER,
+} from '../constants/wsUser'
 
 export const initialState: TWsInitialState = {
   wsConnected: false,
@@ -22,20 +22,20 @@ export const wsUserReducer = (
   action: TWsActionTypes
 ): TWsInitialState => {
   switch (action.type) {
-    case WS_CONNECTION_START: {
+    case WS_CONNECTION_START_USER: {
       return {
         ...state,
         loading: true,
       }
     }
-    case WS_CONNECTION_SUCCESS: {
+    case WS_CONNECTION_SUCCESS_USER: {
       return {
         ...state,
         error: undefined,
         wsConnected: true,
       }
     }
-    case WS_CONNECTION_ERROR: {
+    case WS_CONNECTION_ERROR_USER: {
       return {
         ...state,
         error: action.payload,
@@ -43,7 +43,7 @@ export const wsUserReducer = (
         loading: false,
       }
     }
-    case WS_CONNECTION_CLOSED: {
+    case WS_CONNECTION_CLOSED_USER: {
       return {
         ...state,
         error: undefined,
@@ -51,7 +51,7 @@ export const wsUserReducer = (
         loading: false,
       }
     }
-    case WS_GET_ORDER: {
+    case WS_GET_ORDER_USER: {
       return {
         ...state,
         error: undefined,

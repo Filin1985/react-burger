@@ -115,7 +115,7 @@ function App() {
         <Route path='/feed' exact>
           <Feed />
         </Route>
-        <Route path='/feed/:id' exact>
+        <Route path='/feed/:number' exact>
           <FeedDetails />
         </Route>
       </Switch>
@@ -126,16 +126,16 @@ function App() {
               <IngredientDetails />
             </Modal>
           </Route>
-          <Route path='/feed/:id'>
+          <Route path='/feed/:number'>
             <Modal closeModal={handleCloseModal}>
               <FeedDetails />
             </Modal>
           </Route>
-          <Route path='/profile/orders/:id'>
+          <ProtectedRoute path='/profile/orders/:number'>
             <Modal closeModal={handleCloseModal}>
               <ProfileOrderDetails />
             </Modal>
-          </Route>
+          </ProtectedRoute>
         </>
       )}
     </>

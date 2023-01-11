@@ -1,6 +1,7 @@
 import { API_URL } from './config'
 import { store } from '../services/store'
 import { IIngredient } from '../types'
+import { TOrderItem } from '../components/feed/feed-item/feed-item'
 
 const MILSECONDS_IN_DAY = 86400000
 
@@ -8,6 +9,11 @@ export interface RefreshTokensResponse {
   accessSchema: string
   accessToken: string
   refreshToken: string
+}
+
+export interface IOrderResponse {
+  success: boolean
+  orders: Array<TOrderItem>
 }
 
 export type RootState = ReturnType<typeof store.getState>
@@ -18,6 +24,20 @@ export const checkResponse = <T>(res: Response): Promise<T> => {
 
 export const request = <T>(url: string, options: RequestInit): Promise<T> => {
   return fetch(url, options).then((res) => checkResponse<T>(res))
+}
+
+export const getCurrentOrder = (
+  url: string,
+  options: RequestInit,
+  func: Function
+) => {
+  request<IOrderResponse>(url, options)
+    .then((res) => {
+      func(res.orders[0])
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 export function setCookie(

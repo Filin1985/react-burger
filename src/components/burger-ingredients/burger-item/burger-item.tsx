@@ -9,22 +9,17 @@ import { useDrag } from 'react-dnd'
 
 interface IBurgerItem {
   item: IIngredient
-  handleClick: (item: IIngredient) => void
   count: number
 }
 
-const BurgerItem: FC<IBurgerItem> = ({ item, handleClick, count }) => {
+const BurgerItem: FC<IBurgerItem> = ({ item, count }) => {
   const [, dragRef] = useDrag({
     type: 'ingredient',
     item: item,
   })
 
   return (
-    <li
-      onClick={() => handleClick(item)}
-      className={styles.ingredients__item}
-      ref={dragRef}
-    >
+    <li className={styles.ingredients__item} ref={dragRef}>
       {count > 0 && <Counter count={count} size='default' />}
       <img src={item.image} alt={item.name} />
       <div className={styles.ingredients__currency}>

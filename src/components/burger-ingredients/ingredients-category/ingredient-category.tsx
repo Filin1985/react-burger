@@ -19,13 +19,6 @@ const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
     const { bun, otherIngredients } = useSelector(
       (store) => store.burgerConstructor.ingredientsBurger
     )
-    const dispatch = useDispatch()
-    const handleClick = (item: IIngredient) => {
-      dispatch({
-        type: SET_CURRENT_INGREDIENT,
-        item: item,
-      })
-    }
 
     const allIngredientIds = useMemo(() => {
       const ingredientIds = otherIngredients.map((el) => el._id)
@@ -63,11 +56,7 @@ const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
                 state: { background: location },
               }}
             >
-              <BurgerItem
-                count={res.get(item._id) ?? 0}
-                item={item}
-                handleClick={handleClick}
-              />
+              <BurgerItem count={res.get(item._id) ?? 0} item={item} />
             </Link>
           ))}
         </ul>

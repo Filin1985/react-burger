@@ -12,6 +12,16 @@ import {
   WS_GET_ORDER,
 } from './constants/ws'
 
+import {
+  WS_CONNECTION_START_USER,
+  WS_CONNECTION_STOP_USER,
+  WS_SEND_ORDER_USER,
+  WS_CONNECTION_SUCCESS_USER,
+  WS_CONNECTION_ERROR_USER,
+  WS_CONNECTION_CLOSED_USER,
+  WS_GET_ORDER_USER,
+} from './constants/wsUser'
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
@@ -31,13 +41,13 @@ export const wsActions = {
 }
 
 export const wsUserActions = {
-  wsConnect: WS_CONNECTION_START,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onOrders: WS_GET_ORDER,
-  onSendOrders: WS_SEND_ORDER,
-  wsDisconnect: WS_CONNECTION_STOP,
+  wsConnect: WS_CONNECTION_START_USER,
+  onOpen: WS_CONNECTION_SUCCESS_USER,
+  onClose: WS_CONNECTION_CLOSED_USER,
+  onError: WS_CONNECTION_ERROR_USER,
+  onOrders: WS_GET_ORDER_USER,
+  onSendOrders: WS_SEND_ORDER_USER,
+  wsDisconnect: WS_CONNECTION_STOP_USER,
 }
 
 const enhancer = composeEnhancers(

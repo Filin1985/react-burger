@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
-import { useSelector } from 'react-redux'
 import { useLocation, Redirect, Route } from 'react-router-dom'
+import { useSelector } from '../services/hooks'
 import Loader from './loader/loader'
+import { Location } from 'history'
 
 interface IAuth {
   onlyUnAuth?: boolean
@@ -10,39 +11,43 @@ interface IAuth {
   exact?: boolean
 }
 
-const ProtectedRoute: FC<IAuth> = ({ onlyUnAuth = false, ...rest }) => {
-  const authChecked = useSelector((store: any) => store.user.authChecked)
-  const user = useSelector((store: any) => store.user.email)
-  const location = useLocation()
+const ProtectedRoute: FC<IAuth> = ({
+  onlyUnAuth = false,
+  children,
+  ...rest
+}) => {
+  const authChecked = useSelector((store) => store.user.authChecked)
+  const user = useSelector((store) => store.user.email)
+  const location = useLocation<{ from: Location }>()
 
   if (!authChecked) {
     return <Loader />
   }
 
-  const { from }: any = location.state || { from: { pathname: '/' } }
+  const { from } = location.state || { from: { pathname: '/' } }
 
   if (onlyUnAuth && user) {
     return (
-      <Redirect
-        to={{
-          pathname: from.pathname,
-        }}
-      />
+      <Route {...rest}>
+        <Redirect to={from} />
+      </Route>
     )
   }
 
   if (!onlyUnAuth && !user) {
     return (
-      <Redirect
-        to={{
-          pathname: '/login',
-          state: { from: location },
-        }}
-      />
+      <Route {...rest}>
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: location },
+          }}
+        />
+      </Route>
     )
   }
 
-  return <Route {...rest} />
+  return <Route {...rest}>{children}</Route>
 }
 
 export default ProtectedRoute
