@@ -8,7 +8,6 @@ const ProfileNav = () => {
   const dispatch = useDispatch()
 
   const handleLogout = () => {
-    //@ts-ignore
     dispatch(logoutUser())
   }
   return (

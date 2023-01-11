@@ -2,9 +2,14 @@ import React, { memo } from 'react'
 
 import styles from './ingredient-details.module.css'
 import { useSelector } from '../../../services/hooks'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const IngredientDetails = () => {
   const { currentIngredient } = useSelector((store) => store.burgerConstructor)
+  const history = useHistory
+  const location = useLocation
+  console.log(history)
+  console.log(location)
 
   return (
     <div className={styles.ingredient__details}>

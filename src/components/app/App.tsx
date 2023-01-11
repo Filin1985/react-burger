@@ -82,6 +82,9 @@ function App() {
               )}
           </main>
         </Route>
+        <ProtectedRoute path='/profile' exact>
+          <Profile />
+        </ProtectedRoute>
         <ProtectedRoute path='/register' onlyUnAuth={true} exact>
           <RegisterPage />
         </ProtectedRoute>
@@ -99,16 +102,14 @@ function App() {
         <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
           <ResetPassword />
         </ProtectedRoute>
-        <ProtectedRoute path='/profile' exact>
-          <Profile />
-        </ProtectedRoute>
+
         <ProtectedRoute path='/profile/orders' exact>
           <OrderHistory />
         </ProtectedRoute>
         <ProtectedRoute path='/profile/orders/:id' exact>
           <ProfileOrderDetails />
         </ProtectedRoute>
-        <Route path='/ingredients/:id' exact>
+        <Route path='/ingredients/:id'>
           <IngredientDetails />
         </Route>
         <Route path='/feed' exact>
@@ -120,31 +121,21 @@ function App() {
       </Switch>
       {background && (
         <>
-          <Route
-            path='/ingredients/:id'
-            children={
-              <Modal closeModal={handleCloseModal}>
-                <IngredientDetails />
-              </Modal>
-            }
-          />
-          <Route
-            path='/feed/:id'
-            children={
-              <Modal closeModal={handleCloseModal}>
-                <FeedDetails />
-              </Modal>
-            }
-          />
-          <ProtectedRoute
-            exact
-            path='/profile/orders/:id'
-            children={
-              <Modal closeModal={handleCloseModal}>
-                <ProfileOrderDetails />
-              </Modal>
-            }
-          />
+          <Route path='/ingredients/:id'>
+            <Modal closeModal={handleCloseModal}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path='/feed/:id'>
+            <Modal closeModal={handleCloseModal}>
+              <FeedDetails />
+            </Modal>
+          </Route>
+          <Route path='/profile/orders/:id'>
+            <Modal closeModal={handleCloseModal}>
+              <ProfileOrderDetails />
+            </Modal>
+          </Route>
         </>
       )}
     </>
