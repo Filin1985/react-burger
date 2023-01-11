@@ -6,7 +6,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 100;
 }
 
 .modal__close {
@@ -19,8 +19,8 @@
 
 .ingredient_container {
   composes: modal__container;
-  width: 720px;
-  height: 538px;
+  min-width: 720px;
+  min-height: 538px;
 }
 
 .order__container {

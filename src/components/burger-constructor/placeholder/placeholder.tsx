@@ -1,5 +1,4 @@
 import React from 'react'
-//@ts-ignore
 import styles from './placeholder.module.css'
 //@ts-ignore
 import bun1 from '../../../images/bun-01.png'

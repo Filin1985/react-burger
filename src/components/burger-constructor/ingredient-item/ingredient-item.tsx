@@ -3,7 +3,6 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './ingredient-item.module.css'
 import { IIngredient } from '../../../types'
 import { useDrag, useDrop } from 'react-dnd'

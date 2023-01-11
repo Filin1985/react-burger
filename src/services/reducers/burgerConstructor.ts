@@ -1,3 +1,6 @@
+import { TOrderActions } from '../action/burgerConstructor'
+import { TConstructorInitialState, TIngredientWithKey } from './types'
+
 import {
   CHOOSE_INGREDIENTS,
   REMOVE_INGREDIENT,
@@ -10,9 +13,10 @@ import {
   DECREASE_INGREDIENT_ITEM,
   UPDATE_LIST,
   CLEAN_ORDER,
-} from '../action/burgerConstructor.js'
+  SET_CURRENT_ORDER,
+} from '../constants/burgerConstructor'
 
-export const initialState = {
+export const initialState: TConstructorInitialState = {
   ingredientsBurger: {
     bun: null,
     otherIngredients: [],
@@ -21,12 +25,18 @@ export const initialState = {
     prevBunPrice: 0,
   },
   currentIngredient: null,
-  burgerOrder: [],
+  currentOrder: null,
+  burgerOrder: {
+    number: 0,
+  },
   burgerOrderRequest: false,
   burgerOrderFailed: false,
 }
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (
+  state = initialState,
+  action: TOrderActions
+): TConstructorInitialState => {
   switch (action.type) {
     case CHOOSE_INGREDIENTS: {
       if (action.item.type === 'bun') {
@@ -62,6 +72,12 @@ export const constructorReducer = (state = initialState, action) => {
       return {
         ...state,
         currentIngredient: action.item,
+      }
+    }
+    case SET_CURRENT_ORDER: {
+      return {
+        ...state,
+        currentOrder: action.item,
       }
     }
     case INCREASE_INGREDIENT_ITEM: {
@@ -112,7 +128,7 @@ export const constructorReducer = (state = initialState, action) => {
         ingredientsBurger: {
           ...state.ingredientsBurger,
           otherIngredients: state.ingredientsBurger.otherIngredients.filter(
-            (element) => element.key !== action.key
+            (element: TIngredientWithKey) => element.key !== action.key
           ),
           orderSum: state.ingredientsBurger.orderSum - action.item.price,
         },

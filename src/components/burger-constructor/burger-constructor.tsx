@@ -5,22 +5,23 @@ import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details'
 import IngredientItem from './ingredient-item/ingredient-item'
 import Modal from '../modal/modal'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../services/hooks'
 import {
   DECREASE_INGREDIENT_ITEM,
-  getOrderDetails,
   REMOVE_INGREDIENT,
   UPDATE_LIST,
-} from '../../services/action/burgerConstructor'
+} from '../../services/constants/burgerConstructor'
+import { getOrderDetails } from '../../services/action/burgerConstructor'
 import { useDrop } from 'react-dnd'
-import { CLOSE_MODAL, OPEN_MODAL } from '../../services/action/modal'
+import { CLOSE_MODAL, OPEN_MODAL } from '../../services/constants/modal'
 import Placeholder from './placeholder/placeholder'
 import { IIngredient } from '../../types'
+import { TIngredientWithKey } from '../../services/reducers/types'
 
 type TDrop = {
   onDropHandler: (item: IIngredient) => void
@@ -33,7 +34,7 @@ type TCallback = (
 
 const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
-    (store: any) => store.burgerConstructor.ingredientsBurger
+    (store) => store.burgerConstructor.ingredientsBurger
   )
 
   const { isOpen } = useSelector((store: any) => store.modal)
@@ -57,14 +58,15 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   }
 
   const handleClick = () => {
-    const bunId = [bun._id]
-    const ingredientsIds = bunId.concat(
-      otherIngredients.map((ingredient: IIngredient) => ingredient._id),
-      bunId
-    )
-    //@ts-ignore
-    dispatch(getOrderDetails(ingredientsIds))
-    dispatch({ type: OPEN_MODAL })
+    if (bun !== null) {
+      const bunId = [bun._id]
+      const ingredientsIds = bunId.concat(
+        otherIngredients.map((ingredient: IIngredient) => ingredient._id),
+        bunId
+      )
+      dispatch(getOrderDetails(ingredientsIds))
+      dispatch({ type: OPEN_MODAL })
+    }
   }
 
   const moveIngredient = useCallback<TCallback>(
@@ -103,40 +105,34 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
                 thumbnail={bun.image}
               />
             </li>
-          ) : (
-            <ConstructorElement
-              text='Выберите булку'
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          )}
+          ) : null}
           <div className={styles.constructor__scroll}>
             {otherIngredients.length > 0 &&
-              otherIngredients.map((ingredient: IIngredient, index: number) => {
-                const removeIngredient = () => {
-                  dispatch({
-                    type: REMOVE_INGREDIENT,
-                    item: ingredient,
-                    //@ts-ignore
-                    key: ingredient.key,
-                  })
-                  dispatch({
-                    type: DECREASE_INGREDIENT_ITEM,
-                    ingredient,
-                    //@ts-ignore
-                    _id: ingredient.key,
-                  })
+              otherIngredients.map(
+                (ingredient: TIngredientWithKey, index: number) => {
+                  const removeIngredient = () => {
+                    dispatch({
+                      type: REMOVE_INGREDIENT,
+                      item: ingredient,
+                      key: ingredient.key,
+                    })
+                    dispatch({
+                      type: DECREASE_INGREDIENT_ITEM,
+                      ingredient,
+                      _id: ingredient._id,
+                    })
+                  }
+                  return (
+                    <IngredientItem
+                      key={ingredient.key}
+                      ingredient={ingredient}
+                      handleDelete={removeIngredient}
+                      index={index}
+                      moveIngredient={moveIngredient}
+                    />
+                  )
                 }
-                return (
-                  <IngredientItem
-                    key={ingredient._id}
-                    ingredient={ingredient}
-                    handleDelete={removeIngredient}
-                    index={index}
-                    moveIngredient={moveIngredient}
-                  />
-                )
-              })}
+              )}
           </div>
 
           {bun ? (

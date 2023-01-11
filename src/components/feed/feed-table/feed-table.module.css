@@ -1,0 +1,55 @@
+.statistics__header {
+  margin: 0 0 24px 0;
+  padding: 0;
+  color: #f2f2f3;
+}
+
+.statistics__list {
+  display: flex;
+  min-width: 580px;
+  justify-content: flex-start;
+  gap: 36px;
+}
+
+.statistics__numbers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-height: 320px;
+}
+
+.statistics__ready {
+  min-width: 272px;
+  color: #00cccc;
+}
+
+.statistics__number {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  color: inherit;
+}
+
+.statistics__time .statistics__header {
+  margin-top: 60px;
+}
+
+.statistics__count {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 144px;
+  line-height: 120px;
+  margin: 0;
+  padding: 0;
+}
+
+.statistics__today .statistics__header {
+  margin-top: 60px;
+}
