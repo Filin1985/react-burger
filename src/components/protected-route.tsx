@@ -13,14 +13,11 @@ interface IAuth {
 
 const ProtectedRoute: FC<IAuth> = ({ onlyUnAuth = false, ...rest }) => {
   const authChecked = useSelector((store: any) => store.user.authChecked)
+  console.log(authChecked)
   const user = useSelector((store: any) => store.user.email)
+  console.log(user)
   const location = useLocation()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    //@ts-ignore
-    dispatch(checkUserAuth())
-  }, [])
+  console.log(location)
 
   if (!authChecked) {
     return <Loader />

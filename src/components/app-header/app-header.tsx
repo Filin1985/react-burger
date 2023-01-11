@@ -10,7 +10,7 @@ import styles from './app-header.module.css'
 
 const Header = () => {
   const isConstructor = useRouteMatch({ path: '/constructor', exact: true })
-  const isOrderList = useRouteMatch({ path: '/order_list' })
+  const isOrderList = useRouteMatch({ path: '/feed' })
   const isProfile = useRouteMatch({ path: '/profile' })
 
   return (

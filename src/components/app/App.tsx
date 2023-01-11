@@ -31,18 +31,20 @@ import * as H from 'history'
 import FeedDetails from '../feed/feed-details/feed-details'
 import OrderHistory from '../profile/order-history/order-history'
 import ProfileOrderDetails from '../profile/profile-order-details/profile-order-details'
+import { checkUserAuth } from '../../services/action/auth'
 
 function App() {
   const location = useLocation<{ background: H.Location }>()
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   )
-  const { visitedPath } = useSelector((store: any) => store.user)
+  const { visitedPath } = useSelector((store) => store.user)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getIngredients())
+    dispatch(checkUserAuth())
   }, [dispatch])
 
   const handleDrop = (item: IIngredient) => {
@@ -80,15 +82,6 @@ function App() {
               )}
           </main>
         </Route>
-        <Route path='/ingredients/:id' exact>
-          <IngredientDetails />
-        </Route>
-        <Route path='/feed' exact>
-          <Feed />
-        </Route>
-        <Route path='/feed/:id' exact>
-          <FeedDetails />
-        </Route>
         <ProtectedRoute path='/register' onlyUnAuth={true} exact>
           <RegisterPage />
         </ProtectedRoute>
@@ -115,6 +108,15 @@ function App() {
         <ProtectedRoute path='/profile/orders/:id' exact>
           <ProfileOrderDetails />
         </ProtectedRoute>
+        <Route path='/ingredients/:id' exact>
+          <IngredientDetails />
+        </Route>
+        <Route path='/feed' exact>
+          <Feed />
+        </Route>
+        <Route path='/feed/:id' exact>
+          <FeedDetails />
+        </Route>
       </Switch>
       {background && (
         <>

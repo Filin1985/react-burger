@@ -47,7 +47,7 @@ const Feed: FC = () => {
         <h1 className={styles.orders__header}>Лента заказов</h1>
         <div className={styles.orders__list}>
           <ul className={styles.orders__scroll}>
-            {orders.map((item) => (
+            {orders?.map((item) => (
               <Link
                 key={item._id}
                 to={{

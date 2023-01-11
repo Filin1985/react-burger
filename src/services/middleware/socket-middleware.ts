@@ -68,7 +68,7 @@ export const socketMiddleware = (
           dispatch({ type: onClose })
         }
 
-        if (type === onClose) {
+        if (type === wsDisconnect) {
           socket.close()
         }
 

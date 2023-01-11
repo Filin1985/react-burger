@@ -9,6 +9,7 @@ import {
 } from '../../../utils/utils'
 
 const SLICE_NUMBER = 6
+const MOVE_ITEM_LEFT_NUMBER = 50
 
 export type TOrder = {
   order: TOrderItem
@@ -41,13 +42,13 @@ const FeedItem: FC<TOrder> = ({ order, handleClick }) => {
       <h2 className={styles.orders__name}>{order.name}</h2>
       <div className={styles.orders__container}>
         <ul className={styles.orders__ingredients}>
-          {sliceOrderIngredients.map((item, index) => (
+          {sliceOrderIngredients?.map((item, index) => (
             <li key={index} className={styles.orders__ingredient}>
               <img
                 className={styles.orders__image}
                 style={{
-                  left: `${0 + 50 * index}px`,
-                  zIndex: 100 - index,
+                  left: `${MOVE_ITEM_LEFT_NUMBER * index}px`,
+                  zIndex: SLICE_NUMBER - index,
                 }}
                 src={item.image}
                 alt=''

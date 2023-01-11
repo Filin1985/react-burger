@@ -8,9 +8,9 @@ import {
   getOrderIngredients,
   getTotalPrice,
 } from '../../../utils/utils'
-import { IIngredient } from '../../../types'
 
 const SLICE_NUMBER = 6
+const MOVE_ITEM_LEFT_NUMBER = 50
 
 interface IOrderItem {
   order: TOrderItem
@@ -46,8 +46,8 @@ const OrderItem: FC<IOrderItem> = ({ order, handleClick }) => {
               <img
                 className={styles.orders__image}
                 style={{
-                  left: `${0 + 50 * index}px`,
-                  zIndex: 100 - index,
+                  left: `${MOVE_ITEM_LEFT_NUMBER * index}px`,
+                  zIndex: SLICE_NUMBER - index,
                 }}
                 src={item.image}
                 alt=''

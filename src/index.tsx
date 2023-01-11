@@ -10,12 +10,10 @@ import { store } from './services/store'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Router>
-    <React.StrictMode>
-      <Provider store={store}>
-        <div className='content'>
-          <App />
-        </div>
-      </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+      <div className='content'>
+        <App />
+      </div>
+    </Provider>
   </Router>
 )

@@ -54,18 +54,20 @@ const OrderHistory: FC = () => {
         </p>
       </div>
       <ul className={styles.orders__items}>
-        {orders.map((item) => (
-          <Link
-            to={{
-              pathname: `/profile/orders/${item._id}`,
-              state: { background: location },
-            }}
-            className={styles.orders__link}
-            key={item._id}
-          >
-            <OrderItem order={item} handleClick={handleClick} />
-          </Link>
-        ))}
+        {orders
+          .map((item) => (
+            <Link
+              to={{
+                pathname: `/profile/orders/${item.number}`,
+                state: { background: location },
+              }}
+              className={styles.orders__link}
+              key={item._id}
+            >
+              <OrderItem order={item} handleClick={handleClick} />
+            </Link>
+          ))
+          .reverse()}
       </ul>
     </section>
   )
