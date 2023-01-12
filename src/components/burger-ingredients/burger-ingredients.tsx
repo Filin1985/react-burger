@@ -1,20 +1,18 @@
 import React, { useMemo, useRef, useState, FC } from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './burger-ingredients.module.css'
 import IngredientDetails from './ingredient-details/ingredient-details'
 import IngredientCategory from './ingredients-category/ingredient-category'
 import Modal from '../modal/modal'
-import { useSelector, useDispatch } from 'react-redux'
-import { UNSET_CURRENT_INGREDIENT } from '../../services/action/burgerConstructor'
-import { CLOSE_MODAL } from '../../services/action/modal'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../services/hooks'
+import { UNSET_CURRENT_INGREDIENT } from '../../services/constants/burgerConstructor'
+import { CLOSE_MODAL } from '../../services/constants/modal'
 import { IIngredient } from '../../types'
 
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState<string>('bun')
-  const { currentIngredient } = useSelector(
-    (store: any) => store.burgerConstructor
-  )
+  const { currentIngredient } = useSelector((store) => store.burgerConstructor)
   const { ingredients } = useSelector((store: any) => store.ingredients)
   const dispatch = useDispatch()
   const parentRef = useRef<HTMLUListElement | null>(null)
@@ -41,7 +39,6 @@ const BurgerIngredients: FC = () => {
   }, [ingredients])
 
   const setTab = (tab: string) => {
-    console.log(tab)
     setCurrent(tab)
     const element = document.getElementById(tab)
     if (element) element.scrollIntoView({ behavior: 'smooth' })

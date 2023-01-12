@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-//@ts-ignore
 import styles from './ingredients-category.module.css'
 import { IIngredient } from '../../../types'
 import BurgerItem from '../burger-item/burger-item'
-import { useDispatch, useSelector } from 'react-redux'
-import { SET_CURRENT_INGREDIENT } from '../../../services/action/burgerConstructor'
+import { useDispatch } from 'react-redux'
+import { useSelector } from '../../../services/hooks'
+import { SET_CURRENT_INGREDIENT } from '../../../services/constants/burgerConstructor'
+import { TIngredientWithKey } from '../../../services/reducers/types'
 
 interface ICategoryRef {
   name: string
@@ -16,29 +17,28 @@ interface ICategoryRef {
 const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
   ({ name, data, id }, ref) => {
     const { bun, otherIngredients } = useSelector(
-      (store: any) => store.burgerConstructor.ingredientsBurger
+      (store) => store.burgerConstructor.ingredientsBurger
     )
-    const dispatch = useDispatch()
-    const handleClick = (item: IIngredient) => {
-      dispatch({
-        type: SET_CURRENT_INGREDIENT,
-        item: item,
-      })
-    }
 
-    const allIngredients = useMemo(() => {
-      return [...otherIngredients, bun ? bun : 0]
+    const allIngredientIds = useMemo(() => {
+      const ingredientIds = otherIngredients.map((el) => el._id)
+      if (bun) {
+        ingredientIds.push(bun._id)
+        ingredientIds.push(bun._id)
+      }
+      return ingredientIds
     }, [otherIngredients, bun])
 
-    let res = new Map()
-    useMemo(() => {
-      return allIngredients[0] !== null
-        ? allIngredients.reduce(
-            (acc, e) => acc.set(e._id, (acc.get(e._id) || 0) + 1),
-            res
-          )
-        : 0
-    }, [allIngredients, res])
+    const res = useMemo(() => {
+      const res = new Map<string, number>()
+
+      allIngredientIds.reduce(
+        (acc, id) => acc.set(id, (acc.get(id) ?? 0) + 1),
+        res
+      )
+
+      return res
+    }, [allIngredientIds])
 
     let location = useLocation()
 
@@ -56,11 +56,7 @@ const IngredientCategory = React.forwardRef<HTMLHeadingElement, ICategoryRef>(
                 state: { background: location },
               }}
             >
-              <BurgerItem
-                count={res.get(item._id)}
-                item={item}
-                handleClick={handleClick}
-              />
+              <BurgerItem count={res.get(item._id) ?? 0} item={item} />
             </Link>
           ))}
         </ul>

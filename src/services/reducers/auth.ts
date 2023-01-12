@@ -1,3 +1,6 @@
+import { TAuthInitialState } from './types'
+import { TUserActions } from '../action/auth'
+
 import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
@@ -24,9 +27,9 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
   AUTH_CHECKED,
-} from '../action/auth.js'
+} from '../constants/auth'
 
-const initialState = {
+const initialState: TAuthInitialState = {
   name: '',
   email: '',
   password: '',
@@ -46,7 +49,10 @@ const initialState = {
   authChecked: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (
+  state = initialState,
+  action: TUserActions
+): TAuthInitialState => {
   switch (action.type) {
     case AUTH_CHECKED: {
       return {
@@ -70,7 +76,6 @@ export const authReducer = (state = initialState, action) => {
         registerFailed: false,
         name: action.user.name,
         email: action.user.email,
-        password: action.user.password,
       }
     }
     case UPDATE_USER_FAILED:
