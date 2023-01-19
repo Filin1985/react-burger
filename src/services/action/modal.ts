@@ -1,5 +1,3 @@
-import { AppThunk, AppDispatch } from '../hooks'
-
 import { OPEN_MODAL, CLOSE_MODAL } from '../constants/modal'
 
 export interface IOpenModal {
