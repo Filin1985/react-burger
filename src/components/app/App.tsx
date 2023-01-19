@@ -15,10 +15,7 @@ import IngredientDetails from '../burger-ingredients/ingredient-details/ingredie
 
 import { useDispatch } from 'react-redux'
 import { useSelector } from '../../services/hooks'
-import {
-  INCREASE_INGREDIENT_ITEM,
-  UNSET_CURRENT_INGREDIENT,
-} from '../../services/constants/burgerConstructor'
+import { INCREASE_INGREDIENT_ITEM } from '../../services/constants/burgerConstructor'
 import { getIngredients } from '../../services/action/ingredients'
 import { actionCreators } from '../../services/actionCreators/burgerConstructor'
 import { DndProvider } from 'react-dnd'
@@ -56,7 +53,6 @@ function App() {
   const handleCloseModal = () => {
     history.goBack()
     dispatch({ type: CLOSE_MODAL })
-    dispatch({ type: UNSET_CURRENT_INGREDIENT })
   }
 
   let background =
@@ -68,7 +64,7 @@ function App() {
     <>
       <Header />
       <Switch location={background || location}>
-        <Route path={['/', '/constructor']} exact>
+        <Route path={['/', '/react-burger']} exact>
           <main className={styles.container}>
             {ingredientsRequest && <Loader />}
             {ingredientsFailed && <h1>Ошибка при загрузке данных</h1>}

@@ -20,7 +20,6 @@ import {
 
 import { TOrderDetails } from './types'
 import { TOrderNumber, TOrderItem } from '../reducers/types'
-import { TOrder } from '../../components/feed/feed-item/feed-item'
 
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_DETAILS_REQUEST
