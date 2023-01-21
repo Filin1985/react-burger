@@ -10,7 +10,7 @@ describe('constructor', () => {
     )
     cy.setCookie('accessToken', 'test-accessToken')
     cy.intercept('GET', 'constructor', { fixture: 'ingredients' })
-    cy.visit('http://localhost:3001/')
+    cy.visit('http://localhost:3000/')
   })
 
   it('Should drag and drop ingredient', () => {
