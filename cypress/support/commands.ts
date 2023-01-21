@@ -35,3 +35,10 @@
 //     }
 //   }
 // }
+// import 'cypress-localstorage-commands'
+
+// Cypress.Commands.add('seeAndVisit', () => {
+//   cy.intercept('GET', 'constructor', { fixture: 'ingredients' })
+
+//   cy.visit('http://localhost:3001/')
+// })

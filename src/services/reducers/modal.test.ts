@@ -1,7 +1,10 @@
-import { modalReducer } from './modal'
+import { modalReducer, initialState } from './modal'
 import { OPEN_MODAL, CLOSE_MODAL } from '../constants/modal'
 
 describe('modal reducer', () => {
+  test('should return the initial state', () => {
+    expect(modalReducer(undefined, {} as any)).toEqual(initialState)
+  })
   it('should handle OPEN_MODAL', () => {
     const state = {
       isOpen: false,

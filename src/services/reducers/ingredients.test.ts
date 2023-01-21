@@ -7,6 +7,10 @@ import {
 } from '../constants/ingredients'
 
 describe('ingredients reducer', () => {
+  test('should return the initial state', () => {
+    expect(ingredientsReducer(undefined, {} as any)).toEqual(initialState)
+  })
+
   it('should handle GET_INGREDIENTS_REQUEST', () => {
     const state = {
       ...initialState,

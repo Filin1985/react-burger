@@ -19,7 +19,11 @@ const BurgerItem: FC<IBurgerItem> = ({ item, count }) => {
   })
 
   return (
-    <li className={styles.ingredients__item} ref={dragRef}>
+    <li
+      className={styles.ingredients__item}
+      ref={dragRef}
+      data-testid={item._id}
+    >
       {count > 0 && <Counter count={count} size='default' />}
       <img src={item.image} alt={item.name} />
       <div className={styles.ingredients__currency}>

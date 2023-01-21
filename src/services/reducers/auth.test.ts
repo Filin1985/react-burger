@@ -29,6 +29,10 @@ import {
 } from '../constants/auth'
 
 describe('auth reducer', () => {
+  test('should return the initial state', () => {
+    expect(authReducer(undefined, {} as any)).toEqual(initialState)
+  })
+
   it('should handle AUTH_CHECKED', () => {
     const state = {
       ...initialState,

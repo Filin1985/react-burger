@@ -15,6 +15,10 @@ import {
 } from '../constants/burgerConstructor'
 
 describe('constructor reducer', () => {
+  test('should return the initial state', () => {
+    expect(constructorReducer(undefined, {} as any)).toEqual(initialState)
+  })
+
   it('should handle GET_ORDER_DETAILS_REQUEST', () => {
     const state = {
       ...initialState,

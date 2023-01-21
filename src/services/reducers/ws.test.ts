@@ -8,6 +8,9 @@ import {
 } from '../constants/ws'
 
 describe('ws reducer', () => {
+  test('should return the initial state', () => {
+    expect(wsReducer(undefined, {} as any)).toEqual(initialState)
+  })
   it('should handle WS_CONNECTION_START', () => {
     const state = {
       ...initialState,
