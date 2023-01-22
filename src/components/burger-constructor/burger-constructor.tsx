@@ -37,7 +37,7 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
     (store) => store.burgerConstructor.ingredientsBurger
   )
   const user = useSelector((store) => store.user.email)
-  const { isOpen } = useSelector((store: any) => store.modal)
+  const { isOpen } = useSelector((store) => store.modal)
 
   const dispatch = useDispatch()
   const history = useHistory()

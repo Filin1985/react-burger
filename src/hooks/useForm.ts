@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 
 type TState = {
   name?: string
@@ -9,8 +9,8 @@ type TState = {
 export function useForm(inputValues: TState) {
   const [values, setValues] = useState(inputValues)
 
-  const handleChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    const { value, name } = event.target as HTMLInputElement
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target
     setValues({ ...values, [name]: value })
   }
   return { values, handleChange, setValues }

@@ -6,6 +6,7 @@ import { getCurrentOrder } from '../../../utils/utils'
 import { useParams } from 'react-router-dom'
 import Loader from '../../loader/loader'
 import { TOrderItem } from '../../feed/feed-item/feed-item'
+import { countSameIngredients } from '../../../utils/utils'
 import {
   getFormatedDate,
   getOrderIngredients,
@@ -38,6 +39,7 @@ const ProfileOrderDetails = () => {
   }
 
   const orderIngredients = getOrderIngredients(ingredients, order.ingredients)
+  const ingredientsWithCount = countSameIngredients(orderIngredients)
   const formattedDate = getFormatedDate(order?.createdAt)
   const totalPrice = getTotalPrice(orderIngredients)
   return (
@@ -49,7 +51,7 @@ const ProfileOrderDetails = () => {
       </p>
       <p className={styles.details__ingredients}>Состав:</p>
       <ul className={styles.details__list}>
-        {orderIngredients.map((item, index) => (
+        {ingredientsWithCount.map((item, index) => (
           <li key={index} className={styles.details__item}>
             <div className={styles.details__wrap}>
               <img className={styles.details__image} src={item.image} alt='' />
@@ -57,7 +59,8 @@ const ProfileOrderDetails = () => {
             </div>
             <div className={styles.details__result}>
               <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X</span>630
+                <span className={styles.details__extra}>{item.count} X </span>
+                {item.price}
               </p>
               <CurrencyIcon type='primary' />
             </div>

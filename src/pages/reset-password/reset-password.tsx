@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react'
+import React, { FormEvent, useState, ChangeEvent } from 'react'
 import { useDispatch, useSelector } from '../../services/hooks'
 import { Link, useHistory, Redirect } from 'react-router-dom'
 import {
@@ -14,14 +14,14 @@ const ResetPassword = () => {
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const history = useHistory()
-  const onChange = (e: SyntheticEvent) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement
     setPassword(target.value)
   }
   const { visitedPath } = useSelector((store) => store.user)
   const user = useSelector((store) => store.user.email)
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(resetPassword(password, token, history))
   }

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { useDispatch } from '../../services/hooks'
 import { Link } from 'react-router-dom'
 import {
@@ -20,7 +20,7 @@ const LoginPage = () => {
     alert('Icon Click Callback')
   }
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(loginUser(values))
   }

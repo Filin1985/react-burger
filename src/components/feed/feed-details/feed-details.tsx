@@ -11,7 +11,7 @@ import {
   getTotalPrice,
 } from '../../../utils/utils'
 import { TOrderItem } from '../feed-item/feed-item'
-import { IIngredient } from '../../../types'
+import { countSameIngredients } from '../../../utils/utils'
 
 type TOrderNumber = {
   number: string
@@ -40,16 +40,7 @@ const FeedDetails = () => {
   }
 
   const orderIngredients = getOrderIngredients(ingredients, order.ingredients)
-  const ingredientsWithCount = Array.from(
-    orderIngredients
-      .reduce((r, ingredient) => {
-        let id = `${ingredient._id}`
-        if (!r.has(id)) r.set(id, { ...ingredient, count: 1 })
-        else r.get(id).count++
-        return r
-      }, new Map())
-      .values()
-  )
+  const ingredientsWithCount = countSameIngredients(orderIngredients)
   const formattedDate = getFormatedDate(order?.createdAt)
   const totalPrice = getTotalPrice(orderIngredients)
 

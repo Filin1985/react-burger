@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react'
+import React, { useState, FormEvent } from 'react'
 import { useDispatch } from '../../services/hooks'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import {
@@ -15,7 +15,7 @@ const ForgotPassword = () => {
   const history = useHistory()
   const location = useLocation()
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(forgotPassword(email, location.pathname, history))
   }

@@ -12,7 +12,7 @@ import { IIngredient } from '../../types'
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState<string>('bun')
   const { currentIngredient } = useSelector((store) => store.burgerConstructor)
-  const { ingredients } = useSelector((store: any) => store.ingredients)
+  const { ingredients } = useSelector((store) => store.ingredients)
   const dispatch = useDispatch()
   const parentRef = useRef<HTMLUListElement | null>(null)
   const bunRef = useRef<HTMLDivElement | null>(null)
