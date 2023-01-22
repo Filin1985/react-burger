@@ -1,5 +1,3 @@
-import React, { memo } from 'react'
-
 import styles from './ingredient-details.module.css'
 import { useSelector } from '../../../services/hooks'
 import { useLocation } from 'react-router-dom'

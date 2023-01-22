@@ -14,6 +14,50 @@ import {
   SET_CURRENT_ORDER,
 } from '../constants/burgerConstructor'
 
+const testBun = {
+  _id: '60666c42cc7b410027a1a9b1',
+  name: 'Краторная булка N-200i',
+  type: 'bun',
+  proteins: 80,
+  fat: 24,
+  carbohydrates: 53,
+  calories: 420,
+  price: 1255,
+  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+  __v: 0,
+}
+
+const testIngredientOne = {
+  _id: '60666c42cc7b410027a1a9b5',
+  name: 'Говяжий метеорит (отбивная)',
+  type: 'main',
+  proteins: 800,
+  fat: 800,
+  carbohydrates: 300,
+  calories: 2674,
+  price: 3000,
+  image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+  __v: 0,
+}
+const testIngredientTwo = {
+  _id: '60666c42cc7b410027a1a9b6',
+  name: 'Биокотлета из марсианской Магнолии',
+  type: 'main',
+  proteins: 420,
+  fat: 142,
+  carbohydrates: 242,
+  calories: 4242,
+  price: 424,
+  image: 'https://code.s3.yandex.net/react/code/meat-01.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
+  __v: 0,
+}
+
 describe('constructor reducer', () => {
   test('should return the initial state', () => {
     expect(constructorReducer(undefined, {} as any)).toEqual(initialState)
@@ -101,21 +145,7 @@ describe('constructor reducer', () => {
 
     const stateOtherIngredients = {
       ingredientsBurger: {
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [],
         counts: {},
         orderSum: 2510,
@@ -132,20 +162,7 @@ describe('constructor reducer', () => {
 
     const actionBun = {
       type: CHOOSE_INGREDIENTS,
-      item: {
-        _id: '60666c42cc7b410027a1a9b1',
-        name: 'Краторная булка N-200i',
-        type: 'bun',
-        proteins: 80,
-        fat: 24,
-        carbohydrates: 53,
-        calories: 420,
-        price: 1255,
-        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-        __v: 0,
-      },
+      item: testBun,
       key: '',
     }
     const resultBun = constructorReducer(stateBun, actionBun)
@@ -154,21 +171,7 @@ describe('constructor reducer', () => {
       ...initialState,
       ingredientsBurger: {
         ...initialState.ingredientsBurger,
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [],
         counts: {},
         orderSum: 2510,
@@ -178,21 +181,7 @@ describe('constructor reducer', () => {
 
     const actionOtherIngredients = {
       type: CHOOSE_INGREDIENTS,
-      item: {
-        _id: '60666c42cc7b410027a1a9b5',
-        name: 'Говяжий метеорит (отбивная)',
-        type: 'main',
-        proteins: 800,
-        fat: 800,
-        carbohydrates: 300,
-        calories: 2674,
-        price: 3000,
-        image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        __v: 0,
-      },
+      item: testIngredientOne,
       key: '123',
     }
     const resultOtherIngredients = constructorReducer(
@@ -204,37 +193,10 @@ describe('constructor reducer', () => {
       ...initialState,
       ingredientsBurger: {
         ...initialState.ingredientsBurger,
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -248,37 +210,10 @@ describe('constructor reducer', () => {
   it('should handle REMOVE_INGREDIENT', () => {
     const stateOtherIngredients = {
       ingredientsBurger: {
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -296,21 +231,7 @@ describe('constructor reducer', () => {
     }
     const actionOtherIngredients = {
       type: REMOVE_INGREDIENT,
-      item: {
-        _id: '60666c42cc7b410027a1a9b5',
-        name: 'Говяжий метеорит (отбивная)',
-        type: 'main',
-        proteins: 800,
-        fat: 800,
-        carbohydrates: 300,
-        calories: 2674,
-        price: 3000,
-        image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        __v: 0,
-      },
+      item: testIngredientOne,
       key: '123',
     }
     const resultOtherIngredients = constructorReducer(
@@ -322,21 +243,7 @@ describe('constructor reducer', () => {
       ...initialState,
       ingredientsBurger: {
         ...initialState.ingredientsBurger,
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [],
         counts: {},
         orderSum: 2510,
@@ -348,21 +255,7 @@ describe('constructor reducer', () => {
   it('should handle INCREASE_INGREDIENT_ITEM', () => {
     const action = {
       type: INCREASE_INGREDIENT_ITEM,
-      item: {
-        _id: '60666c42cc7b410027a1a9b5',
-        name: 'Говяжий метеорит (отбивная)',
-        type: 'main',
-        proteins: 800,
-        fat: 800,
-        carbohydrates: 300,
-        calories: 2674,
-        price: 3000,
-        image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        __v: 0,
-      },
+      item: testIngredientOne,
       _id: '60666c42cc7b410027a1a9b5',
     }
     const resultOtherIngredients = constructorReducer(initialState, action)
@@ -379,37 +272,10 @@ describe('constructor reducer', () => {
   it('should handle DECREASE_INGREDIENT_ITEM', () => {
     const stateOtherIngredients = {
       ingredientsBurger: {
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -428,19 +294,7 @@ describe('constructor reducer', () => {
     const action = {
       type: DECREASE_INGREDIENT_ITEM,
       ingredient: {
-        _id: '60666c42cc7b410027a1a9b5',
-        name: 'Говяжий метеорит (отбивная)',
-        type: 'main',
-        proteins: 800,
-        fat: 800,
-        carbohydrates: 300,
-        calories: 2674,
-        price: 3000,
-        image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        __v: 0,
+        ...testIngredientOne,
         key: '123',
       },
       _id: '60666c42cc7b410027a1a9b5',
@@ -451,37 +305,10 @@ describe('constructor reducer', () => {
       ...initialState,
       ingredientsBurger: {
         ...initialState.ingredientsBurger,
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -495,54 +322,14 @@ describe('constructor reducer', () => {
   it('should handle UPDATE_LIST', () => {
     const stateOtherIngredients = {
       ingredientsBurger: {
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
           {
-            _id: '60666c42cc7b410027a1a9b6',
-            name: 'Биокотлета из марсианской Магнолии',
-            type: 'main',
-            proteins: 420,
-            fat: 142,
-            carbohydrates: 242,
-            calories: 4242,
-            price: 424,
-            image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-01-large.png',
-            __v: 0,
+            ...testIngredientTwo,
             key: '1234',
           },
         ],
@@ -576,54 +363,14 @@ describe('constructor reducer', () => {
       ...initialState,
       ingredientsBurger: {
         ...initialState.ingredientsBurger,
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b6',
-            name: 'Биокотлета из марсианской Магнолии',
-            type: 'main',
-            proteins: 420,
-            fat: 142,
-            carbohydrates: 242,
-            calories: 4242,
-            price: 424,
-            image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-01-large.png',
-            __v: 0,
+            ...testIngredientTwo,
             key: '1234',
           },
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -640,37 +387,10 @@ describe('constructor reducer', () => {
   it('should handle SET_CURRENT_ORDER', () => {
     const stateOtherIngredients = {
       ingredientsBurger: {
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -710,37 +430,10 @@ describe('constructor reducer', () => {
       ...initialState,
       ingredientsBurger: {
         ...initialState.ingredientsBurger,
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],
@@ -765,37 +458,10 @@ describe('constructor reducer', () => {
   it('should handle CLEAN_ORDER', () => {
     const stateOtherIngredients = {
       ingredientsBurger: {
-        bun: {
-          _id: '60666c42cc7b410027a1a9b1',
-          name: 'Краторная булка N-200i',
-          type: 'bun',
-          proteins: 80,
-          fat: 24,
-          carbohydrates: 53,
-          calories: 420,
-          price: 1255,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          __v: 0,
-        },
+        bun: testBun,
         otherIngredients: [
           {
-            _id: '60666c42cc7b410027a1a9b5',
-            name: 'Говяжий метеорит (отбивная)',
-            type: 'main',
-            proteins: 800,
-            fat: 800,
-            carbohydrates: 300,
-            calories: 2674,
-            price: 3000,
-            image: 'https://code.s3.yandex.net/react/code/meat-04.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-04-large.png',
-            __v: 0,
+            ...testIngredientOne,
             key: '123',
           },
         ],

@@ -9,8 +9,8 @@ import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details'
 import IngredientItem from './ingredient-item/ingredient-item'
 import Modal from '../modal/modal'
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/hooks'
+import { useSelector, useDispatch } from '../../services/hooks'
+import { useHistory } from 'react-router-dom'
 import {
   DECREASE_INGREDIENT_ITEM,
   REMOVE_INGREDIENT,
@@ -36,10 +36,11 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
     (store) => store.burgerConstructor.ingredientsBurger
   )
-
+  const user = useSelector((store) => store.user.email)
   const { isOpen } = useSelector((store: any) => store.modal)
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -58,7 +59,7 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   }
 
   const handleClick = () => {
-    if (bun !== null) {
+    if (user && bun) {
       const bunId = [bun._id]
       const ingredientsIds = bunId.concat(
         otherIngredients.map((ingredient: IIngredient) => ingredient._id),
@@ -66,6 +67,10 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
       )
       dispatch(getOrderDetails(ingredientsIds))
       dispatch({ type: OPEN_MODAL })
+    } else {
+      history.replace({
+        pathname: '/login',
+      })
     }
   }
 

@@ -1,6 +1,7 @@
 import { request } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
-import { AppThunk, AppDispatch } from '../hooks'
+import { AppThunk } from '../hooks'
+import { AppDispatch } from '../store'
 
 import {
   GET_INGREDIENTS_REQUEST,

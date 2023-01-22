@@ -1,8 +1,7 @@
 import React, { useEffect, FC } from 'react'
 import styles from './feed.module.css'
 import { Link, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/hooks'
+import { useSelector, useDispatch } from '../../services/hooks'
 import FeedItem from './feed-item/feed-item'
 import FeedTable from './feed-table/feed-table'
 import {

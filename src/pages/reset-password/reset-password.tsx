@@ -1,14 +1,13 @@
 import React, { SyntheticEvent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from '../../services/hooks'
+import { Link, useHistory, Redirect } from 'react-router-dom'
 import {
   Button,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from '../register/register-page.module.css'
-import { resetPassword } from '../../../services/action/auth'
+import { resetPassword } from '../../services/action/auth'
 
 const ResetPassword = () => {
   const [token, setToken] = useState('')
@@ -19,11 +18,18 @@ const ResetPassword = () => {
     const target = e.target as HTMLInputElement
     setPassword(target.value)
   }
+  const { visitedPath } = useSelector((store) => store.user)
+  const user = useSelector((store) => store.user.email)
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
-    //@ts-ignore
     dispatch(resetPassword(password, token, history))
+  }
+
+  if (!visitedPath) {
+    return <Redirect to='/login' />
+  } else if (user) {
+    return <Redirect to='/' />
   }
 
   return (

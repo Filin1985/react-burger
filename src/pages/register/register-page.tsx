@@ -1,19 +1,19 @@
 import React, { SyntheticEvent, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/hooks'
 import { Link, useHistory } from 'react-router-dom'
 import {
   Button,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from './register-page.module.css'
-import { registerUser } from '../../../services/action/auth'
+import { registerUser } from '../../services/action/auth'
+import { useForm } from '../../hooks/useForm'
 
 const RegisterPage = () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const [state, setState] = useState({
+  const { values, handleChange, setValues } = useForm({
     name: '',
     email: '',
     password: '',
@@ -22,20 +22,10 @@ const RegisterPage = () => {
   const onIconClick = () => {
     alert('Icon Click Callback')
   }
-  const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement
-    const value = target.value
-    const name = target.name
-    setState({
-      ...state,
-      [name]: value,
-    })
-  }
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
-    //@ts-ignore
-    dispatch(registerUser(state, history))
+    dispatch(registerUser(values, history))
   }
 
   return (
@@ -49,7 +39,7 @@ const RegisterPage = () => {
           type='text'
           placeholder='Имя'
           onChange={handleChange}
-          value={state.name}
+          value={values.name ? values.name : ''}
           name='name'
           error={false}
           onIconClick={onIconClick}
@@ -61,7 +51,7 @@ const RegisterPage = () => {
           type='text'
           placeholder='E-mail'
           onChange={handleChange}
-          value={state.email}
+          value={values.email}
           name='email'
           error={false}
           onIconClick={onIconClick}
@@ -71,7 +61,7 @@ const RegisterPage = () => {
         />
         <PasswordInput
           onChange={handleChange}
-          value={state.password}
+          value={values.password}
           name='password'
           extraClass='mb-2'
         />

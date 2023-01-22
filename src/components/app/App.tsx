@@ -4,17 +4,15 @@ import styles from './app.module.css'
 import Header from '../app-header/app-header'
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients'
-import LoginPage from '../pages/login-page/login-page'
+import LoginPage from '../../pages/login-page/login-page'
 import Loader from '../loader/loader'
 import Profile from '../profile/profile'
-import RegisterPage from '../pages/register/register-page'
-import ForgotPassword from '../pages/forgot-password/forgot-password'
-import ResetPassword from '../pages/reset-password/reset-password'
+import RegisterPage from '../../pages/register/register-page'
+import ForgotPassword from '../../pages/forgot-password/forgot-password'
+import ResetPassword from '../../pages/reset-password/reset-password'
 import ProtectedRoute from '../protected-route'
 import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details'
-
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/hooks'
+import { useSelector, useDispatch } from '../../services/hooks'
 import { INCREASE_INGREDIENT_ITEM } from '../../services/constants/burgerConstructor'
 import { getIngredients } from '../../services/action/ingredients'
 import { actionCreators } from '../../services/actionCreators/burgerConstructor'
@@ -35,7 +33,6 @@ function App() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(
     (store) => store.ingredients
   )
-  const { visitedPath } = useSelector((store) => store.user)
 
   const dispatch = useDispatch()
 
@@ -90,15 +87,12 @@ function App() {
         <ProtectedRoute path='/forgot-password' onlyUnAuth={true} exact>
           <ForgotPassword />
         </ProtectedRoute>
-        {visitedPath === '/forgot-password' && (
-          <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
-            <ResetPassword />
-          </ProtectedRoute>
-        )}
         <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
           <ResetPassword />
         </ProtectedRoute>
-
+        <ProtectedRoute path='/reset-password' onlyUnAuth={true} exact>
+          <ResetPassword />
+        </ProtectedRoute>
         <ProtectedRoute path='/profile/orders' exact>
           <OrderHistory />
         </ProtectedRoute>

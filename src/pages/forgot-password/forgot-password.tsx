@@ -1,13 +1,12 @@
 import React, { useState, SyntheticEvent } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/hooks'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from '../register/register-page.module.css'
-import { forgotPassword } from '../../../services/action/auth'
+import { forgotPassword } from '../../services/action/auth'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')
@@ -18,7 +17,6 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
-    //@ts-ignore
     dispatch(forgotPassword(email, location.pathname, history))
   }
 

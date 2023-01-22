@@ -5,7 +5,7 @@ import React, {
   SyntheticEvent,
   ChangeEvent,
 } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../services/hooks'
 import styles from './profile.module.css'
 
 import {
@@ -26,9 +26,9 @@ interface IForm {
 }
 
 const Profile = () => {
-  const activeUserName = useSelector((store: any) => store.user.name)
-  const activeUserEmail = useSelector((store: any) => store.user.email)
-  const activeUserPassword = useSelector((store: any) => store.user.password)
+  const activeUserName = useSelector((store) => store.user.name)
+  const activeUserEmail = useSelector((store) => store.user.email)
+  const activeUserPassword = useSelector((store) => store.user.password)
   const dispatch = useDispatch()
   const [form, setForm] = useState<IForm>({
     name: '',
@@ -103,8 +103,7 @@ const Profile = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
     setButtonDisabled(true)
-    //@ts-ignore
-    dispatch(updateUser(state))
+    dispatch(updateUser(form))
   }
 
   const handleClearChanges = () => {
@@ -172,7 +171,6 @@ const Profile = () => {
             onClick={handleClearChanges}
             disabled={buttonDisabled}
           >
-            {/* <Link to='/profile'>Отмена</Link> */}
             Отмена
           </Button>
           <Button

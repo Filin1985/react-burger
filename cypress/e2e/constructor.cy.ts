@@ -1,3 +1,6 @@
+const CONTAINER_SELECTOR = 'drop-container'
+const BUN_SELECTOR = '60d3b41abdacab0026a733c7'
+
 describe('constructor', () => {
   beforeEach(() => {
     cy.viewport(1550, 1050)
@@ -10,25 +13,44 @@ describe('constructor', () => {
     )
     cy.setCookie('accessToken', 'test-accessToken')
     cy.intercept('GET', 'constructor', { fixture: 'ingredients' })
-    cy.visit('http://localhost:3000/')
+    cy.visit('/#')
   })
 
   it('Should drag and drop ingredient', () => {
-    cy.get('[data-testid=60d3b41abdacab0026a733c7]').trigger('dragstart')
-    cy.get('[data-test=drop-container]').trigger('drop')
+    const dataTransfer = new DataTransfer()
+    cy.get(`[data-testid=${BUN_SELECTOR}]`)
+      .trigger('mousedown', { which: 1 })
+      .trigger('dragstart', {
+        dataTransfer,
+      })
+      .trigger('drag', {})
+    cy.get(`[data-test=${CONTAINER_SELECTOR}]`)
+      .trigger('dragover', { dataTransfer })
+      .trigger('drop', {
+        dataTransfer,
+      })
+      .trigger('dragend', { dataTransfer })
+      .trigger('dragend', { dataTransfer })
+      .trigger('mouseup', { which: 1 })
 
-    cy.get('[data-testid="60d3b41abdacab0026a733ce"]').trigger('dragstart')
-    cy.get('[data-test=drop-container]').trigger('drop')
-
-    cy.get('[data-testid="60d3b41abdacab0026a733ca"]').trigger('dragstart')
-    cy.get('[data-test=drop-container]').trigger('drop')
-
-    cy.get('[data-testid="60d3b41abdacab0026a733ca"]').trigger('dragstart')
-    cy.get('[data-test=drop-container]').trigger('drop')
+    cy.get('[data-testid="60d3b41abdacab0026a733ce"]')
+      .trigger('mousedown', { which: 1 })
+      .trigger('dragstart', {
+        dataTransfer,
+      })
+      .trigger('drag', {})
+    cy.get(`[data-test=${CONTAINER_SELECTOR}]`)
+      .trigger('dragover', { dataTransfer })
+      .trigger('drop', {
+        dataTransfer,
+      })
+      .trigger('dragend', { dataTransfer })
+      .trigger('dragend', { dataTransfer })
+      .trigger('mouseup', { which: 1 })
   })
 
   it('Should open modal window with ingredient and close modal', () => {
-    cy.get('[data-testid=60d3b41abdacab0026a733c7]').click('center')
+    cy.get(`[data-testid=${BUN_SELECTOR}]`).click('center')
     cy.location().should((l) =>
       expect(l.hash).to.eq('#/ingredients/60d3b41abdacab0026a733c7')
     )
@@ -38,7 +60,7 @@ describe('constructor', () => {
   })
 
   it('Should show the information about selected ingredient', () => {
-    cy.get('[data-testid=60d3b41abdacab0026a733c7]').click('center')
+    cy.get(`[data-testid=${BUN_SELECTOR}]`).click('center')
     cy.get('[data-test=ingredient-image]').should(
       'have.attr',
       'src',
