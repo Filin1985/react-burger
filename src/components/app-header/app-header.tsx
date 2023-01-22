@@ -34,7 +34,9 @@ const Header = () => {
         </NavLink>
       </div>
       <div className={styles.header__item}>
-        <Logo />
+        <NavLink to='/react-burger'>
+          <Logo />
+        </NavLink>
       </div>
       <NavLink
         className={styles.header__item}
