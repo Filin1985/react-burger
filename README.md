@@ -19,4 +19,3 @@ React 18+ (JavaScript, TypeScript), state managment - Redux, styles - CSS, tests
 Почта - m.ihsanov2009@yandex.ru
 
 Телеграм - @ikhsmen (предпочтительный способ связи)
-

@@ -4,8 +4,7 @@ import styles from './burger-ingredients.module.css'
 import IngredientDetails from './ingredient-details/ingredient-details'
 import IngredientCategory from './ingredients-category/ingredient-category'
 import Modal from '../modal/modal'
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/hooks'
+import { useSelector, useDispatch } from '../../services/hooks'
 import { UNSET_CURRENT_INGREDIENT } from '../../services/constants/burgerConstructor'
 import { CLOSE_MODAL } from '../../services/constants/modal'
 import { IIngredient } from '../../types'
@@ -13,7 +12,7 @@ import { IIngredient } from '../../types'
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState<string>('bun')
   const { currentIngredient } = useSelector((store) => store.burgerConstructor)
-  const { ingredients } = useSelector((store: any) => store.ingredients)
+  const { ingredients } = useSelector((store) => store.ingredients)
   const dispatch = useDispatch()
   const parentRef = useRef<HTMLUListElement | null>(null)
   const bunRef = useRef<HTMLDivElement | null>(null)

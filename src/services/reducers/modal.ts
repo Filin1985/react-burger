@@ -2,7 +2,7 @@ import { OPEN_MODAL, CLOSE_MODAL } from '../constants/modal'
 import { TModalInitialState } from './types'
 import { TModalActions } from '../action/modal'
 
-const initialState: TModalInitialState = {
+export const initialState: TModalInitialState = {
   isOpen: false,
 }
 

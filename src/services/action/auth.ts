@@ -1,4 +1,5 @@
-import { AppThunk, AppDispatch } from '../hooks'
+import { AppThunk } from '../hooks'
+import { AppDispatch } from '../store'
 
 import {
   getCookie,

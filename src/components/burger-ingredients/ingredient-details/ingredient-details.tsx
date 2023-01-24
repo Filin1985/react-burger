@@ -1,5 +1,3 @@
-import React, { memo } from 'react'
-
 import styles from './ingredient-details.module.css'
 import { useSelector } from '../../../services/hooks'
 import { useLocation } from 'react-router-dom'
@@ -20,32 +18,48 @@ const IngredientDetails = () => {
           className={styles.ingredient__image}
           src={currentIngredient?.image}
           alt={currentIngredient?.name}
+          data-test='ingredient-image'
         />
-        <h3 className={styles.ingredient__subheader}>
+        <h3
+          className={styles.ingredient__subheader}
+          data-test='ingredient-name'
+        >
           {currentIngredient?.name}
         </h3>
         <ul className={styles.ingredient__items}>
           <li className={styles.ingredient__item}>
             <p className={styles.ingredient__text}>Калории, ккал</p>
-            <span className={styles.ingredient__number}>
+            <span
+              className={styles.ingredient__number}
+              data-test='ingredient-calories'
+            >
               {currentIngredient?.calories}
             </span>
           </li>
           <li className={styles.ingredient__item}>
             <p className={styles.ingredient__text}>Белки, г</p>
-            <span className={styles.ingredient__number}>
+            <span
+              className={styles.ingredient__number}
+              data-test='ingredient-proteins'
+            >
               {currentIngredient?.proteins}
             </span>
           </li>
           <li className={styles.ingredient__item}>
             <p className={styles.ingredient__text}>Жиры, г</p>
-            <span className={styles.ingredient__number}>
+            <span
+              className={styles.ingredient__number}
+              data-test='ingredient-fat'
+            >
               {currentIngredient?.fat}
             </span>
           </li>
           <li className={styles.ingredient__item}>
             <p className={styles.ingredient__text}>Углеводы, г</p>
-            <span className={styles.ingredient__number}>
+            <span
+              className={styles.ingredient__number}
+              data-test='ingredient-carbohydrates'
+            >
               {currentIngredient?.carbohydrates}
             </span>
           </li>

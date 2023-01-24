@@ -1,17 +1,17 @@
-import React, { SyntheticEvent, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { FormEvent, useState } from 'react'
+import { useDispatch } from '../../services/hooks'
 import { Link } from 'react-router-dom'
 import {
   Button,
   Input,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-//@ts-ignore
 import styles from '../register/register-page.module.css'
-import { loginUser } from '../../../services/action/auth'
+import { loginUser } from '../../services/action/auth'
+import { useForm } from '../../hooks/useForm'
 
 const LoginPage = () => {
-  const [state, setState] = useState({
+  const { values, handleChange, setValues } = useForm({
     email: '',
     password: '',
   })
@@ -19,20 +19,10 @@ const LoginPage = () => {
   const onIconClick = () => {
     alert('Icon Click Callback')
   }
-  const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement
-    const value = target.value
-    const name = target.name
-    setState({
-      ...state,
-      [name]: value,
-    })
-  }
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    //@ts-ignore
-    dispatch(loginUser(state))
+    dispatch(loginUser(values))
   }
 
   return (
@@ -43,7 +33,7 @@ const LoginPage = () => {
           type='text'
           placeholder='E-mail'
           onChange={handleChange}
-          value={state.email}
+          value={values.email}
           name='email'
           error={false}
           onIconClick={onIconClick}
@@ -53,7 +43,7 @@ const LoginPage = () => {
         />
         <PasswordInput
           onChange={handleChange}
-          value={state.password}
+          value={values.password}
           name={'password'}
           extraClass='mb-2'
         />

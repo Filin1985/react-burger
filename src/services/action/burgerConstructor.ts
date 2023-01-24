@@ -1,6 +1,7 @@
 import { getCookie, request } from '../../utils/utils'
 import { API_URL } from '../../utils/config'
-import { AppThunk, AppDispatch } from '../hooks'
+import { AppThunk } from '../hooks'
+import { AppDispatch } from '../store'
 import { IIngredient } from '../../types'
 
 import {
@@ -20,7 +21,6 @@ import {
 
 import { TOrderDetails } from './types'
 import { TOrderNumber, TOrderItem } from '../reducers/types'
-import { TOrder } from '../../components/feed/feed-item/feed-item'
 
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_DETAILS_REQUEST

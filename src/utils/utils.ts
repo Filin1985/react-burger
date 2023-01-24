@@ -26,6 +26,19 @@ export const request = <T>(url: string, options: RequestInit): Promise<T> => {
   return fetch(url, options).then((res) => checkResponse<T>(res))
 }
 
+export const countSameIngredients = (ingredients: IIngredient[]) => {
+  return Array.from(
+    ingredients
+      .reduce((r, ingredient) => {
+        let id = `${ingredient._id}`
+        if (!r.has(id)) r.set(id, { ...ingredient, count: 1 })
+        else r.get(id).count++
+        return r
+      }, new Map())
+      .values()
+  )
+}
+
 export const getCurrentOrder = (
   url: string,
   options: RequestInit,

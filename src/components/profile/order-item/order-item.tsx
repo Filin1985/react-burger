@@ -3,7 +3,6 @@ import styles from '../order-history/order-history.module.css'
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { TOrderItem } from '../../feed/feed-item/feed-item'
 import { useSelector } from '../../../services/hooks'
-import { useLocation } from 'react-router-dom'
 import {
   getFormatedDate,
   getOrderIngredients,

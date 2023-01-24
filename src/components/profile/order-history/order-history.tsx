@@ -2,9 +2,7 @@ import React, { useEffect, FC } from 'react'
 import ProfileNav from '../profile-nav/profile-nav'
 import { Link, useLocation } from 'react-router-dom'
 import styles from './order-history.module.css'
-
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../../services/hooks'
+import { useSelector, useDispatch } from '../../../services/hooks'
 import Loader from '../../loader/loader'
 import {
   wsConnectionStartAction,

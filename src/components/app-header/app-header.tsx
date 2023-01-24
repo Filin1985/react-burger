@@ -9,7 +9,7 @@ import {
 import styles from './app-header.module.css'
 
 const Header = () => {
-  const isConstructor = useRouteMatch({ path: '/constructor', exact: true })
+  const isConstructor = useRouteMatch({ path: '/react-burger', exact: true })
   const isOrderList = useRouteMatch({ path: '/feed' })
   const isProfile = useRouteMatch({ path: '/profile' })
 
@@ -18,7 +18,7 @@ const Header = () => {
       <div className={styles.header__container}>
         <NavLink
           className={styles.header__item}
-          to='/constructor'
+          to='/react-burger'
           activeClassName={styles.header__item_active}
         >
           <BurgerIcon type={isConstructor ? 'primary' : 'secondary'} />
@@ -34,7 +34,9 @@ const Header = () => {
         </NavLink>
       </div>
       <div className={styles.header__item}>
-        <Logo />
+        <NavLink to='/react-burger'>
+          <Logo />
+        </NavLink>
       </div>
       <NavLink
         className={styles.header__item}

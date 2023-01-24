@@ -33,9 +33,14 @@ const Modal: FC<IModalProps> = ({ children, closeModal, withTitle }) => {
         className={
           withTitle ? styles.order__container : styles.ingredient_container
         }
+        data-test='modal'
       >
-        <span className={styles.modal__close}>
-          <CloseIcon type='primary' onClick={closeModal} />
+        <span className={styles.modal__close} data-test='close-btn'>
+          <CloseIcon
+            type='primary'
+            onClick={closeModal}
+            data-test='close-btn'
+          />
         </span>
         {children}
       </div>

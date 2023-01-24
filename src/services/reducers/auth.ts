@@ -29,7 +29,7 @@ import {
   AUTH_CHECKED,
 } from '../constants/auth'
 
-const initialState: TAuthInitialState = {
+export const initialState: TAuthInitialState = {
   name: '',
   email: '',
   password: '',

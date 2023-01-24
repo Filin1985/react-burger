@@ -11,6 +11,7 @@ import {
   getTotalPrice,
 } from '../../../utils/utils'
 import { TOrderItem } from '../feed-item/feed-item'
+import { countSameIngredients } from '../../../utils/utils'
 
 type TOrderNumber = {
   number: string
@@ -39,6 +40,7 @@ const FeedDetails = () => {
   }
 
   const orderIngredients = getOrderIngredients(ingredients, order.ingredients)
+  const ingredientsWithCount = countSameIngredients(orderIngredients)
   const formattedDate = getFormatedDate(order?.createdAt)
   const totalPrice = getTotalPrice(orderIngredients)
 
@@ -51,7 +53,7 @@ const FeedDetails = () => {
       </p>
       <p className={styles.details__ingredients}>Состав:</p>
       <ul className={styles.details__list}>
-        {orderIngredients.map((item, index) => (
+        {ingredientsWithCount.map((item, index) => (
           <li key={index} className={styles.details__item}>
             <div className={styles.details__wrap}>
               <img className={styles.details__image} src={item.image} alt='' />
@@ -59,7 +61,7 @@ const FeedDetails = () => {
             </div>
             <div className={styles.details__result}>
               <p className={styles.details__price}>
-                <span className={styles.details__extra}>1 X </span>
+                <span className={styles.details__extra}>{item.count} X </span>
                 {item.price}
               </p>
               <CurrencyIcon type='primary' />

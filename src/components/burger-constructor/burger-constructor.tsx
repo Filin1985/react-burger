@@ -9,8 +9,8 @@ import styles from './burger-constructor.module.css'
 import OrderDetails from '../order-details/order-details'
 import IngredientItem from './ingredient-item/ingredient-item'
 import Modal from '../modal/modal'
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/hooks'
+import { useSelector, useDispatch } from '../../services/hooks'
+import { useHistory } from 'react-router-dom'
 import {
   DECREASE_INGREDIENT_ITEM,
   REMOVE_INGREDIENT,
@@ -36,10 +36,11 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   const { bun, otherIngredients, orderSum } = useSelector(
     (store) => store.burgerConstructor.ingredientsBurger
   )
-
-  const { isOpen } = useSelector((store: any) => store.modal)
+  const user = useSelector((store) => store.user.email)
+  const { isOpen } = useSelector((store) => store.modal)
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -58,7 +59,7 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   }
 
   const handleClick = () => {
-    if (bun !== null) {
+    if (user && bun) {
       const bunId = [bun._id]
       const ingredientsIds = bunId.concat(
         otherIngredients.map((ingredient: IIngredient) => ingredient._id),
@@ -66,6 +67,10 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
       )
       dispatch(getOrderDetails(ingredientsIds))
       dispatch({ type: OPEN_MODAL })
+    } else {
+      history.replace({
+        pathname: '/login',
+      })
     }
   }
 
@@ -81,77 +86,75 @@ const BurgerConstructor: FC<TDrop> = ({ onDropHandler }) => {
   )
 
   return (
-    <section
-      className={`${styles.constructor} ${dropClassModifier}`}
-      ref={dropTarget}
-    >
+    <section className={`${styles.constructor} ${dropClassModifier}`}>
       {isOpen && (
         <Modal withTitle={true} closeModal={handleCloseModal}>
           <OrderDetails />
         </Modal>
       )}
-
-      {bun ? (
-        <ul className={styles.constructor__items}>
-          {bun ? (
-            <li
-              className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
-            >
-              <ConstructorElement
-                type='top'
-                isLocked={true}
-                text={`${bun.name} (верх)`}
-                price={bun.price}
-                thumbnail={bun.image}
-              />
-            </li>
-          ) : null}
-          <div className={styles.constructor__scroll}>
-            {otherIngredients.length > 0 &&
-              otherIngredients.map(
-                (ingredient: TIngredientWithKey, index: number) => {
-                  const removeIngredient = () => {
-                    dispatch({
-                      type: REMOVE_INGREDIENT,
-                      item: ingredient,
-                      key: ingredient.key,
-                    })
-                    dispatch({
-                      type: DECREASE_INGREDIENT_ITEM,
-                      ingredient,
-                      _id: ingredient._id,
-                    })
+      <div data-test='drop-container' ref={dropTarget}>
+        {bun ? (
+          <ul className={styles.constructor__items}>
+            {bun ? (
+              <li
+                className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
+              >
+                <ConstructorElement
+                  type='top'
+                  isLocked={true}
+                  text={`${bun.name} (верх)`}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                />
+              </li>
+            ) : null}
+            <div className={styles.constructor__scroll}>
+              {otherIngredients.length > 0 &&
+                otherIngredients.map(
+                  (ingredient: TIngredientWithKey, index: number) => {
+                    const removeIngredient = () => {
+                      dispatch({
+                        type: REMOVE_INGREDIENT,
+                        item: ingredient,
+                        key: ingredient.key,
+                      })
+                      dispatch({
+                        type: DECREASE_INGREDIENT_ITEM,
+                        ingredient,
+                        _id: ingredient._id,
+                      })
+                    }
+                    return (
+                      <IngredientItem
+                        key={ingredient.key}
+                        ingredient={ingredient}
+                        handleDelete={removeIngredient}
+                        index={index}
+                        moveIngredient={moveIngredient}
+                      />
+                    )
                   }
-                  return (
-                    <IngredientItem
-                      key={ingredient.key}
-                      ingredient={ingredient}
-                      handleDelete={removeIngredient}
-                      index={index}
-                      moveIngredient={moveIngredient}
-                    />
-                  )
-                }
-              )}
-          </div>
+                )}
+            </div>
 
-          {bun ? (
-            <li
-              className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
-            >
-              <ConstructorElement
-                type='bottom'
-                isLocked={true}
-                text={`${bun.name} (низ)`}
-                price={bun.price}
-                thumbnail={bun.image}
-              />
-            </li>
-          ) : null}
-        </ul>
-      ) : (
-        <Placeholder />
-      )}
+            {bun ? (
+              <li
+                className={`${styles.constructor__item} ${styles.constructor__items_pos_left}`}
+              >
+                <ConstructorElement
+                  type='bottom'
+                  isLocked={true}
+                  text={`${bun.name} (низ)`}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                />
+              </li>
+            ) : null}
+          </ul>
+        ) : (
+          <Placeholder />
+        )}
+      </div>
       <div className={styles.constructor__final}>
         <p className={styles.constructor__number}>{orderSum}</p>
         <CurrencyIcon type='primary' />

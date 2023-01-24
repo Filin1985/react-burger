@@ -30,14 +30,12 @@ export const wsReducer = (
     case WS_CONNECTION_SUCCESS: {
       return {
         ...state,
-        error: undefined,
         wsConnected: true,
       }
     }
     case WS_CONNECTION_ERROR: {
       return {
         ...state,
-        error: action.payload,
         wsConnected: false,
         loading: false,
       }
@@ -45,7 +43,6 @@ export const wsReducer = (
     case WS_CONNECTION_CLOSED: {
       return {
         ...state,
-        error: undefined,
         wsConnected: false,
         loading: false,
       }
@@ -53,7 +50,6 @@ export const wsReducer = (
     case WS_GET_ORDER: {
       return {
         ...state,
-        error: undefined,
         orders: action.payload.orders ? action.payload.orders : state.orders,
         total: action.payload.total,
         totalToday: action.payload.totalToday,

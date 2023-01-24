@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styles from './profile-nav.module.css'
 import { logoutUser } from '../../../services/action/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../../services/hooks'
 
 const ProfileNav = () => {
   const dispatch = useDispatch()

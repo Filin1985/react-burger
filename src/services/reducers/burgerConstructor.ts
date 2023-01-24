@@ -7,8 +7,6 @@ import {
   GET_ORDER_DETAILS_REQUEST,
   GET_ORDER_DETAILS_SUCCESS,
   GET_ORDER_DETAILS_FAILED,
-  SET_CURRENT_INGREDIENT,
-  UNSET_CURRENT_INGREDIENT,
   INCREASE_INGREDIENT_ITEM,
   DECREASE_INGREDIENT_ITEM,
   UPDATE_LIST,
@@ -68,12 +66,6 @@ export const constructorReducer = (
         return state
       }
     }
-    case SET_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: action.item,
-      }
-    }
     case SET_CURRENT_ORDER: {
       return {
         ...state,
@@ -114,12 +106,6 @@ export const constructorReducer = (
             [action._id]: state.ingredientsBurger.counts[action._id] - 1,
           },
         },
-      }
-    }
-    case UNSET_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: null,
       }
     }
     case REMOVE_INGREDIENT: {
